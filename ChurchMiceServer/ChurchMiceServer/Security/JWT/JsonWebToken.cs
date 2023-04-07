@@ -149,7 +149,7 @@ namespace ChurchMiceServer.Security.JWT
             return new JsonWebToken(tokenString, issuer);
         }
 
-        public static JsonWebToken New(string signingKey, Guid userTokenId, string userName, int memberId, string userId,
+        public static JsonWebToken New(string signingKey, Guid userTokenId, string userName, string userId,
             List<string> roles, DateTime expiresAt, string issuer)
         {
             var claims = new List<Claim>();
@@ -160,7 +160,7 @@ namespace ChurchMiceServer.Security.JWT
             {
                 claims.Add(new Claim(USER_ROLE_CLAIM, role));
             }
-            claims.Add(new Claim(MEMBER_ID_CLAIM, memberId.ToString()));
+            //claims.Add(new Claim(MEMBER_ID_CLAIM, memberId.ToString()));
 
             var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(signingKey));
             var header = new JwtHeader(new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
@@ -173,10 +173,10 @@ namespace ChurchMiceServer.Security.JWT
             return new JsonWebToken(handler.WriteToken(token), issuer);
         }
 
-        public static JsonWebToken New(string signingKey, Guid userTokenId, string userName, int memberId, string userId,
+        public static JsonWebToken New(string signingKey, Guid userTokenId, string userName, string userId,
             List<string> roles, DateTime expiresAt)
         {
-            return New(signingKey, userTokenId, userName, memberId, userId, roles, expiresAt, JWT_ISSUER);
+            return New(signingKey, userTokenId, userName, userId, roles, expiresAt, JWT_ISSUER);
         }
 
         public void AssertTokenIsValid(string signingKey)

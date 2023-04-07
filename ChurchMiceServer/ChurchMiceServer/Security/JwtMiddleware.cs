@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System.Threading.Tasks;
 using ChurchMiceServer.Configuration;
+using ChurchMiceServer.Domains.Proxies;
 using ChurchMiceServer.Security.JWT;
 
 namespace ChurchMiceServer.Security
