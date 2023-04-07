@@ -5,26 +5,34 @@
     "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:54810",
-      "sslPort": 44382
+      "sslPort": 44325
     }
   },
   "profiles": {
-    "ChurchMiceServer": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },"ChurchMiceServer-Development": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:7250;http://localhost:5250",
+      "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
+    "ChurchMiceServer-Test": {
+      "commandName": "Project",
+      "applicationUrl": "https://churchmice.cls-test.net:5001;http://churchmice.cls-test.net:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Test"
+      }
+    },
+    "ChurchMiceServer-Production": {
+      "commandName": "Project",
+      "applicationUrl": "https://churchmice.cls-test.net:443",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
       }
     }
   }
