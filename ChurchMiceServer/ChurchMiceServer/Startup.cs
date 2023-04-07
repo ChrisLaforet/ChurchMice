@@ -2,6 +2,7 @@
 using ChurchMiceServer.Domains;
 using ChurchMiceServer.Domains.Proxies;
 using ChurchMiceServer.Security;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChurchMiceServer;
@@ -62,7 +63,7 @@ public class Startup
 			//options.JsonSerializerOptions.Converters.Add(new DecimalJSONConverter());
 		});
 
-		// services.AddScoped<IAuthenticationService, UserAuthenticationService>();
+		services.AddScoped<IAuthenticationService, UserAuthenticationService>();
 
 
 		services.AddControllers();
