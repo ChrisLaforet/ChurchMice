@@ -20,9 +20,7 @@ public class Startup
 	public IConfiguration Configuration { get; }
 
 	private IConfigurationLoader configurationLoader;
-
-	public IRegisterNonApiService registerNonApiService = new RegisterNonApiServices();
-
+	
 	public Startup(IConfiguration configuration)
 	{
 		Configuration = configuration;
@@ -38,7 +36,6 @@ public class Startup
 	public void ConfigureServices(IServiceCollection services)
 	{
 		services.Add(new ServiceDescriptor(typeof(IConfigurationLoader), configurationLoader));
-		services.Add(new ServiceDescriptor(typeof(IRegisterNonApiService), registerNonApiService));
 
 		//services.AddSingleton<IRegisterNonApiService, RegisterNonApiServices>();
 
@@ -73,9 +70,6 @@ public class Startup
 		services.AddScoped<IAuthenticationService, UserAuthenticationService>();
 
 		services.AddControllers();
-		//var provider = services.BuildServiceProvider();
-		// var registerNonApiService = services.BuildServiceProvider().GetService<IRegisterNonApiService>();
-		registerNonApiService.registerRoute("/api/health");
 	}
 	
 
