@@ -2,6 +2,7 @@
 using ChurchMiceServer.Domains;
 using ChurchMiceServer.Domains.Proxies;
 using ChurchMiceServer.Security;
+using ChurchMiceServer.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,8 @@ public class Startup
 
 	private IConfigurationLoader configurationLoader;
 
+	public IRegisterNonApiService registerNonApiService = new RegisterNonApiServices();
+
 	public Startup(IConfiguration configuration)
 	{
 		Configuration = configuration;
@@ -35,6 +38,9 @@ public class Startup
 	public void ConfigureServices(IServiceCollection services)
 	{
 		services.Add(new ServiceDescriptor(typeof(IConfigurationLoader), configurationLoader));
+		services.Add(new ServiceDescriptor(typeof(IRegisterNonApiService), registerNonApiService));
+
+		//services.AddSingleton<IRegisterNonApiService, RegisterNonApiServices>();
 
 		services.AddCors(options =>
 		{
@@ -53,6 +59,7 @@ public class Startup
 				configurationLoader.GetKeyValueFor(DB_CONNECTION_STRING_KEY)));
 
 		services.AddScoped<IUserProxy, UserProxy>();
+		//services.AddSingleton<IRegisterNonApiService, RegisterNonApiServices>();
 
 		services.AddControllers().AddJsonOptions(options =>
 		{
@@ -65,9 +72,12 @@ public class Startup
 
 		services.AddScoped<IAuthenticationService, UserAuthenticationService>();
 
-
 		services.AddControllers();
+		//var provider = services.BuildServiceProvider();
+		// var registerNonApiService = services.BuildServiceProvider().GetService<IRegisterNonApiService>();
+		registerNonApiService.registerRoute("/api/health");
 	}
+	
 
 	// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 	public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -6,9 +6,9 @@ using ChurchMiceServer.Domains.Proxies;
 namespace ChurchMiceServer.Controllers;
 
 
-[Microsoft.AspNetCore.Mvc.Route("api/[controller]")]
+[Route("api/[controller]")]
 [ApiController]
-public class UserController : Controller
+public class UserController : ControllerBase
 {
     private readonly IUserProxy userProxy;
     private readonly ILogger<UserController> logger;
