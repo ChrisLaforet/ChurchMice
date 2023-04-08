@@ -1,0 +1,54 @@
+<div class="display-page-header">
+  <span id="ScreenTitle" class="display-page-title">Login for AMGR Herd Management</span>
+</div>
+<div>
+  <div *ngIf="!this.submitted">
+    <form #loginForm="ngForm" name="loginForm" (ngSubmit)="loginForm.form.valid && onSubmit()" novalidate>
+
+      <div class="row display-page-edit-row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="userName">Username or Email</label>
+          <input type="text" class="form-control" id="userName" name="userName" #userName="ngModel"
+                 [(ngModel)]="loginName" required minlength="5">
+          <div class="text-danger" *ngIf="(userName.errors?.required || userName.errors?.minlength)">
+            Valid username or email must be provided.
+          </div>
+        </div>
+      </div>
+
+      <div class="row display-page-edit-row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" name="password" #password="ngModel"
+                 [(ngModel)]="loginPassword" required minlength="5">
+          <div class="text-danger" *ngIf="(password.errors?.required || password.errors?.minlength)">
+            Password must be provided.
+          </div>
+        </div>
+      </div>
+
+      <!--      <div class="form-group">-->
+      <!--        <div class="keepLoggedIn">-->
+      <!--          <input type="checkbox" id="keepLoggedIn" formControlName="keepLoggedIn"-->
+      <!--                 class="keepLoggedInButton" [ngClass]="{ 'is-invalid': submitted }" />-->
+      <!--          <label for="keepLoggedIn" class="keepLoggedInLabel">Keep me logged in</label>-->
+      <!--        </div>-->
+      <!--      </div>-->
+
+      <div>&nbsp;</div>
+
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <button class="btn btn-outline-secondary" [disabled]="!loginForm.form.valid" type="submit">Log me in...
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="this.submitted">
+    <em>Logging in...</em>
+  </div>
+
+  <div>&nbsp;</div>
+</div>
