@@ -1,5 +1,5 @@
 # Church Mice
-![Logo](https://github.com/ChrisLaforet/ChurchMice/blob/main/Images/ChurchMice600.png?raw=true) "Church Mice" - Open Source software for small churches
+![Logo](https://github.com/ChrisLaforet/ChurchMice/blob/main/Images/ChurchMice150.png?raw=true) "Church Mice" - Open Source software for small churches
 
 This package will begin its life bringing the most critical piece to small churches.  Church mice want to be able to recognize other church mice.  Thus, initial development will center on creating user accounts and being able to add demographic information and photos to create an online directory.  The next stage would be, since the membership of the church is now available, to permit each member to select electronic distribution of newsletters and bulletins.
 
