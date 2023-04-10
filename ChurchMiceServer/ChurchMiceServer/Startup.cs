@@ -98,9 +98,9 @@ public class Startup
 		app.UseEndpoints(endpoints =>
 		{
 			endpoints.MapControllers();
-			endpoints.MapControllerRoute(
-				"default",
-				"api/{controller}/{action}/{id?}");
+			// endpoints.MapControllerRoute(
+			// 	"default",
+			// 	"api/{controller}/{action}/{id?}");
 		});
 	}
 }

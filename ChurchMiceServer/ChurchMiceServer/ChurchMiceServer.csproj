@@ -23,4 +23,9 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.28.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CQS\Queries" />
+    <Folder Include="CQS\QueryHandlers" />
+  </ItemGroup>
+
 </Project>

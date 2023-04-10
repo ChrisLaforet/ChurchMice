@@ -5,10 +5,13 @@ namespace ChurchMiceServer.Domains.Proxies;
 
 public interface IUserProxy
 {
-	User? GetUserById(String id);
+	User? GetUserById(string id);
 	User? GetUserByGuid(Guid guid);
-	User? GetUserByUsername(String username);
+	User? GetUserByUsername(string username);
 	JsonWebToken AuthenticateUser(string username, string password);
+
+	void SetPasswordFor(string username, string resetKey, string password);
+	void LogoutUser(string username);
 	
 	void ExpireUserTokens();
 	void DestroyUserToken(JsonWebToken token);

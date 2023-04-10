@@ -1,9 +1,19 @@
-﻿namespace ChurchMiceServer.Domains.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ChurchMiceServer.Domains.Models;
 
 public partial class User
 {
-	public String Id { get; set; }
+	public string Id { get; set; }
+	public string Username { get; set; }
+	public string Email { get; set; }
+	public DateTime CreateDate { get; set; }
+	public string? PasswordHash { get; set; }
+	public DateTime? LastLoginDatetime { get; set; }
+	public string? ResetKey { get; set; }
+	public DateTime? ResetExpirationDatetime { get; set; }
 
+	[NotMapped]
 	public Guid Guid
 	{
 		get
@@ -15,13 +25,4 @@ public partial class User
 			Id = value.ToString();
 		}
 	}
-
-	public String Username { get; set; }
-	public String Email { get; set; }
-	public DateTime CreateDate { get; set; }
-	public String? PasswordHash { get; set; }
-	public DateTime? LastLoginDatetime { get; set; }
-	public String? ResetKey { get; set; }
-	public DateTime? ResetExpirationDatetime { get; set; }
-
 }

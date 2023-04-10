@@ -105,7 +105,7 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
 
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).HasColumnName("ID");
-				
+            
             entity.Property(e => e.UserId)
                 .HasColumnName("UserID")
                 .IsRequired();

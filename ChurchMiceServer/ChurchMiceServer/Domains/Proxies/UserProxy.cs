@@ -43,7 +43,6 @@ public class UserProxy : IUserProxy
             throw new AuthenticationException();
         }
         
-
         return CreateJWTFor(user);
     }
 
@@ -126,5 +125,44 @@ roles.Add("WRITE");
         }
 
         return false;
+    }
+
+    public void SetPasswordFor(string username, string resetKey, string password)
+    {
+        var user = GetUserByUsername(username);
+        if (user == null || user.ResetKey.IsNullOrEmpty())
+        {
+            throw new AuthenticationException();
+        }
+        
+        if (user.ResetKey != resetKey || user.ResetExpirationDatetime == null || user.ResetExpirationDatetime <= DateTime.Now)
+        {
+            throw new AuthenticationException();
+        }
+        
+        var passwordHash = passwordProcessor.HashPassword(password);
+
+        // save password
+        user.PasswordHash = passwordHash;
+        user.ResetKey = null;
+        user.ResetExpirationDatetime = null;
+        context.Users.Update(user);
+        
+        // force user to have to relogin
+        LogoutUser(username);
+
+        context.SaveChanges();
+    }
+
+    public void LogoutUser(string username)
+    {
+        var user = GetUserByUsername(username);
+        if (user != null)
+        {
+            foreach (var userToken in context.UserTokens.Where(token => token.UserId == user.Id))
+            {
+                context.UserTokens.Remove(userToken);
+            }
+        }
     }
 }

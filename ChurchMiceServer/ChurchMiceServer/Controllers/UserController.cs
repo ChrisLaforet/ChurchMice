@@ -1,4 +1,6 @@
 ﻿using ChurchMiceServer.Controllers.Models;
+using ChurchMiceServer.CQS.CommandHandlers;
+using ChurchMiceServer.CQS.Commands;
 using Microsoft.AspNetCore.Mvc;
 using ChurchMiceServer.Domains.Proxies;
 
@@ -13,9 +15,15 @@ public class UserController : ControllerBase
     private readonly IUserProxy userProxy;
     private readonly ILogger<UserController> logger;
 
-    public UserController(IUserProxy userProxy, ILogger<UserController> logger)
+    private readonly LoginCommandHandler loginCommandHandler;
+    private readonly SetPasswordCommandHandler setPasswordCommandHandler;
+
+    public UserController(IServiceProvider serviceProvider, IUserProxy userProxy, ILogger<UserController> logger)
     {
         this.userProxy = userProxy;
+        this.logger = logger;
+        this.loginCommandHandler = ActivatorUtilities.CreateInstance<LoginCommandHandler>(serviceProvider);
+        this.setPasswordCommandHandler = ActivatorUtilities.CreateInstance<SetPasswordCommandHandler>(serviceProvider);
     }
 
     [Microsoft.AspNetCore.Mvc.HttpPost("login")]
@@ -23,18 +31,31 @@ public class UserController : ControllerBase
     {
         try
         {
-            userProxy.ExpireUserTokens();
-
-            var jwt = userProxy.AuthenticateUser(model.Username, model.Password);
-            logger.Log(LogLevel.Information, "Successful login of user " + model.Username);
-            var user = userProxy.GetUserByGuid(jwt.UserId);
-            return Ok(new JwtResponse(jwt.Value, jwt.User, user.Email));
+            var response = loginCommandHandler.Handle(new LoginCommand(model.Username, model.Password));
+            var user = userProxy.GetUserByGuid(response.Token.UserId);
+            return Ok(new JwtResponse(response.Token.Value, response.Token.User, user.Email));
         }
         catch (Exception ex)
         {
-            logger.Log(LogLevel.Error, "Error logging in user " + model.Username + ": " + ex);
+            logger.Log(LogLevel.Debug, "Error logging in user " + model.Username + ": " + ex);
         }
 
         return BadRequest(new { message = "Unable to authenticate" });
+    }
+    
+    [Microsoft.AspNetCore.Mvc.HttpPost("setPassword")]
+    public IActionResult SetPassword(SetPasswordRequest model)
+    {
+        try
+        {
+            setPasswordCommandHandler.Handle(new SetPasswordCommand(model.Username, model.ResetKey, model.Password));
+            return Ok("Password set");
+        }
+        catch (Exception ex)
+        {
+            logger.Log(LogLevel.Debug, "Error setting password for user " + model.Username + ": " + ex);
+        }
+
+        return BadRequest(new { message = "Unable to set password" });
     }
 }

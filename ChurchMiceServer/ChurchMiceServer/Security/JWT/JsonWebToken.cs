@@ -160,7 +160,7 @@ namespace ChurchMiceServer.Security.JWT
             {
                 claims.Add(new Claim(USER_ROLE_CLAIM, role));
             }
-            //claims.Add(new Claim(MEMBER_ID_CLAIM, memberId.ToString()));
+            claims.Add(new Claim(MEMBER_ID_CLAIM, userId));
 
             var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(signingKey));
             var header = new JwtHeader(new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
