@@ -69,7 +69,7 @@ public class Startup
 		});
 
 		services.AddScoped<IAuthenticationService, UserAuthenticationService>();
-
+		services.AddHostedService<EmailTransmissionService>();
 		services.AddControllers();
 	}
 	

@@ -1,11 +1,15 @@
 ﻿namespace ChurchMiceServer.Services;
 
-public class EmailTransmissionService : IHostedService, IDisposable
+public class EmailTransmissionService : IHostedService
 {
+    public const int DELAY_TIMEOUT_MSEC = 15000;
+    
     // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-7.0&tabs=visual-studio
 
     private IEmailProxy emailProxy;
     private ILogger<EmailTransmissionService> logger;
+    private StoppingToken? stoppingToken;
+    private Task? workTask;
     
     public EmailTransmissionService(IEmailProxy emailProxy, ILogger<EmailTransmissionService> logger)
     {
@@ -13,18 +17,59 @@ public class EmailTransmissionService : IHostedService, IDisposable
         this.logger = logger;
     }
     
-    public Task StartAsync(CancellationToken cancellationToken)
+    public async Task StartAsync(CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        this.stoppingToken = new StoppingToken(cancellationToken);
+        this.workTask = DoWork();
+        await this.workTask;
     }
 
-    public Task StopAsync(CancellationToken cancellationToken)
+    public async Task StopAsync(CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        if (this.stoppingToken != null)
+        {
+            this.stoppingToken.RequestStop();
+        }
+    }
+    
+    private async Task DoWork()
+    {
+        while (!stoppingToken.IsStopRequested())
+        {
+            bool didWork = false;
+            
+executionCount++;
+
+_logger.LogInformation(
+    "Scoped Processing Service is working. Count: {Count}", executionCount);
+
+            if (!didWork)
+            {
+                await Task.Delay(DELAY_TIMEOUT_MSEC, stoppingToken.CancellationToken);
+            }
+        }
+    }
+}
+
+internal class StoppingToken {
+    public CancellationToken CancellationToken
+    {
+        get;
+    }
+    private bool StopRequested;
+
+    public StoppingToken(CancellationToken cancellationToken)
+    {
+        this.CancellationToken = cancellationToken;
     }
 
-    public void Dispose()
+    public void RequestStop()
     {
-        throw new NotImplementedException();
+        this.StopRequested = true;
+    }
+
+    public bool IsStopRequested()
+    {
+        return this.StopRequested || this.CancellationToken.IsCancellationRequested;
     }
 }
