@@ -1,8 +1,10 @@
 ﻿using ChurchMiceServer.Controllers.Models;
 using ChurchMiceServer.CQS.CommandHandlers;
 using ChurchMiceServer.CQS.Commands;
+using ChurchMiceServer.Domains.Models;
 using Microsoft.AspNetCore.Mvc;
 using ChurchMiceServer.Domains.Proxies;
+using ChurchMiceServer.Security;
 
 
 namespace ChurchMiceServer.Controllers;
@@ -17,6 +19,7 @@ public class UserController : ControllerBase
 
     private readonly LoginCommandHandler loginCommandHandler;
     private readonly SetPasswordCommandHandler setPasswordCommandHandler;
+    private readonly LogoutCommandHandler logoutCommandHandler;
 
     public UserController(IServiceProvider serviceProvider, IUserProxy userProxy, ILogger<UserController> logger)
     {
@@ -24,9 +27,10 @@ public class UserController : ControllerBase
         this.logger = logger;
         this.loginCommandHandler = ActivatorUtilities.CreateInstance<LoginCommandHandler>(serviceProvider);
         this.setPasswordCommandHandler = ActivatorUtilities.CreateInstance<SetPasswordCommandHandler>(serviceProvider);
+        this.logoutCommandHandler = ActivatorUtilities.CreateInstance<LogoutCommandHandler>(serviceProvider);
     }
 
-    [Microsoft.AspNetCore.Mvc.HttpPost("login")]
+    [HttpPost("login")]
     public IActionResult Login(AuthenticateRequest model)
     {
         try
@@ -43,7 +47,7 @@ public class UserController : ControllerBase
         return BadRequest(new { message = "Unable to authenticate" });
     }
     
-    [Microsoft.AspNetCore.Mvc.HttpPost("setPassword")]
+    [HttpPost("setPassword")]
     public IActionResult SetPassword(SetPasswordRequest model)
     {
         try
@@ -57,5 +61,26 @@ public class UserController : ControllerBase
         }
 
         return BadRequest(new { message = "Unable to set password" });
+    }
+    
+    [Authorize]
+    [HttpPut("logout")]
+    public IActionResult Logout()
+    {
+        try
+        {
+            var possibleUser = this.Request.HttpContext.Items["User"];
+            if (possibleUser != null)
+            {
+                User user = (User) possibleUser;
+                logoutCommandHandler.Handle(new LogoutCommand(user.Username));
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.Log(LogLevel.Debug, "Exception caught while attempting to log out: " + ex);
+        }
+
+        return Ok("Logged out");
     }
 }

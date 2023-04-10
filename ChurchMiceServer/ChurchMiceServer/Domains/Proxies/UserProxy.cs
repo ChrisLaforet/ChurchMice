@@ -164,5 +164,7 @@ roles.Add("WRITE");
                 context.UserTokens.Remove(userToken);
             }
         }
+
+        context.SaveChanges();
     }
 }
