@@ -56,6 +56,7 @@ public class Startup
 				configurationLoader.GetKeyValueFor(DB_CONNECTION_STRING_KEY)));
 
 		services.AddScoped<IUserProxy, UserProxy>();
+		services.AddScoped<IEmailProxy, EmailProxy>();
 		services.AddSingleton<IEmailSenderService, EmailSenderService>();
 
 		services.AddControllers().AddJsonOptions(options =>
