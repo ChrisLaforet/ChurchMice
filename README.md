@@ -9,7 +9,8 @@ What's next?  Maybe an online giving portal?  Perhaps a check-in/check-out for k
 
 # Configuration
 
-Todo
+Todo - discuss .net and angular configs
+
 
 # Logo
 
