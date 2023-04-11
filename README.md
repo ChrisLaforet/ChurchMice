@@ -16,5 +16,9 @@ Todo - discuss .net and angular configs
 
 The initial logo is an assemblage of images which include:
 
+Church - https://www.pngegg.com/en/png-brmuu
+Pair of mice by Petsafe - https://www.cleanpng.com/png-computer-mouse-transformice-clip-art-mouse-1105056/
+Mouse by Sanchi - https://www.cleanpng.com/png-mouse-cartoon-royalty-free-illustration-cartoon-cu-304664/
+Mouse by Monitha - https://www.cleanpng.com/png-mouse-cartoon-child-photography-clip-art-mice-973333/download-png.html
 
 These are free for personal use, and until something changes in this project to make it anything other than personal, they can stand.  Of course, if someone is gifted at cartooning and wishes to try their hand at something, that would be really neat...
