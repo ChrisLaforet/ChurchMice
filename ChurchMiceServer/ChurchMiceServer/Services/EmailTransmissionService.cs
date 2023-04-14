@@ -1,4 +1,6 @@
-﻿namespace ChurchMiceServer.Services;
+﻿using ChurchMiceServer.Domains.Proxies;
+
+namespace ChurchMiceServer.Services;
 
 public class EmailTransmissionService : IHostedService
 {
@@ -37,6 +39,10 @@ public class EmailTransmissionService : IHostedService
         while (!stoppingToken.IsStopRequested())
         {
             bool didWork = false;
+            
+            // read an item that has not been attempted and send it.
+            // if nothing, get something attempted over 5 mins ago
+            emailProxy.SendMessageTo();
             
 executionCount++;
 
