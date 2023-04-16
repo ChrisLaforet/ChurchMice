@@ -19,6 +19,8 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
     public virtual DbSet<UserRole> UserRoles { get; set; }
     
     public virtual DbSet<UserToken> UserTokens { get; set; }
+    
+    public virtual DbSet<EmailQueue> EmailQueue { get; set; }
 
 	
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
@@ -104,7 +106,8 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
             entity.ToTable("UserToken");
 
             entity.HasKey(e => e.Id);
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id)
+                .HasColumnName("ID");
             
             entity.Property(e => e.UserId)
                 .HasColumnName("UserID")
@@ -125,6 +128,123 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
                 .HasColumnType("datetime");
         });
         
+        modelBuilder.Entity<EmailQueue>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+
+            entity.ToTable("User");
+
+            entity.Property(e => e.Id)
+                .HasColumnName("ID")
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.Property(e => e.EmailRecipient)
+                .IsRequired()
+                .HasColumnName("EmailRecipient")
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            
+            entity.Property(e => e.EmailSender)
+                .IsRequired()
+                .HasColumnName("EmailSender")
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            
+            entity.Property(e => e.EmailBody)
+                .IsRequired()
+                .HasColumnName("EmailBody")
+                .IsUnicode(false);
+            
+            entity.Property(e => e.SentDatetime)
+                .HasColumnName("SentDatetime")
+                .HasColumnType("datetime")
+                .HasDefaultValueSql("(getdate())");
+
+            entity.Property(e => e.AttemptDatetime)
+                .HasColumnName("AttemptDatetime")
+                .HasColumnType("datetime");
+            
+            entity.Property(e => e.TotalAttempts)
+                .HasColumnName("TotalAttempts");
+            
+            entity.Property(e => e.AttachmentFilename)
+                .HasColumnName("AttachmentFilename")
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<Member>(entity =>
+        {
+            entity.ToTable("Member");
+
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id)
+                .HasColumnName("ID");
+
+            entity.Property(e => e.FirstName)
+                .HasColumnName("FirstName")
+                .HasMaxLength(20)
+                .IsRequired();
+
+            entity.Property(e => e.LastName)
+                .HasColumnName("LastName")
+                .HasMaxLength(20)
+                .IsRequired();
+ 
+            entity.Property(e => e.Email)
+                .HasColumnName("Email")
+                .HasMaxLength(255);
+ 
+            entity.Property(e => e.HomePhone)
+                .HasColumnName("HomePhone")
+                .HasMaxLength(20);
+ 
+            entity.Property(e => e.MobilePhone)
+                .HasColumnName("MobilePhone")
+                .HasMaxLength(20);
+ 
+            entity.Property(e => e.MailingAddress1)
+                .HasColumnName("MailingAddress1")
+                .HasMaxLength(100);
+             
+            entity.Property(e => e.MailingAddress2)
+                .HasColumnName("MailingAddress2")
+                .HasMaxLength(100);
+
+            entity.Property(e => e.City)
+                .HasColumnName("City")
+                .HasMaxLength(50);
+
+            entity.Property(e => e.State)
+                .HasColumnName("State")
+                .HasMaxLength(2);
+            
+            entity.Property(e => e.Zip)
+                .HasColumnName("Zip")
+                .HasMaxLength(10);
+            
+            entity.Property(e => e.Birthday)
+                .HasColumnName("Birthday")
+                .HasMaxLength(20);
+            
+            entity.Property(e => e.Anniversary)
+                .HasColumnName("Anniversary")
+                .HasMaxLength(20);
+
+            entity.Property(e => e.MemberSince)
+                .HasColumnName("MemberSince")
+                .HasColumnType("datetime");
+            
+            entity.Property(e => e.CreatedDatetime)
+                .HasColumnName("CreatedDatetime")
+                .HasColumnType("datetime")
+                .IsRequired();
+  
+            entity.Property(e => e.UserId)
+                .HasColumnName("UserID")
+                .HasMaxLength(50);
+          });
+
         OnModelCreatingPartial(modelBuilder);
     }
 }
