@@ -16,6 +16,6 @@ public class Member
     public string Birthday { get; set; }
     public string Anniversary { get; set; }
     public string MemberSince { get; set; }
-    public string CreatedDatetime { get; set; }
+    public string Created { get; set; }
     public string UserId { get; set; }
 }

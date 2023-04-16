@@ -21,14 +21,14 @@ public class EmailSenderService : IEmailSenderService
         this.logger = logger;
     }
 
-    public void SendSingleMessageTo(string to, string subject, string body)
+    public void SendSingleMessage(string to, string from, string subject, string body)
     {
         System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls13; 
         var mail = new MailMessage(); 
  
-        var sender = configurationLoader.GetKeyValueFor(SMTP_SENDER);
+//        var sender = configurationLoader.GetKeyValueFor(SMTP_SENDER);
         
-        mail.From = new MailAddress(sender);
+        mail.From = new MailAddress(from);
         mail.To.Add(to);
         mail.Subject = subject; 
         mail.Body = body; 

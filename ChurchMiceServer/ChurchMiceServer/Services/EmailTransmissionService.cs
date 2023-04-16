@@ -40,18 +40,28 @@ public class EmailTransmissionService : IHostedService
     {
         while (!stoppingToken.IsStopRequested())
         {
-            bool didWork = false;
-            
             // read an item that has not been attempted and send it.
             // if nothing, get something attempted over 5 mins ago
-            emailProxy.SendMessageTo();
-            
-executionCount++;
+            var toSend = emailProxy.GetUnattemptedMessages();
+            if (toSend.Count == 0)
+            {
+                toSend = emailProxy.GetRetryMessages();
+            }
 
-_logger.LogInformation(
-    "Scoped Processing Service is working. Count: {Count}", executionCount);
-
-            if (!didWork)
+            if (toSend.Count > 0)
+            {
+                var entry = toSend[0];
+                try
+                {
+                    emailSenderService.SendSingleMessage(entry.EmailRecipient, entry.EmailSender, entry.EmailSubject, entry.EmailBody);
+                    emailProxy.DeleteMessage(entry);
+                }
+                catch (Exception ex)
+                {
+                    logger.Log(LogLevel.Information, "Error sending message " + entry.Id + ": ", ex);
+                }
+            }
+           else
             {
                 await Task.Delay(DELAY_TIMEOUT_MSEC, stoppingToken.CancellationToken);
             }

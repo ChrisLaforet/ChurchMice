@@ -151,6 +151,11 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             
+            entity.Property(e => e.EmailSubject)
+                .HasColumnName("EmailSubject")
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            
             entity.Property(e => e.EmailBody)
                 .IsRequired()
                 .HasColumnName("EmailBody")
@@ -235,8 +240,8 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
                 .HasColumnName("MemberSince")
                 .HasColumnType("datetime");
             
-            entity.Property(e => e.CreatedDatetime)
-                .HasColumnName("CreatedDatetime")
+            entity.Property(e => e.Created)
+                .HasColumnName("Created")
                 .HasColumnType("datetime")
                 .IsRequired();
   
