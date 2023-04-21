@@ -57,7 +57,7 @@ public class Startup
 
 		services.AddScoped<IUserProxy, UserProxy>();
 		services.AddScoped<IEmailProxy, EmailProxy>();
-		services.AddSingleton<IEmailSenderService, EmailSenderService>();
+		services.AddScoped<IEmailSenderService, EmailSenderService>();
 
 		services.AddControllers().AddJsonOptions(options =>
 		{
@@ -70,8 +70,10 @@ public class Startup
 
 		services.AddScoped<IAuthenticationService, UserAuthenticationService>();
 		services.AddScoped<IEmailSenderService, EmailSenderService>();
-		
-		services.AddHostedService<EmailTransmissionService>();
+
+		services.AddScoped<IHostedService, EmailTransmissionService>();
+		//services.AddHostedService<EmailTransmissionService>();
+
 		services.AddControllers();
 	}
 	

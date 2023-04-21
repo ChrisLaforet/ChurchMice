@@ -8,14 +8,15 @@ public class EmailTransmissionService : IHostedService
     
     // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-7.0&tabs=visual-studio
 
-    private IEmailProxy emailProxy;
-    private IEmailSenderService emailSenderService;
-    private ILogger<EmailTransmissionService> logger;
+    private readonly IEmailProxy emailProxy;
+    private readonly IEmailSenderService emailSenderService;
+    private readonly ILogger<EmailTransmissionService> logger;
     private StoppingToken? stoppingToken;
     private Task? workTask;
     
     public EmailTransmissionService(IEmailProxy emailProxy, IEmailSenderService emailSenderService, ILogger<EmailTransmissionService> logger)
     {
+        //https://learn.microsoft.com/en-us/dotnet/core/extensions/scoped-service
         this.emailProxy = emailProxy;
         this.emailSenderService = emailSenderService;
         this.logger = logger;

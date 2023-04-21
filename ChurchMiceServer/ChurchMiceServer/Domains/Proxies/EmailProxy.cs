@@ -1,6 +1,4 @@
-﻿using ChurchMiceServer.Configuration;
-using ChurchMiceServer.Domains.Models;
-using ChurchMiceServer.Services;
+﻿using ChurchMiceServer.Domains.Models;
 
 namespace ChurchMiceServer.Domains.Proxies;
 

@@ -6,6 +6,6 @@ public interface IEmailProxy
 {
     void SendMessageTo(string to, string from, string subject, string body);
     List<EmailQueue> GetUnattemptedMessages();
-    List<EmailQueue> GetRetryMessages()
+    List<EmailQueue> GetRetryMessages();
     void DeleteMessage(EmailQueue entry);
 }
