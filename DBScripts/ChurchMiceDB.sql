@@ -102,7 +102,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Member](
-	[ID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[FirstName] [varchar](30) NOT NULL,
 	[LastName] [varchar](30) NOT NULL,
 	[Email] [varchar](255) NULL,

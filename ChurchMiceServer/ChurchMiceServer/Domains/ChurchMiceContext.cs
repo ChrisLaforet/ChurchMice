@@ -132,7 +132,7 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
         {
             entity.HasKey(e => e.Id);
 
-            entity.ToTable("User");
+            entity.ToTable("EmailQueue");
 
             entity.Property(e => e.Id)
                 .HasColumnName("ID")

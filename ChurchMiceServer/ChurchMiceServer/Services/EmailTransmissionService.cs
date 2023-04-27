@@ -2,93 +2,61 @@
 
 namespace ChurchMiceServer.Services;
 
-public class EmailTransmissionService : IHostedService
+public sealed class EmailTransmissionService : IScopedProcessingService
 {
     public const int DELAY_TIMEOUT_MSEC = 15000;
     
     // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-7.0&tabs=visual-studio
-
+    private readonly ILogger<EmailTransmissionService> logger;
     private readonly IEmailProxy emailProxy;
     private readonly IEmailSenderService emailSenderService;
-    private readonly ILogger<EmailTransmissionService> logger;
-    private StoppingToken? stoppingToken;
-    private Task? workTask;
-    
+
     public EmailTransmissionService(IEmailProxy emailProxy, IEmailSenderService emailSenderService, ILogger<EmailTransmissionService> logger)
     {
-        //https://learn.microsoft.com/en-us/dotnet/core/extensions/scoped-service
         this.emailProxy = emailProxy;
         this.emailSenderService = emailSenderService;
         this.logger = logger;
     }
     
-    public async Task StartAsync(CancellationToken cancellationToken)
+    public async Task DoWorkAsync(CancellationToken stoppingToken)
     {
-        this.stoppingToken = new StoppingToken(cancellationToken);
-        this.workTask = DoWork();
-        await this.workTask;
-    }
-
-    public async Task StopAsync(CancellationToken cancellationToken)
-    {
-        if (this.stoppingToken != null)
+        logger.LogInformation("{ServiceName} working", nameof(EmailTransmissionService));
+        while (!stoppingToken.IsCancellationRequested)
         {
-            this.stoppingToken.RequestStop();
-        }
-    }
-    
-    private async Task DoWork()
-    {
-        while (!stoppingToken.IsStopRequested())
-        {
-            // read an item that has not been attempted and send it.
-            // if nothing, get something attempted over 5 mins ago
-            var toSend = emailProxy.GetUnattemptedMessages();
-            if (toSend.Count == 0)
+            if (!SendNextEmail())
             {
-                toSend = emailProxy.GetRetryMessages();
-            }
-
-            if (toSend.Count > 0)
-            {
-                var entry = toSend[0];
-                try
-                {
-                    emailSenderService.SendSingleMessage(entry.EmailRecipient, entry.EmailSender, entry.EmailSubject, entry.EmailBody);
-                    emailProxy.DeleteMessage(entry);
-                }
-                catch (Exception ex)
-                {
-                    logger.Log(LogLevel.Information, "Error sending message " + entry.Id + ": ", ex);
-                }
-            }
-           else
-            {
-                await Task.Delay(DELAY_TIMEOUT_MSEC, stoppingToken.CancellationToken);
+                await Task.Delay(DELAY_TIMEOUT_MSEC, stoppingToken);
             }
         }
     }
-}
 
-internal class StoppingToken {
-    public CancellationToken CancellationToken
+    private bool SendNextEmail()
     {
-        get;
-    }
-    private bool StopRequested;
+        // read an item that has not been attempted and send it.
+        // if nothing, get something attempted over 5 mins ago
+        var toSend = emailProxy.GetUnattemptedMessages();
+        if (toSend.Count == 0)
+        {
+            toSend = emailProxy.GetRetryMessages();
+        }
 
-    public StoppingToken(CancellationToken cancellationToken)
-    {
-        this.CancellationToken = cancellationToken;
-    }
+        if (toSend.Count > 0)
+        {
+            var entry = toSend[0];
+            try
+            {
+                emailSenderService.SendSingleMessage(entry.EmailRecipient, entry.EmailSender, entry.EmailSubject, entry.EmailBody);
+                emailProxy.DeleteMessage(entry);
+            }
+            catch (Exception ex)
+            {
+                logger.Log(LogLevel.Information, "Error sending message " + entry.Id + ": ", ex);
+                emailProxy.MarkMessageFailed(entry);
+            }
 
-    public void RequestStop()
-    {
-        this.StopRequested = true;
-    }
+            return true;
+        }
 
-    public bool IsStopRequested()
-    {
-        return this.StopRequested || this.CancellationToken.IsCancellationRequested;
+        return false;
     }
 }

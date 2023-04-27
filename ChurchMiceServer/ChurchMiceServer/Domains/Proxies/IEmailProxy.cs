@@ -8,4 +8,5 @@ public interface IEmailProxy
     List<EmailQueue> GetUnattemptedMessages();
     List<EmailQueue> GetRetryMessages();
     void DeleteMessage(EmailQueue entry);
+    void MarkMessageFailed(EmailQueue entry);
 }

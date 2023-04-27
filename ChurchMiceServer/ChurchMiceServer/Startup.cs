@@ -58,7 +58,9 @@ public class Startup
 		services.AddScoped<IUserProxy, UserProxy>();
 		services.AddScoped<IEmailProxy, EmailProxy>();
 		services.AddScoped<IEmailSenderService, EmailSenderService>();
-
+		services.AddScoped<IAuthenticationService, UserAuthenticationService>();
+		services.AddScoped<IScopedProcessingService, EmailTransmissionService>();
+		
 		services.AddControllers().AddJsonOptions(options =>
 		{
 			// // Use the default property (Pascal) casing
@@ -68,11 +70,8 @@ public class Startup
 			//options.JsonSerializerOptions.Converters.Add(new DecimalJSONConverter());
 		});
 
-		services.AddScoped<IAuthenticationService, UserAuthenticationService>();
-		services.AddScoped<IEmailSenderService, EmailSenderService>();
 
-		services.AddScoped<IHostedService, EmailTransmissionService>();
-		//services.AddHostedService<EmailTransmissionService>();
+		services.AddHostedService<ScopedBackgroundService>();
 
 		services.AddControllers();
 	}
