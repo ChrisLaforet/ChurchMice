@@ -168,18 +168,22 @@ roles.Add("WRITE");
     {
         var resetKey = GenerateResetKey();
 
-        var contents = new StringBuilder();
-        contents.Append(
-            "A password request for ChurchMice has been created.  If you did not request this, you do not have to do anything.  However, if you did, use your login portal for ChurchMice and select Change Password.");
-        contents.Append("\r\n\r\nUse the following for the ResetKey: ");
-        contents.Append(resetKey);
-        contents.Append("\r\n");
-        
         foreach (var user in GetUsersByEmail(email))
         {
             user.ResetKey = resetKey;
             user.ResetExpirationDatetime = DateTime.Now.AddDays(5);
             context.Users.Update(user);
+            
+// TODO: change ChurchMice to name of church once configuration is added
+// TODO: add url to the password change screen when configuration is added
+            var contents = new StringBuilder();
+            contents.Append(
+                "A password request for ChurchMice has been created.  If you did not request this, you do not have to do anything.  However, if you did, use your login portal for ChurchMice and select Change Password.");
+            contents.Append("\r\n\r\nYour login username is: ");
+            contents.Append(user.Username);
+            contents.Append("\r\n\r\nUse the following for the ResetKey: ");
+            contents.Append(resetKey);
+            contents.Append("\r\n");
             
             emailProxy.SendMessageTo(email, emailSender, "Password change requested", contents.ToString());
         }            
@@ -188,7 +192,7 @@ roles.Add("WRITE");
 
     private char? GetPrintableCharacter(byte generated)
     {
-        var ch = (char)generated;
+        var ch = (char)(generated & 0x7f);
         if (char.IsLetterOrDigit(ch) || ch == '-' || ch == ';' || ch == ':' || ch == '/' || ch == '+' || ch == '$' || ch == '#' || ch == '!')
         {
             return ch;
@@ -203,7 +207,7 @@ roles.Add("WRITE");
             var nextByte = new byte[1];
             cryptoProvider.GetBytes(nextByte);
 
-            int length = 34 + ((int)nextByte[0] & 0xf);  // 34 to 50 chars
+            int length = 35 + ((int)nextByte[0] & 0xf);  // 35 to 50 chars
             var key = new StringBuilder();
             int offset = 0;
             while (offset < length)

@@ -14,6 +14,7 @@ public class EmailProxy : IEmailProxy
     public void SendMessageTo(string to, string from, string subject, string body)
     {
         var entry = new EmailQueue();
+        entry.Id = Guid.NewGuid().ToString();
         entry.EmailSender = from;
         entry.EmailRecipient = to;
         entry.EmailSubject = subject;
