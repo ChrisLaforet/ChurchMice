@@ -19,6 +19,7 @@ public class UserController : ControllerBase
 
     private readonly LoginCommandHandler loginCommandHandler;
     private readonly SetPasswordCommandHandler setPasswordCommandHandler;
+    private readonly ChangePasswordCommandHandler changePasswordCommandHandler;
     private readonly LogoutCommandHandler logoutCommandHandler;
 
     public UserController(IServiceProvider serviceProvider, IUserProxy userProxy, ILogger<UserController> logger)
@@ -27,6 +28,7 @@ public class UserController : ControllerBase
         this.logger = logger;
         this.loginCommandHandler = ActivatorUtilities.CreateInstance<LoginCommandHandler>(serviceProvider);
         this.setPasswordCommandHandler = ActivatorUtilities.CreateInstance<SetPasswordCommandHandler>(serviceProvider);
+        this.changePasswordCommandHandler = ActivatorUtilities.CreateInstance<ChangePasswordCommandHandler>(serviceProvider);
         this.logoutCommandHandler = ActivatorUtilities.CreateInstance<LogoutCommandHandler>(serviceProvider);
     }
 
@@ -82,5 +84,12 @@ public class UserController : ControllerBase
         }
 
         return Ok("Logged out");
+    }
+
+    [HttpPost("changePassword")]
+    public IActionResult ChangePassword(ChangePasswordRequest model)
+    {
+        changePasswordCommandHandler.Handle(new ChangePasswordCommand(model.Email));
+        return Ok("Password change sent in Email");
     }
 }

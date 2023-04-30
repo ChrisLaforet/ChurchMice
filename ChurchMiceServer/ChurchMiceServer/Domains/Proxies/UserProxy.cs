@@ -1,9 +1,11 @@
 ﻿using System.Security.Authentication;
 using ChurchMiceServer.Security.JWT;
 using System.Security.Cryptography;
+using System.Text;
 using ChurchMiceServer.Configuration;
 using ChurchMiceServer.Domains.Models;
 using ChurchMiceServer.Security.Auth;
+using ChurchMiceServer.Services;
 using Microsoft.IdentityModel.Tokens;
 
 namespace ChurchMiceServer.Domains.Proxies;
@@ -14,10 +16,14 @@ public class UserProxy : IUserProxy
 
     private readonly ChurchMiceContext context;
     private readonly PasswordProcessor passwordProcessor;
+    private readonly string emailSender;
+    private readonly IEmailProxy emailProxy;
 
-    public UserProxy(ChurchMiceContext context, IConfigurationLoader configurationLoader)
+    public UserProxy(ChurchMiceContext context, IEmailProxy emailProxy, IConfigurationLoader configurationLoader)
     {
         this.context = context;
+        this.emailProxy = emailProxy;
+        this.emailSender = configurationLoader.GetKeyValueFor(IEmailSenderService.SMTP_SENDER);
         this.passwordProcessor = new PasswordProcessor(configurationLoader);
     }
 
@@ -30,10 +36,14 @@ public class UserProxy : IUserProxy
 
     public User? GetUserByUsername(string username)
     {
-        return context.Users.Where(user => user.Username == username).FirstOrDefault();
+        return context.Users.FirstOrDefault(user => user.Username == username);
     }
 
-
+    public IList<User> GetUsersByEmail(string email)
+    {
+        return context.Users.Where(user => user.Email.ToLower() == email.ToLower()).ToList();
+    }
+    
     public JsonWebToken AuthenticateUser(string username, string password)
     {
         var passwordHash = passwordProcessor.HashPassword(password);
@@ -154,6 +164,63 @@ roles.Add("WRITE");
         context.SaveChanges();
     }
 
+    public void ChangePasswordFor(string email)
+    {
+        var resetKey = GenerateResetKey();
+
+        var contents = new StringBuilder();
+        contents.Append(
+            "A password request for ChurchMice has been created.  If you did not request this, you do not have to do anything.  However, if you did, use your login portal for ChurchMice and select Change Password.");
+        contents.Append("\r\n\r\nUse the following for the ResetKey: ");
+        contents.Append(resetKey);
+        contents.Append("\r\n");
+        
+        foreach (var user in GetUsersByEmail(email))
+        {
+            user.ResetKey = resetKey;
+            user.ResetExpirationDatetime = DateTime.Now.AddDays(5);
+            context.Users.Update(user);
+            
+            emailProxy.SendMessageTo(email, emailSender, "Password change requested", contents.ToString());
+        }            
+        context.SaveChanges();
+    }
+
+    private char? GetPrintableCharacter(byte generated)
+    {
+        var ch = (char)generated;
+        if (char.IsLetterOrDigit(ch) || ch == '-' || ch == ';' || ch == ':' || ch == '/' || ch == '+' || ch == '$' || ch == '#' || ch == '!')
+        {
+            return ch;
+        }
+        return null;
+    }
+
+    private string GenerateResetKey()
+    {
+        using (var cryptoProvider = new RNGCryptoServiceProvider())
+        {
+            var nextByte = new byte[1];
+            cryptoProvider.GetBytes(nextByte);
+
+            int length = 34 + ((int)nextByte[0] & 0xf);  // 34 to 50 chars
+            var key = new StringBuilder();
+            int offset = 0;
+            while (offset < length)
+            {
+                cryptoProvider.GetBytes(nextByte);
+                var ch = GetPrintableCharacter(nextByte[0]);
+                if (ch != null)
+                {
+                    key.Append(ch);
+                    ++offset;
+                }
+            }
+
+            return key.ToString();
+        }
+    }
+    
     public void LogoutUser(string username)
     {
         var user = GetUserByUsername(username);

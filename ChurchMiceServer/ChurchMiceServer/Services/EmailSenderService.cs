@@ -6,12 +6,6 @@ namespace ChurchMiceServer.Services;
 
 public class EmailSenderService : IEmailSenderService
 {
-    public const string SMTP_SERVER = "SmtpServer";
-    public const string SMTP_PORT = "SmtpPort";
-    public const string SMTP_USER = "SmtpUser";
-    public const string SMTP_PASSWORD = "SmtpPassword";
-    public const string SMTP_SENDER = "SmtpSender";
-    
     private readonly IConfigurationLoader configurationLoader;
     private readonly ILogger<EmailSenderService> logger;
     
@@ -26,17 +20,18 @@ public class EmailSenderService : IEmailSenderService
         System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls13; 
         var mail = new MailMessage(); 
  
-//        var sender = configurationLoader.GetKeyValueFor(SMTP_SENDER);
+//        var sender = configurationLoader.GetKeyValueFor(IEmailSenderService.SMTP_SENDER);
         
         mail.From = new MailAddress(from);
         mail.To.Add(to);
         mail.Subject = subject; 
         mail.Body = body; 
         
-        var smtp = new SmtpClient(configurationLoader.GetKeyValueFor(SMTP_SERVER));
-        var port = int.Parse(configurationLoader.GetKeyValueFor(SMTP_PORT));
+        var smtp = new SmtpClient(configurationLoader.GetKeyValueFor(IEmailSenderService.SMTP_SERVER));
+        var port = int.Parse(configurationLoader.GetKeyValueFor(IEmailSenderService.SMTP_PORT));
         
-        var credentials = new NetworkCredential(configurationLoader.GetKeyValueFor(SMTP_USER), configurationLoader.GetKeyValueFor(SMTP_PASSWORD)); 
+        var credentials = new NetworkCredential(configurationLoader.GetKeyValueFor(IEmailSenderService.SMTP_USER), 
+            configurationLoader.GetKeyValueFor(IEmailSenderService.SMTP_PASSWORD)); 
         smtp.UseDefaultCredentials = false;
         smtp.Credentials = credentials;
         smtp.Port = port;

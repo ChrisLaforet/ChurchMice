@@ -8,9 +8,9 @@ namespace ChurchMiceServer.CQS.CommandHandlers;
 public class SetPasswordCommandHandler : ICommandHandler<SetPasswordCommand, NothingnessResponse>
 {
 	private readonly IUserProxy userProxy;
-	private readonly ILogger<SetPasswordCommand> logger;
+	private readonly ILogger<SetPasswordCommandHandler> logger;
 	
-	public SetPasswordCommandHandler(IUserProxy userProxy, ILogger<SetPasswordCommand> logger)
+	public SetPasswordCommandHandler(IUserProxy userProxy, ILogger<SetPasswordCommandHandler> logger)
 	{
 		this.userProxy = userProxy;
 		this.logger = logger;
