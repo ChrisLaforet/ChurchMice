@@ -4,7 +4,7 @@ using ChurchMiceServer.CQS.Commands;
 using ChurchMiceServer.Domains.Models;
 using Microsoft.AspNetCore.Mvc;
 using ChurchMiceServer.Domains.Proxies;
-using ChurchMiceServer.Security;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace ChurchMiceServer.Controllers;
@@ -33,6 +33,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("login")]
+    [AllowAnonymous]
     public IActionResult Login(AuthenticateRequest model)
     {
         try
@@ -50,6 +51,7 @@ public class UserController : ControllerBase
     }
     
     [HttpPost("setPassword")]
+    [AllowAnonymous]
     public IActionResult SetPassword(SetPasswordRequest model)
     {
         try

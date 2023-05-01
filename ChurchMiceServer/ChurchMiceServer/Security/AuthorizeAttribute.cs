@@ -1,4 +1,5 @@
 ﻿using System.Security.Authentication;
+using System.Security.Principal;
 using ChurchMiceServer.Domains.Proxies;
 using ChurchMiceServer.Security.JWT;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -36,10 +37,15 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
 			jwtContent = jwtContent.Substring(BEARER_HEADER.Length);
 		}
 
+		var jwt = JsonWebToken.From(jwtContent);
 		var userProxy = context.HttpContext.RequestServices.GetService<IUserProxy>();
-		if (userProxy == null || !userProxy.ValidateUserToken(JsonWebToken.From(jwtContent)))
+		if (userProxy == null || !userProxy.ValidateUserToken(jwt))
 		{
 			throw new AuthenticationException("Invalid bearer token");
 		}
+
+		var identity = new GenericIdentity(jwt.User); 
+// TODO: get the roles from jwt when they are created
+		Thread.CurrentPrincipal = new GenericPrincipal(identity, null);
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using ChurchMiceServer.Security;
 using ChurchMiceServer.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChurchMiceServer.Controllers;
@@ -15,7 +16,8 @@ public class HealthController : ControllerBase
     //     this.emailSenderService = emailSenderService;
     // }
     
-    [Microsoft.AspNetCore.Mvc.HttpGet]
+    [HttpGet]
+    [AllowAnonymous]
     public IActionResult Get()
     {
 //        emailSenderService.SendSingleMessageTo("laforet@chrislaforetsoftware.com", "Email testing", "SendGrid email body test of a message send");
