@@ -24,10 +24,19 @@ public class MemberController
         this.memberQueryHandler = ActivatorUtilities.CreateInstance<MemberQueryHandler>(serviceProvider);
     }
 
-    [HttpGet]
+    [HttpGet("getMemberById")]
     [Authorize]
     public MemberResponse GetMemberById(string id)
     {
-        return memberQueryHandler.Handle(new MemberQuery(id));
+        try
+        {
+            return memberQueryHandler.Handle(new MemberQuery(id));
+        }
+        catch (Exception ex)
+        {
+            logger.Log(LogLevel.Debug, "Error retrieving member record", ex);
+        }
+
+        return null;
     }
 }
