@@ -21,6 +21,8 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
     public virtual DbSet<UserToken> UserTokens { get; set; }
     
     public virtual DbSet<EmailQueue> EmailQueue { get; set; }
+    
+    public virtual DbSet<Member> Members { get; set; }
 
 	
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

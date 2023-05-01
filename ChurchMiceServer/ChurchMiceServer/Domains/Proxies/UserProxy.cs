@@ -43,6 +43,15 @@ public class UserProxy : IUserProxy
     {
         return context.Users.Where(user => user.Email.ToLower() == email.ToLower()).ToList();
     }
+
+    public string CreateUser(User user)
+    {
+        user.Id = Guid.NewGuid().ToString();
+        context.Users.Add(user);
+        context.SaveChanges();
+        return user.Id;
+    }
+
     
     public JsonWebToken AuthenticateUser(string username, string password)
     {

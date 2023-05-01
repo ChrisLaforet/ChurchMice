@@ -10,6 +10,7 @@ public interface IUserProxy
 	User? GetUserByUsername(string username);
 	IList<User> GetUsersByEmail(string email);
 	JsonWebToken AuthenticateUser(string username, string password);
+	string CreateUser(User user);
 
 	void SetPasswordFor(string username, string resetKey, string password);
 	void ChangePasswordFor(string email);
