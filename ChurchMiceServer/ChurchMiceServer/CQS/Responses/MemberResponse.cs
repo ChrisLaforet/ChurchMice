@@ -25,6 +25,7 @@ public class MemberResponse
         this.Id = member.Id;
         this.FirstName = member.FirstName;
         this.LastName = member.LastName;
+        this.Email = member.Email;
         this.HomePhone = member.HomePhone;
         this.MobilePhone = member.MobilePhone;
         this.MailingAddress1 = member.MailingAddress1;

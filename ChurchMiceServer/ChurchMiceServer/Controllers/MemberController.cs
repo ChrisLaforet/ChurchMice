@@ -39,4 +39,11 @@ public class MemberController
 
         return null;
     }
+
+    [HttpPost("create")]
+    [Authorize]
+    public MemberResponse CreateMember(MemberRequest request)
+    {
+        
+    }
 }
