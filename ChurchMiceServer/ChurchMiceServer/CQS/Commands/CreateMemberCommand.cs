@@ -17,8 +17,10 @@ public class CreateMemberCommand : ICommand
     public string? Birthday { get; private set; }
     public string? Anniversary { get; private set; }
     public DateTime? MemberSince { get; private set; }
+    
+    public string CreatorUsername { get; private set; }
 
-    public CreateMemberCommand(MemberRequest request)
+    public CreateMemberCommand(MemberRequest request, string creatorUsername)
     {
         this.FirstName = request.FirstName;
         this.LastName = request.LastName;
@@ -33,5 +35,7 @@ public class CreateMemberCommand : ICommand
         this.Birthday = request.Birthday;
         this.Anniversary = request.Anniversary;
         this.MemberSince = request.MemberSince;
+
+        this.CreatorUsername = creatorUsername;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ChurchMiceServer.Controllers.Models;
 using ChurchMiceServer.CQS.CommandHandlers;
+using ChurchMiceServer.CQS.Commands;
 using ChurchMiceServer.CQS.Queries;
 using ChurchMiceServer.CQS.QueryHandlers;
 using ChurchMiceServer.CQS.Responses;
@@ -48,8 +49,6 @@ public class MemberController : ControllerBase
     [Authorize]
     public MemberResponse CreateMember(MemberRequest request)
     {
-        var identity = this;
-        return null;
-        //return createMemberCommandHandler.Handle(new CreateMemberCommand(request));
+        return createMemberCommandHandler.Handle(new CreateMemberCommand(request,  HttpContext.User.Identity.Name));
     }
 }

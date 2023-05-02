@@ -22,7 +22,7 @@ public class CreateMemberCommandHandler : ICommandHandler<CreateMemberCommand, M
         {
             var member = CreateMember(command); 
             memberProxy.CreateMember(member);
-            logger.Log(LogLevel.Information, string.Format("Created member for %s %s for %s", member.FirstName, member.LastName, ""));
+            logger.Log(LogLevel.Information, string.Format("Created member for {0} {1} for {2}", member.FirstName, member.LastName, command.CreatorUsername));
             return new MemberResponse(member);
         }
         catch (Exception ex)
@@ -49,7 +49,7 @@ public class CreateMemberCommandHandler : ICommandHandler<CreateMemberCommand, M
         member.Anniversary = command.Anniversary;
         member.Birthday = command.Birthday;
         //member.UserId
-        member.Created = new DateTime();
+        member.Created = DateTime.Now;
         return member;
     }
 }

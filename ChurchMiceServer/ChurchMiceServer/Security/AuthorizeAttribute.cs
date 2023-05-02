@@ -46,6 +46,9 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
 
 		var identity = new GenericIdentity(jwt.User); 
 // TODO: get the roles from jwt when they are created
-		Thread.CurrentPrincipal = new GenericPrincipal(identity, null);
+		var principal = new GenericPrincipal(identity, null);
+		Thread.CurrentPrincipal = principal;
+		context.HttpContext.User = principal;
+		//HttpContext.Current.User = principal;
 	}
 }
