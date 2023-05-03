@@ -5,29 +5,29 @@ using ChurchMiceServer.Domains.Proxies;
 
 namespace ChurchMiceServer.CQS.CommandHandlers;
 
-public class CreateMemberCommandHandler : ICommandHandler<CreateMemberCommand, MemberResponse>
+public class UpdateMemberCommandHandler : ICommandHandler<UpdateMemberCommand, MemberResponse>
 {
     private readonly IMemberProxy memberProxy;
-    private readonly ILogger<CreateMemberCommandHandler> logger;
+    private readonly ILogger<UpdateMemberCommandHandler> logger;
     
-    public CreateMemberCommandHandler(IMemberProxy memberProxy, ILogger<CreateMemberCommandHandler> logger)
+    public UpdateMemberCommandHandler(IMemberProxy memberProxy, ILogger<UpdateMemberCommandHandler> logger)
     {
         this.memberProxy = memberProxy;
         this.logger = logger;
     }
     
-    public MemberResponse Handle(CreateMemberCommand command)
+    public MemberResponse Handle(UpdateMemberCommand command)
     {
         try
         {
             var member = MemberMappers.MapCommandToMember(command); 
             memberProxy.CreateMember(member);
-            logger.Log(LogLevel.Information, string.Format("Created member for {0} {1} by {2}", member.FirstName, member.LastName, command.CreatorUsername));
+            logger.Log(LogLevel.Information, string.Format("Updated member for {0} {1} by {2}", member.FirstName, member.LastName, command.CreatorUsername));
             return new MemberResponse(member);
         }
         catch (Exception ex)
         {
-            logger.Log(LogLevel.Error, "Error updating member", ex);
+            logger.Log(LogLevel.Error, "Error creating member", ex);
         }
 
         return null;
