@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand-sm navbar-light bg-white topbar mb-4 static-top shadow">
+  <div class="container-fluid" id="topBarContainer">
+    <div class="col">
+      <div class="title text-gray-600 d-none d-md-inline">Herd Management</div>
+    </div>
+    <div class="col">
+      <ul class="navbar-nav justify-content-end">
+        <!--        <li class="nav-item d-none d-md-inline dropdown no-arrow mx-1">-->
+        <!--          <a class="nav-link dropdown-toggle action-icon" href="#" id="alertsDropdown"-->
+        <!--             role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+        <!--            <fa-icon [icon]="faBell" class="fa-xl"></fa-icon>-->
+        <!--            &lt;!&ndash; add counter span here &ndash;&gt;-->
+        <!--          </a>-->
+        <!--        </li>-->
+        <li class="nav-item d-none d-lg-inline dropdown no-arrow mx-1">
+          <a class="nav-link dropdown-toggle" href="/login" id="userDropdown" role="button"
+             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="mr-2 d-lg-inline text-gray-600 small">
+              <span>{{ userName() }}</span>
+            </span>
+            <img *ngIf="user != null" class="img-profile d-lg-inline rounded-circle"
+                 src="assets/images/logged_in_profile.png" aria-describedby="user image" alt="">
+            <img *ngIf="user == null" class="img-profile d-lg-inline rounded-circle"
+                 src="assets/images/logged_out_profile.png" aria-describedby="user image" alt="">
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

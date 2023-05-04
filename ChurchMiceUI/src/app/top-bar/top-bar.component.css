@@ -1,0 +1,66 @@
+html {
+  font-size: 14px;
+}
+
+#topBarContainer {
+  padding: 0 0 0 0 !important;
+  margin: 0 0 0 0 !important;
+}
+
+.topbar {
+  height: 4.375rem;
+}
+
+.topbar #sidebarToggleTop {
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.topbar #sidebarToggleTop:hover {
+  background-color: #eaecf4;
+}
+
+.topbar #sidebarToggleTop:active {
+  background-color: #dddfeb;
+}
+
+.img-profile {
+  margin-left: 12px;
+  margin-right: 3px;
+}
+
+.topbar.navbar-dark .navbar-nav .nav-item .nav-link {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.topbar.navbar-dark .navbar-nav .nav-item .nav-link:hover {
+  color: #fff;
+}
+
+.topbar.navbar-dark .navbar-nav .nav-item .nav-link:active {
+  color: #fff;
+}
+
+.topbar.navbar-light .navbar-nav .nav-item .nav-link {
+  color: #d1d3e2;
+}
+
+.topbar.navbar-light .navbar-nav .nav-item .nav-link:hover {
+  color: #b7b9cc;
+}
+
+.topbar.navbar-light .navbar-nav .nav-item .nav-link:active {
+  color: #858796;
+}
+
+.row {
+  padding: 0 0 0 0 !important;
+  margin: 0 0 0 0 !important;
+}
+
+.title {
+  margin-left: 1rem;
+  font-size: 1.75rem;
+  text-shadow: 2px 2px #eeeeee;
+  text-overflow: fade;
+}

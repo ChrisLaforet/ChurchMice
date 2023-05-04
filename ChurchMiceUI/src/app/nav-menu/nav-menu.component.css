@@ -1,0 +1,44 @@
+.nav {
+  margin: 0;
+  white-space: nowrap;
+  padding: .5rem 1.5rem;
+  font-weight: 800;
+  font-size: 0.65rem;
+  color: #b7b9cc;
+  text-transform: none;
+  font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.nav-item .nav-link {
+  display: block;
+  text-align: left;
+  padding: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.8rem;
+}
+
+.nav-item .collapse {
+  padding-top: 0;
+}
+
+.nav-item .nav-link:hover {
+  color: white;
+}
+
+.nav-item .sidebar-icon {
+  padding-right: 0.5rem;
+
+}
+
+.nav .sidebar-heading {
+  margin-top: 1rem;
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+}
+
+.nav .sidebar-divider {
+  border-top: 2px solid;
+  margin: 0 1rem 1rem;
+  color: yellow;
+}
