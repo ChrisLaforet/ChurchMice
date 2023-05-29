@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { AuthService } from '@service/auth/auth.service';
-import { AuthenticatedUser, UserDto } from '@data';
+import { AuthenticatedUser, UserDto } from '@data/index';
 import { Subscription } from 'rxjs';
 
 @Injectable({
@@ -16,18 +16,18 @@ export class CurrentUserService implements OnDestroy {
     this.subscription = this.authService.currentAuthenticationState.subscribe(user => this.user = user);
   }
 
-  public getUserrId(): number {
-    if (this.user == null || this.user.Id == null) {
+  public getUserId(): number {
+    if (this.user == null || this.user.id == null) {
       return -1;
     }
-    return parseInt(this.user.Id);
+    return parseInt(this.user.id);
   }
 
   public getUserRecord(): UserDto | null {
-    if (this.user == null || this.user.Id == null) {
+    if (this.user == null || this.user.id == null) {
       return null;
     }
-    return new UserDto(parseInt(this.user.Id), this.user.userFirst, this.user.userLast, true);
+    return new UserDto(parseInt(this.user.id), this.user.userFirst, this.user.userLast, true);
   }
 
   ngOnDestroy(): void {

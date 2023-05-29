@@ -1,4 +1,4 @@
-import { DatepickerUtilities } from '@app/utility/datepicker-utilities';
+import { DatepickerUtilities } from '@service/index';
 
 export class DateOperations {
 

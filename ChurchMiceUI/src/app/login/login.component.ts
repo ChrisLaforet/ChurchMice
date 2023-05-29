@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntypedFormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { AuthService, NotificationService } from '@app/service';
-import { AuthenticatedUser } from '@app/model/auth/authenticated-user';
+import { AuthService, NotificationService } from '@service/index';
+import { AuthenticatedUser } from '@data/index';
 import { TopBarComponent } from '@app/top-bar/top-bar.component';
 
 @Component({

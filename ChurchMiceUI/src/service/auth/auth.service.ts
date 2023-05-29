@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IApikeyReaderService } from '@service/apikey-reader.service.interface';
 import { environment } from '@environments/environment';
 import { AsyncSubject, BehaviorSubject, Observable } from 'rxjs';
-import { AuthenticatedUser, JwtContent, JwtResponseDto } from '@app/model';
+import { AuthenticatedUser, JwtContent, JwtResponseDto } from '@data/index';
 import { first } from 'rxjs/operators';
 import jwt_decode from 'jwt-decode';
-import { NotificationService } from '@app/service';
+import { IApikeyReaderService, NotificationService } from '@service/index';
 
 @Injectable({
   providedIn: 'root'

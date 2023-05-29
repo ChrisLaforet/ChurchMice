@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IApikeyReaderService } from '@service/apikey-reader.service.interface';
-import { AuthService } from '@app/service';
+import { IApikeyReaderService } from '@service/index';
+import { AuthService } from '@service/index';
 
 @Component({
   selector: 'app-root',

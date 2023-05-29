@@ -1,8 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
 import { faBell, faCartShopping, faEllipsisVertical, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
-import { AuthenticatedUser } from '@app/model';
-import { AuthService } from '@app/service';
+import { AuthenticatedUser } from '@data/index';
+import { AuthService } from '@service/index';
 
 @Component({
   selector: 'app-top-bar',

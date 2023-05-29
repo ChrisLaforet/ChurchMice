@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IApikeyReaderService } from '@service/apikey-reader.service.interface';
+import { IApikeyReaderService } from '@service/index';
 import { environment } from '@environments/environment';
-import { MemberDto } from '@app/model';
+import { UserDto } from '@data/index';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -31,7 +31,7 @@ export class UserService {
     return this.http.get<UserDto[]>(this.allUsersUrl, {'headers': this.headers});
   }
 
-  getMemberFor(username: string): Observable<MemberDto> {
+  getUserFor(username: string): Observable<UserDto> {
     return this.http.get<UserDto>(this.userUrl + username, {'headers': this.headers});
   }
 }

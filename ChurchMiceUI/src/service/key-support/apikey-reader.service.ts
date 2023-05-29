@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { IApikeyReaderService } from './apikey-reader.service.interface';
-import ApiKeyJson from '../assets/apiKey.json';
+import { IApikeyReaderService } from '@service/index';
+import ApiKeyJson from '@assets/api-key.json';
 
 @Injectable({
   providedIn: 'root'
