@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { DatepickerUtilities } from '@app/utility/datepicker-utilities';
+import { DatepickerUtilities } from '@service/utility/datepicker-utilities';
 
 // From the article: https://bradleycarey.com/posts/ng-bootstrap-us-date-formatter/
 // and: https://seegatesite.com/tutorial-to-change-date-format-ng-bootstrap-datepicker-angular-5/

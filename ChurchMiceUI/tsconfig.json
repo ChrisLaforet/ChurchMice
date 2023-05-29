@@ -12,6 +12,9 @@
       "@environments/*": [
         "src/environments/*"
       ],
+      "@data/*": [
+        "src/data/*"
+      ],
       "@model/*": [
         "src/model/*"
       ],
