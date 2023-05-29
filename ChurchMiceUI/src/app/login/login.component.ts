@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AuthService, NotificationService } from '@app/service';
 import { AuthenticatedUser } from '@app/model/auth/authenticated-user';
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   loginPassword = '';
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
