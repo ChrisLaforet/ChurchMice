@@ -19,7 +19,7 @@ export class AuthService {
 
   public currentAuthenticationState: BehaviorSubject<AuthenticatedUser | null> = new BehaviorSubject<AuthenticatedUser | null>(null);
 
-  public static STORED_AUTHENTICATED_USER = 'AMGRUser';
+  public static STORED_AUTHENTICATED_USER = 'ChurchMiceUser';
 
   private authenticationState?: AsyncSubject<AuthenticatedUser>;
   private authenticatedUser?: AuthenticatedUser;
@@ -36,7 +36,7 @@ export class AuthService {
       .set('apikey', apikeyReaderService.getApikey());
   }
 
-  public login(email: string, password: string): Observable<AuthenticatedUser> {
+  public login(username: string, password: string): Observable<AuthenticatedUser> {
 
     if (this.authenticationState != null) {
       this.authenticationState.error('Login cancelled');
@@ -47,7 +47,7 @@ export class AuthService {
 
     this.authenticationState = new AsyncSubject<AuthenticatedUser>();
 
-    this.doLogin(email, password)
+    this.doLogin(username, password)
       .pipe(first())
       .subscribe({
         next: (jwtResponse) => {
@@ -73,9 +73,9 @@ export class AuthService {
     return this.authenticationState;
   }
 
-  private doLogin(email: string, password: string): Observable<JwtResponseDto> {
+  private doLogin(username: string, password: string): Observable<JwtResponseDto> {
     var credentials = {
-      "email": email,
+      "username": username,
       "password": password
     };
     return this.http.post<JwtResponseDto>(this.loginUrl, credentials, {'headers': this.headers});
