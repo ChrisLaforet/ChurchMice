@@ -30,7 +30,7 @@ library.add(fas, far);
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
+ //   HomeComponent,
     TopBarComponent,
     LoginComponent,
     USCurrencyPipe
@@ -44,7 +44,7 @@ library.add(fas, far);
     NgbModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      {path: '', component: HomeComponent, pathMatch: 'full'},
+      //  {path: '', component: HomeComponent, pathMatch: 'full'},
 
       {path: 'login', component: LoginComponent},
 
