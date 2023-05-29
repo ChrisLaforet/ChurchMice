@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from '@app/nav-menu/nav-menu.component';
 import { AuthGuard } from './helper';
-//import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './home/home.component';
 import { IApikeyReaderService } from '@service/key-support/apikey-reader.service.interface';
 import { ApikeyReaderService } from '@service/key-support/apikey-reader.service';
 import { TopBarComponent } from '@app/top-bar/top-bar.component';
@@ -30,7 +30,7 @@ library.add(fas, far);
   declarations: [
     AppComponent,
     NavMenuComponent,
- //   HomeComponent,
+    HomeComponent,
     TopBarComponent,
     LoginComponent,
     USCurrencyPipe
@@ -44,7 +44,7 @@ library.add(fas, far);
     NgbModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      //  {path: '', component: HomeComponent, pathMatch: 'full'},
+      {path: '', component: HomeComponent, pathMatch: 'full'},
 
       {path: 'login', component: LoginComponent},
 
