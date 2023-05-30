@@ -33,7 +33,8 @@ export class TopBarComponent implements OnDestroy {
     if (this.user == null) {
       return 'Not logged in';
     }
-    return this.user.userFirst + ' ' + this.user.userLast;
+    return '' + this.user?.userName;
+    //return this.user.userFirst + ' ' + this.user.userLast;
   }
 
   collapse() {
