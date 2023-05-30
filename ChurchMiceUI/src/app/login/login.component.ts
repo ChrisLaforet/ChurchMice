@@ -38,8 +38,9 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: (user: AuthenticatedUser) => {
           // TODO: update the header with correct user information!
-          this.notifyService.showSuccess('Welcome, ' + user.userFirst + ' ' + user.userLast + ', you are successfully logged in', 'Success');
-          this.router.navigate(['goats/my-goats']);
+          console.log(user);
+          this.notifyService.showSuccess('Welcome, ' + user.fullName + ', you are successfully logged in', 'Success');
+          //this.router.navigate(['TODO_SET_THIS_PATH_AND_UNCOMMENT']);
         },
         error: (err: any) => {
           this.submitted = false;

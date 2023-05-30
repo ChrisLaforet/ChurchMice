@@ -52,8 +52,8 @@ export class AuthService {
       .subscribe({
         next: (jwtResponse) => {
           var decoded = jwt_decode<JwtContent>(jwtResponse.token);
-          console.log('Login success ' + decoded.user + ' (' + jwtResponse.firstName + ' ' + jwtResponse.lastName + ') with token id ' + decoded.ser);
-          this.authenticatedUser = new AuthenticatedUser(jwtResponse.token, decoded.sub, decoded.user, decoded.user, jwtResponse.firstName, jwtResponse.lastName, decoded.member);
+          console.log('Login success ' + decoded.user + ' (' + jwtResponse.fullname + ') with token id ' + decoded.ser);
+          this.authenticatedUser = new AuthenticatedUser(jwtResponse.token, decoded.sub, decoded.user, decoded.user, jwtResponse.fullname, decoded.member);
           localStorage.setItem(AuthService.STORED_AUTHENTICATED_USER, JSON.stringify(this.authenticatedUser));
 
           this.authenticationState?.next(this.authenticatedUser);

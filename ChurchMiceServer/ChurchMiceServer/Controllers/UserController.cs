@@ -40,7 +40,7 @@ public class UserController : ControllerBase
         {
             var response = loginCommandHandler.Handle(new LoginCommand(model.Username, model.Password));
             var user = userProxy.GetUserByGuid(response.Token.UserId);
-            return Ok(new JwtResponse(response.Token.Value, response.Token.User, user.Email));
+            return Ok(new JwtResponse(response.Token.Value, response.Token.User,  user.Fullname, user.Email));
         }
         catch (Exception ex)
         {

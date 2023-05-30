@@ -27,7 +27,7 @@ export class CurrentUserService implements OnDestroy {
     if (this.user == null || this.user.id == null) {
       return null;
     }
-    return new UserDto(parseInt(this.user.id), this.user.userFirst, this.user.userLast, true);
+    return new UserDto(parseInt(this.user.id), this.user.fullName, true);
   }
 
   ngOnDestroy(): void {

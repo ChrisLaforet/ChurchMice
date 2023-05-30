@@ -49,6 +49,12 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
                 .HasColumnName("Username")
                 .HasMaxLength(20)
                 .IsUnicode(false);
+
+            entity.Property(e => e.Fullname)
+                .IsRequired()
+                .HasColumnName("Fullname")
+                .HasMaxLength(50)
+                .IsUnicode(false);
             
             entity.Property(e => e.Email)
                 .IsRequired()
