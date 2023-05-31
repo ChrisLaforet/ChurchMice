@@ -1,5 +1,7 @@
 export interface JwtResponseDto {
   token: string;
-  firstName: string;
-  lastName: string;
+  fullname: string;
+  username: string;
+  userId: string;
+  email: string;
 }

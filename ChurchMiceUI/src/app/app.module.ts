@@ -22,6 +22,7 @@ import { UnitedStatesDateParserFormatter } from '@app/formatter';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { LoginComponent } from '@app/login/login.component';
+import { ForgottenPasswordComponent } from '@app/forgotten-password/forgotten-password.component';
 import { USCurrencyPipe } from '@app/pipes';
 
 library.add(fas, far);
@@ -33,6 +34,7 @@ library.add(fas, far);
     HomeComponent,
     TopBarComponent,
     LoginComponent,
+    ForgottenPasswordComponent,
     USCurrencyPipe
   ],
   imports: [
@@ -47,6 +49,7 @@ library.add(fas, far);
       {path: '', component: HomeComponent, pathMatch: 'full'},
 
       {path: 'login', component: LoginComponent},
+      {path: 'forgotten', component: ForgottenPasswordComponent},
 
 
     ]),

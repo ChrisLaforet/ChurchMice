@@ -1,13 +1,11 @@
 export class UserDto {
   id: number;
-  firstName: string;
-  lastName: string;
+  fullName: string;
   isActive: boolean;
 
-  constructor(id: number, firstName: string, lastName: string, isActive: boolean) {
+  constructor(id: number, fullName: string, isActive: boolean) {
     this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
+    this.fullName = fullName;
     this.isActive = isActive;
   }
 
@@ -16,6 +14,6 @@ export class UserDto {
   }
 
   public getName(): string {
-    return this.firstName + ' ' + this.lastName;
+    return this.fullName;
   }
 }

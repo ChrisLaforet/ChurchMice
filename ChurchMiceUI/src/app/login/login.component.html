@@ -2,6 +2,9 @@
   <span id="ScreenTitle" class="display-page-title">Log in to Church Mice</span>
 </div>
 <div>
+  <p></p>
+</div>
+<div>
   <div *ngIf="!this.submitted">
     <form #loginForm="ngForm" name="loginForm" (ngSubmit)="loginForm.form.valid && onSubmit()" novalidate>
 
@@ -39,8 +42,16 @@
 
       <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-12">
-          <button class="btn btn-outline-secondary" [disabled]="!loginForm.form.valid" type="submit">Log me in...
+          <button class="btn btn-outline-secondary" [disabled]="!loginForm.form.valid" type="submit">
+            Log me in...
           </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <a href="/forgotten">Forgot your password?</a><br/>
+          <a href="#">Don't have a login yet? Create a new login here.</a>
         </div>
       </div>
     </form>

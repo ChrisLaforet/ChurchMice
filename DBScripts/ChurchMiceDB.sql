@@ -8,6 +8,7 @@ GO
 CREATE TABLE [dbo].[User](
 	[ID] [varchar](50) NOT NULL,
 	[Username] [varchar](20) NOT NULL,
+	[Fullname] [varchar](50) NOT NULL,
 	[Email] [varchar](100) NOT NULL,
 	[CreateDate] [date] NOT NULL,
 	[PasswordHash] [varchar](1000) NULL,

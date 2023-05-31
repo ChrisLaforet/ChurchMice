@@ -18,7 +18,6 @@ namespace ChurchMiceServer.Security.JWT
         public const string SERIAL_CLAIM = "ser";
         public const string USER_NAME_CLAIM = "user";
         public const string USER_ROLE_CLAIM = "roles";
-        public const string MEMBER_ID_CLAIM = "member";
 
         private string tokenString;
         private string jwtIssuer;
@@ -28,7 +27,7 @@ namespace ChurchMiceServer.Security.JWT
         private string subject;
         private string serial;
         private string issuer;
-        private string memberId;
+        private string userId;
         private List<string> roles = new List<string>();
         private Dictionary<string, Claim> claims = new Dictionary<string, Claim>();
         private DateTime issuedAt;
@@ -115,14 +114,8 @@ namespace ChurchMiceServer.Security.JWT
                 {
                     roles.Add(claim.Value);
                 }
-            } 
-            
-            if (!claims.ContainsKey(MEMBER_ID_CLAIM))
-            {
-                throw new AuthenticationException("JWT with a missing member id");
             }
-            memberId = claims[MEMBER_ID_CLAIM].Value;
-            
+
             if (roles.Count == 0)
             {
                 throw new AuthenticationException("JWT with a missing role claims");
@@ -160,7 +153,6 @@ namespace ChurchMiceServer.Security.JWT
             {
                 claims.Add(new Claim(USER_ROLE_CLAIM, role));
             }
-            claims.Add(new Claim(MEMBER_ID_CLAIM, userId));
 
             var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(signingKey));
             var header = new JwtHeader(new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
@@ -247,20 +239,6 @@ namespace ChurchMiceServer.Security.JWT
         public string Serial
         {
             get { return serial; }
-        }
-
-        public string MemberId
-        {
-            get
-            {
-                var claim = GetClaim(MEMBER_ID_CLAIM);
-                if (claim == null)
-                {
-                    return null;
-                }
-
-                return claim.Value;
-            }
         }
 
         public bool HasRole(string role)
