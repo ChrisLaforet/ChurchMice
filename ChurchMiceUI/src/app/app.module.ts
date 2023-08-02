@@ -24,6 +24,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { LoginComponent } from '@app/login/login.component';
 import { ForgottenPasswordComponent } from '@app/forgotten-password/forgotten-password.component';
 import { USCurrencyPipe } from '@app/pipes';
+import { NewLoginComponent } from '@app/new-login/new-login.component';
 
 library.add(fas, far);
 
@@ -35,6 +36,7 @@ library.add(fas, far);
     TopBarComponent,
     LoginComponent,
     ForgottenPasswordComponent,
+    NewLoginComponent,
     USCurrencyPipe
   ],
   imports: [
@@ -48,8 +50,9 @@ library.add(fas, far);
     RouterModule.forRoot([
       {path: '', component: HomeComponent, pathMatch: 'full'},
 
-      {path: 'login', component: LoginComponent},
-      {path: 'forgotten', component: ForgottenPasswordComponent},
+      { path: 'login', component: LoginComponent },
+      { path: 'forgotten', component: ForgottenPasswordComponent },
+      { path: 'newLogin', component: NewLoginComponent }
 
 
     ]),
