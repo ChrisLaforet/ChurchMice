@@ -7,7 +7,7 @@ namespace ChurchMiceTesting;
 public class UnitTests
 {
     [Fact]
-    public void GivenAUserProxy_WhenAddingAUser_ThenPersistsAUser()
+    public void GivenAUserProxy_WhenAddingAUser_ThenPersistsNewUser()
     {
         var contextMock = new MockContext();
         var emailProxyMock = new MockEmailProxy();
