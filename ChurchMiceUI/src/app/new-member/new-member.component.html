@@ -1,0 +1,58 @@
+<div class="display-page-header">
+  <span id="ScreenTitle" class="display-page-title">Create a New Member on Church Mice</span>
+</div>
+<div>
+  <p></p>
+</div>
+<div>
+  <div *ngIf="!this.submitted">
+    <form #newMemberForm="ngForm" name="newMemberForm"
+          (ngSubmit)="newMemberForm.form.valid && onSubmit()" novalidate>
+
+      <div class="row display-page-edit-row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="firstName">First name</label>
+          <input type="text" class="form-control" id="firstName" name="firstName" #firstName="ngModel"
+                 [(ngModel)]="newFirstName" required minlength="2">
+          <div class="text-danger" *ngIf="(firstName.errors?.required || firstName.errors?.minlength)">
+            A first name must be provided.
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="lastName">Last name</label>
+          <input type="text" class="form-control" id="lastName" name="lastName" #lastName="ngModel"
+                 [(ngModel)]="newLastName" required minlength="2">
+          <div class="text-danger" *ngIf="(lastName.errors?.required || lastName.errors?.minlength)">
+            A last name must be provided.
+          </div>
+        </div>
+      </div>
+
+      <div class="row display-page-edit-row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="email">Email</label>
+          <input type="text" class="form-control" id="email" name="email" #email="ngModel"
+                 [(ngModel)]="newEmail" minlength="6">
+        </div>
+      </div>
+
+      <div>&nbsp;</div>
+
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <button class="btn btn-outline-secondary" [disabled]="!newMemberForm.form.valid" type="submit">
+            Email my password reset...
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <div *ngIf="this.submitted">
+    <em>Requesting password reset...</em>
+  </div>
+
+  <div>&nbsp;</div>
+</div>

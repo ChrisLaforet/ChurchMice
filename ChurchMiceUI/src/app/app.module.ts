@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from '@app/nav-menu/nav-menu.component';
-import { AuthGuard } from './helper';
+import { AuthGuard } from '@app/helper';
 import { HomeComponent } from './home/home.component';
 import { IApikeyReaderService } from '@service/key-support/apikey-reader.service.interface';
 import { ApikeyReaderService } from '@service/key-support/apikey-reader.service';
@@ -25,6 +25,7 @@ import { LoginComponent } from '@app/login/login.component';
 import { ForgottenPasswordComponent } from '@app/forgotten-password/forgotten-password.component';
 import { USCurrencyPipe } from '@app/pipes';
 import { NewLoginComponent } from '@app/new-login/new-login.component';
+import { NewMemberComponent } from '@app/new-member/new-member.component';
 
 library.add(fas, far);
 
@@ -37,6 +38,7 @@ library.add(fas, far);
     LoginComponent,
     ForgottenPasswordComponent,
     NewLoginComponent,
+    NewMemberComponent,
     USCurrencyPipe
   ],
   imports: [
@@ -50,10 +52,11 @@ library.add(fas, far);
     RouterModule.forRoot([
       {path: '', component: HomeComponent, pathMatch: 'full'},
 
-      { path: 'login', component: LoginComponent },
-      { path: 'forgotten', component: ForgottenPasswordComponent },
-      { path: 'newLogin', component: NewLoginComponent }
+      {path: 'login', component: LoginComponent},
+      {path: 'forgotten', component: ForgottenPasswordComponent},
+      {path: 'newLogin', component: NewLoginComponent},
 
+      {path: 'newMember', component: NewMemberComponent, canActivate: [AuthGuard]}
 
     ]),
     InputDirectiveModule,

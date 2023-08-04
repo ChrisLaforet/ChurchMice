@@ -11,11 +11,40 @@
 
       <div class="row display-page-edit-row">
         <div class="col-lg-4 col-md-6 col-sm-12">
-          <label for="userName">Username or Email</label>
+          <label for="userName">User name</label>
           <input type="text" class="form-control" id="userName" name="userName" #userName="ngModel"
-                 [(ngModel)]="loginName" required minlength="5">
+                 [(ngModel)]="newUserName" required minlength="2">
           <div class="text-danger" *ngIf="(userName.errors?.required || userName.errors?.minlength)">
-            Valid username or email must be provided.
+            A unique user name must be provided.
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="email">Email</label>
+          <input type="text" class="form-control" id="email" name="email" #email="ngModel"
+                 [(ngModel)]="newEmail" required minlength="6">
+          <div class="text-danger" *ngIf="(email.errors?.required || email.errors?.minlength)">
+            A valid email address must be provided.
+          </div>
+        </div>
+      </div>
+
+      <div class="row display-page-edit-row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="password">Password</label>
+          <input type="text" class="form-control" id="password" name="password" #password="ngModel"
+                 [(ngModel)]="newPassword" required minlength="8">
+          <div class="text-danger" *ngIf="(password.errors?.required || password.errors?.minlength)">
+            A properly-developed password be provided.
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="text" class="form-control" id="confirmPassword" name="confirmPassword" #confirmPassword="ngModel"
+                 [(ngModel)]="newConfirmPassword" required minlength="8">
+          <div class="text-danger" *ngIf="(confirmPassword.errors?.required || confirmPassword.errors?.minlength)">
+            Confirmation of password is not correct.
           </div>
         </div>
       </div>
@@ -25,7 +54,7 @@
       <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-12">
           <button class="btn btn-outline-secondary" [disabled]="!newLoginForm.form.valid" type="submit">
-            Email my password reset...
+            Create my new login account...
           </button>
         </div>
       </div>
@@ -34,7 +63,7 @@
   </div>
 
   <div *ngIf="this.submitted">
-    <em>Requesting password reset...</em>
+    <em>Requesting creation of new login account...</em>
   </div>
 
   <div>&nbsp;</div>

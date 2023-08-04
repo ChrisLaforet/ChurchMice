@@ -5,16 +5,16 @@ import { AuthService, NotificationService } from '@service/index';
 import { TopBarComponent } from '@app/top-bar/top-bar.component';
 
 @Component({
-  selector: 'app-new-login',
-  templateUrl: './new-login.component.html',
-  styleUrls: ['./new-login.component.css']
+  selector: 'app-new-member',
+  templateUrl: './new-member.component.html',
+  styleUrls: ['./new-member.component.css']
 })
-export class NewLoginComponent implements OnInit {
+export class NewMemberComponent implements OnInit {
   submitted = false;
-  newUserName = '';
+  newFirstName = '';
+  newLastName = '';
   newEmail = '';
-  newPassword = '';
-  newConfirmPassword = '';
+
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -30,7 +30,7 @@ export class NewLoginComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
-    this.notifyService.showInfo('Requesting to create a new login', 'Create new login')
+    this.notifyService.showInfo('Requesting to create a new member', 'Create new member')
 
     // this.authService.login(this.loginName, this.loginPassword)
     //   .pipe(first())
