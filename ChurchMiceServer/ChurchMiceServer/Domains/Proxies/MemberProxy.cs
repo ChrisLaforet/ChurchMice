@@ -5,9 +5,9 @@ namespace ChurchMiceServer.Domains.Proxies;
 
 public class MemberProxy : IMemberProxy
 {
-    private readonly ChurchMiceContext context;
+    private readonly IChurchMiceContext context;
 
-    public MemberProxy(ChurchMiceContext context)
+    public MemberProxy(IChurchMiceContext context)
     {
         this.context = context;
     }

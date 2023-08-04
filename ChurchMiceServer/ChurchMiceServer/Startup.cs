@@ -55,6 +55,7 @@ public class Startup
 			options.UseSqlServer(
 				configurationLoader.GetKeyValueFor(DB_CONNECTION_STRING_KEY)));
 
+		services.AddScoped<IChurchMiceContext, ChurchMiceContext>();
 		services.AddScoped<IUserProxy, UserProxy>();
 		services.AddScoped<IMemberProxy, MemberProxy>();
 		services.AddScoped<IEmailProxy, EmailProxy>();

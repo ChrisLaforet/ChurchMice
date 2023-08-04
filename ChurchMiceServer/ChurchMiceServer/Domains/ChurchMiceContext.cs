@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChurchMiceServer.Domains;
 
-public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
+public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext, IChurchMiceContext
 {
 	public ChurchMiceContext() : base()
 	{

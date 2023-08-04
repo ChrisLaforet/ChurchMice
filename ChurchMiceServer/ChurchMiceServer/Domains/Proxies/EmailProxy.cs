@@ -4,9 +4,9 @@ namespace ChurchMiceServer.Domains.Proxies;
 
 public class EmailProxy : IEmailProxy
 {
-    private readonly ChurchMiceContext context;
+    private readonly IChurchMiceContext context;
 
-    public EmailProxy(ChurchMiceContext context)
+    public EmailProxy(IChurchMiceContext context)
     {
         this.context = context;
     }

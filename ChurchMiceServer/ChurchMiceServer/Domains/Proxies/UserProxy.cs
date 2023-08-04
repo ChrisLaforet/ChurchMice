@@ -14,12 +14,12 @@ public class UserProxy : IUserProxy
 {
     public readonly TimeSpan TOKEN_LIFETIME_TIMESPAN = new TimeSpan(1, 0, 0);
 
-    private readonly ChurchMiceContext context;
+    private readonly IChurchMiceContext context;
     private readonly PasswordProcessor passwordProcessor;
     private readonly string emailSender;
     private readonly IEmailProxy emailProxy;
 
-    public UserProxy(ChurchMiceContext context, IEmailProxy emailProxy, IConfigurationLoader configurationLoader)
+    public UserProxy(IChurchMiceContext context, IEmailProxy emailProxy, IConfigurationLoader configurationLoader)
     {
         this.context = context;
         this.emailProxy = emailProxy;
