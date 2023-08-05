@@ -4,7 +4,7 @@ using ChurchMiceServer.Persistence;
 
 namespace ChurchMiceServer.Domains.Repositories;
 
-public class Repository<T,K> : IRepository<T,K> where T: class where K: class
+public class Repository<T, K> : IRepository<T, K> where T: class, IRepositoryIndex<K>
 {
     protected readonly ChurchMiceContext context;
     

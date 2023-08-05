@@ -19,5 +19,6 @@ public class MockRepositoryContext : IRepositoryContext
 	public int SaveChanges()
 	{
 		// nothing to do in mock scenario (for now)
+		return 0;
 	}
 }

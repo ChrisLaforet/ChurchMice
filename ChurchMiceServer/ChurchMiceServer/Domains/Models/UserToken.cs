@@ -1,6 +1,6 @@
 ﻿namespace ChurchMiceServer.Domains.Models;
 
-public class UserToken
+public partial class UserToken
 {
 	public string Id { get; set; }
 	public string UserId { get; set; }

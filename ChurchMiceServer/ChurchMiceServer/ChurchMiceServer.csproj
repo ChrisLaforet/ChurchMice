@@ -21,6 +21,7 @@
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.28.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.28.1" />
+
   </ItemGroup>
 
 

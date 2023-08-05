@@ -5,7 +5,7 @@ namespace ChurchMiceServer.Domains;
 
 // Based on: https://codewithmukesh.com/blog/repository-pattern-in-aspnet-core/
 
-public interface IRepository<T,K> where T: IRepositoryIndex<K> where K: class
+public interface IRepository<T, K> where T: IRepositoryIndex<K>
 {
     T GetById(K id);
     IEnumerable<T> GetAll();

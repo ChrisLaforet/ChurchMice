@@ -1,6 +1,6 @@
 ﻿namespace ChurchMiceServer.Domains.Interfaces;
 
-public interface IRepositoryIndex<out T> where T: class
+public interface IRepositoryIndex<K>
 {
-	T GetId();
+	K GetIndex();
 }

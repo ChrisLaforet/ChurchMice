@@ -1,6 +1,6 @@
 ﻿namespace ChurchMiceServer.Domains.Models;
 
-public class EmailQueue
+public partial class EmailQueue
 {
     public string Id { get; set; }
     public string EmailRecipient { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace ChurchMiceServer.Domains.Models;
 
-public class Member
+public partial class Member
 {
     public int Id { get; set; }
     public string FirstName { get; set; }
