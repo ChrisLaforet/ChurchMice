@@ -56,7 +56,7 @@ public class Startup
 			options.UseSqlServer(
 				configurationLoader.GetKeyValueFor(DB_CONNECTION_STRING_KEY)));
 
-		services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+		//services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 		// services.AddTransient<IDeveloperRepository, DeveloperRepository>();
 		// services.AddTransient<IProjectRepository, ProjectRepository>();
 		

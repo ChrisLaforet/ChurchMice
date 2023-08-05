@@ -26,4 +26,5 @@
 	  <ProjectReference Include="..\ChurchMiceServer\ChurchMiceServer.csproj" />
 	</ItemGroup>
 
+
 </Project>

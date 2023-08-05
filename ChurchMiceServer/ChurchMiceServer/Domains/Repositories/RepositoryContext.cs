@@ -1,0 +1,41 @@
+﻿using ChurchMiceServer.Domains.Interfaces;
+using ChurchMiceServer.Persistence;
+
+namespace ChurchMiceServer.Domains.Repositories;
+
+
+public class RepositoryContext : IRepositoryContext
+{
+	private readonly ChurchMiceContext context;
+
+	public RepositoryContext(ChurchMiceContext context)
+	{
+		this.context = context;
+		this.EmailQueues = new EmailQueueRepository(context);
+		this.Members = new MemberRepository(context);
+		this.Users = new UserRepository(context);
+		this.UserRoles = new UserRoleRepository(context);
+		this.UserTokens = new UserTokenRepository(context);
+	}
+	
+	public void Dispose()
+	{
+		context.Dispose();
+	}
+
+	public IEmailQueueRepository EmailQueues { get; private set; }
+	
+	public IMemberRepository Members { get; private set; }
+	
+	public IUserRepository Users { get; private set; }
+	
+	public IUserRoleRepository UserRoles { get; private set; }
+	
+	public IUserTokenRepository UserTokens { get; private set; }
+	
+	
+	public int SaveChanges()
+	{
+		context.SaveChanges();
+	}
+}

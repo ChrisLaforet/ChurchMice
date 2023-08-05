@@ -6,4 +6,15 @@
     &lt;TestId&gt;xUnit::7BDCFD5A-F3A2-4518-8AF3-8D52929020F2::net6.0::ChurchMiceTesting.ControllerTests.GivenUserController_WhenLoggingInWithExistingUserWithWrongPassword_ThenFailsToAuthenticate&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::7BDCFD5A-F3A2-4518-8AF3-8D52929020F2::net6.0::ChurchMiceTesting.ProxyTests.GivenAUserProxy_WhenAddingAUser_ThenPersistsNewUser&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7cd6b243_002Dc249_002D47fb_002D98ed_002D96f32fcafefa/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GivenUserController_WhenLoggingInWithNonExistentUser_ThenFailsToAuthenticate" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::7BDCFD5A-F3A2-4518-8AF3-8D52929020F2::net6.0::ChurchMiceTesting.ControllerTests.GivenUserController_WhenLoggingInWithNonExistentUser_ThenFailsToAuthenticate&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::7BDCFD5A-F3A2-4518-8AF3-8D52929020F2::net6.0::ChurchMiceTesting.ControllerTests.GivenUserController_WhenLoggingInWithExistingUserWithWrongPassword_ThenFailsToAuthenticate&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fcc193fa_002Dfc5d_002D48ab_002D84d0_002D8234294394ee/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GivenUserController_WhenLoggingInWithNonExistentUser_ThenFailsToAuthenticate #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::7BDCFD5A-F3A2-4518-8AF3-8D52929020F2::net6.0::ChurchMiceTesting.ControllerTests.GivenUserController_WhenLoggingInWithNonExistentUser_ThenFailsToAuthenticate&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
