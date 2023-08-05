@@ -1,6 +1,7 @@
 ﻿using ChurchMiceServer.Configuration;
 using ChurchMiceServer.Domains;
 using ChurchMiceServer.Domains.Proxies;
+using ChurchMiceServer.Persistence;
 using ChurchMiceServer.Security;
 using ChurchMiceServer.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -55,6 +56,10 @@ public class Startup
 			options.UseSqlServer(
 				configurationLoader.GetKeyValueFor(DB_CONNECTION_STRING_KEY)));
 
+		services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+		// services.AddTransient<IDeveloperRepository, DeveloperRepository>();
+		// services.AddTransient<IProjectRepository, ProjectRepository>();
+		
 		services.AddScoped<IChurchMiceContext, ChurchMiceContext>();
 		services.AddScoped<IUserProxy, UserProxy>();
 		services.AddScoped<IMemberProxy, MemberProxy>();

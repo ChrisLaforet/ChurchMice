@@ -1,4 +1,5 @@
 ﻿using ChurchMiceServer.Domains.Models;
+using ChurchMiceServer.Persistence;
 using Microsoft.IdentityModel.Tokens;
 
 namespace ChurchMiceServer.Domains.Proxies;

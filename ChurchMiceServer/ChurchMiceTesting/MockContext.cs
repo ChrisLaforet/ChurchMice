@@ -1,5 +1,6 @@
 using ChurchMiceServer.Domains;
 using ChurchMiceServer.Domains.Models;
+using ChurchMiceServer.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChurchMiceTesting;

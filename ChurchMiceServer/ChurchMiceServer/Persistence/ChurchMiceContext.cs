@@ -1,7 +1,7 @@
 ﻿using ChurchMiceServer.Domains.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ChurchMiceServer.Domains;
+namespace ChurchMiceServer.Persistence;
 
 public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext, IChurchMiceContext
 {

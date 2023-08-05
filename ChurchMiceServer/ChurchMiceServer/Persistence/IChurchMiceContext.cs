@@ -2,7 +2,10 @@ using ChurchMiceServer.Domains.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace ChurchMiceServer.Domains;
+namespace ChurchMiceServer.Persistence;
+
+
+// TODO: CML - Remove this completely once repository is in place
 
 public interface IChurchMiceContext
 {

@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using ChurchMiceServer.Configuration;
 using ChurchMiceServer.Domains.Models;
+using ChurchMiceServer.Persistence;
 using ChurchMiceServer.Security.Auth;
 using ChurchMiceServer.Services;
 using Microsoft.IdentityModel.Tokens;
