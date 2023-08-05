@@ -19,7 +19,9 @@ public class UserProxy : IUserProxy
     private readonly string emailSender;
     private readonly IEmailProxy emailProxy;
 
-    public UserProxy(IChurchMiceContext context, IEmailProxy emailProxy, IConfigurationLoader configurationLoader)
+    public UserProxy(IChurchMiceContext context, 
+                IEmailProxy emailProxy, 
+                IConfigurationLoader configurationLoader)
     {
         this.context = context;
         this.emailProxy = emailProxy;

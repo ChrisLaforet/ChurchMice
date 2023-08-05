@@ -19,9 +19,10 @@ public class LoginCommandHandler : ICommandHandler<LoginCommand, LoginResponse>
 	public LoginResponse Handle(LoginCommand command)
 	{
 		logger.Log(LogLevel.Information, "Request to log in " + command.Username);
+		userProxy.ExpireUserTokens();
+
 		try
 		{
-			userProxy.ExpireUserTokens();
 			var response = userProxy.AuthenticateUser(command.Username, command.Password);
 			logger.Log(LogLevel.Information, "Successful login of user " + command.Username);
 			return new LoginResponse(response);
