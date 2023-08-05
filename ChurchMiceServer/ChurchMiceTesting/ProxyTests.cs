@@ -1,7 +1,6 @@
 using ChurchMiceServer.Domains.Models;
 using ChurchMiceServer.Domains.Proxies;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using ChurchMiceTesting.Mocks;
 
 namespace ChurchMiceTesting;
 
@@ -10,15 +9,15 @@ public class ProxyTests
     [Fact]
     public void GivenAUserProxy_WhenAddingAUser_ThenPersistsNewUser()
     {
-        var contextMock = new MockContext();
+        var contextMock = new MockRepositoryContext();
         var emailProxyMock = new MockEmailProxy();
         var configurationLoaderMock = new MockConfigurationLoader();
 
-        var userProxy = new UserProxy(contextMock.Get(), emailProxyMock.Get(), configurationLoaderMock.Get());
+        var userProxy = new UserProxy(contextMock, emailProxyMock.Get(), configurationLoaderMock.Get());
         var user = new User();
         user.Username = "username";
         user.Fullname = "full name";
         userProxy.CreateUser(user);
-        contextMock.VerifySaveChanges(1);
+        Assert.Equal(1, contextMock.GetChangeCount());
     }
 }

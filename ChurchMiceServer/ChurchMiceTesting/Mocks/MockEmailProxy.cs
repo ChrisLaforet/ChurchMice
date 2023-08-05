@@ -1,6 +1,6 @@
 using ChurchMiceServer.Domains.Proxies;
 
-namespace ChurchMiceTesting;
+namespace ChurchMiceTesting.Mocks;
 
 public class MockEmailProxy
 {

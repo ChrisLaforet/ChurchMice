@@ -36,6 +36,11 @@ public class RepositoryContext : IRepositoryContext
 	
 	public int SaveChanges()
 	{
-		context.SaveChanges();
+		return context.SaveChanges();
+	}
+
+	public void Remove(object toRemove)
+	{
+		context.Remove(toRemove);
 	}
 }

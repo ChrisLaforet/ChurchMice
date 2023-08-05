@@ -3,7 +3,6 @@ using ChurchMiceServer.Domains.Models;
 
 namespace ChurchMiceTesting.Mocks;
 
-public class MockUserRepository : MockRepository<User, string>
+public class MockUserRepository : MockRepository<User, string>, IUserRepository
 {
-	
 }

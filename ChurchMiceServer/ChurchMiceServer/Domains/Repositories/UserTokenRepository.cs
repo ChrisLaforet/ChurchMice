@@ -4,7 +4,7 @@ using ChurchMiceServer.Persistence;
 
 namespace ChurchMiceServer.Domains.Repositories;
 
-public class UserTokenRepository : Repository<UserToken>, IUserTokenRepository
+public class UserTokenRepository : Repository<UserToken, string>, IUserTokenRepository
 {
     public UserTokenRepository(ChurchMiceContext context) : base(context) {}
 }

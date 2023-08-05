@@ -10,5 +10,5 @@ public interface IRepositoryContext : IDisposable
         IUserRoleRepository UserRoles { get; }
         IUserTokenRepository UserTokens { get; }
         int SaveChanges();
-
+        void Remove(object toRemove);
 }

@@ -2,7 +2,7 @@ using ChurchMiceServer.Domains.Models;
 
 namespace ChurchMiceServer.Domains.Interfaces;
 
-public interface IUserRoleRepository : IRepository<UserRole>
+public interface IUserRoleRepository : IRepository<UserRole, int>
 {
     
 }

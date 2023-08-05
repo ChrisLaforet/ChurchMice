@@ -5,9 +5,9 @@ namespace ChurchMiceServer.Domains.Proxies;
 
 public class EmailProxy : IEmailProxy
 {
-    private readonly IChurchMiceContext context;
+    private readonly IRepositoryContext context;
 
-    public EmailProxy(IChurchMiceContext context)
+    public EmailProxy(IRepositoryContext context)
     {
         this.context = context;
     }
@@ -22,13 +22,13 @@ public class EmailProxy : IEmailProxy
         entry.EmailBody = body;
         entry.SentDatetime = DateTime.Now;
         entry.TotalAttempts = 0;
-        context.EmailQueue.Add(entry);
+        context.EmailQueues.Add(entry);
         context.SaveChanges();
     }
 
     public List<EmailQueue> GetUnattemptedMessages()
     {
-        return context.EmailQueue.Where(email => email.TotalAttempts == 0)
+        return context.EmailQueues.Where(email => email.TotalAttempts == 0)
             .OrderByDescending(email => email.SentDatetime)
             .ToList();
     }
@@ -36,14 +36,14 @@ public class EmailProxy : IEmailProxy
     public List<EmailQueue> GetRetryMessages()
     {
         var lastAttemptDatetime = DateTime.Now.Subtract(TimeSpan.FromMinutes(5));
-        return context.EmailQueue.Where(email => email.AttemptDatetime != null && email.AttemptDatetime <= lastAttemptDatetime)
+        return context.EmailQueues.Where(email => email.AttemptDatetime != null && email.AttemptDatetime <= lastAttemptDatetime)
             .OrderByDescending(email => email.AttemptDatetime)
             .ToList();
     }
 
     public void DeleteMessage(EmailQueue entry)
     {
-        context.EmailQueue.Remove(entry);
+        context.EmailQueues.Remove(entry);
         context.SaveChanges();
     }
 

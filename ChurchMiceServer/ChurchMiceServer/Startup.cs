@@ -1,6 +1,8 @@
 ﻿using ChurchMiceServer.Configuration;
 using ChurchMiceServer.Domains;
+using ChurchMiceServer.Domains.Interfaces;
 using ChurchMiceServer.Domains.Proxies;
+using ChurchMiceServer.Domains.Repositories;
 using ChurchMiceServer.Persistence;
 using ChurchMiceServer.Security;
 using ChurchMiceServer.Services;
@@ -56,11 +58,15 @@ public class Startup
 			options.UseSqlServer(
 				configurationLoader.GetKeyValueFor(DB_CONNECTION_STRING_KEY)));
 
+		// Supporting interstitial repository and unit-of-work encapsulating layer over DbContext
 		//services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-		// services.AddTransient<IDeveloperRepository, DeveloperRepository>();
-		// services.AddTransient<IProjectRepository, ProjectRepository>();
+		services.AddTransient<IEmailQueueRepository, EmailQueueRepository>();
+		services.AddTransient<IMemberRepository, MemberRepository>();
+		services.AddTransient<IUserRepository, UserRepository>();
+		services.AddTransient<IUserRoleRepository, UserRoleRepository>();
+		services.AddTransient<IUserTokenRepository, UserTokenRepository>();
+		services.AddTransient<IRepositoryContext, RepositoryContext>();
 		
-		services.AddScoped<IChurchMiceContext, ChurchMiceContext>();
 		services.AddScoped<IUserProxy, UserProxy>();
 		services.AddScoped<IMemberProxy, MemberProxy>();
 		services.AddScoped<IEmailProxy, EmailProxy>();

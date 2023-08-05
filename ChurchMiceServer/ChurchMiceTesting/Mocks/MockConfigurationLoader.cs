@@ -2,7 +2,7 @@ using ChurchMiceServer;
 using ChurchMiceServer.Configuration;
 using ChurchMiceServer.Services;
 
-namespace ChurchMiceTesting;
+namespace ChurchMiceTesting.Mocks;
 
 public class MockConfigurationLoader
 {

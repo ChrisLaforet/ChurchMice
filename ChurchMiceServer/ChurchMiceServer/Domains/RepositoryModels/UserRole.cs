@@ -8,4 +8,9 @@ public partial class UserRole : IRepositoryIndex<int>
 	{
 		return Id;
 	}
+
+	public void SetIndex(object index)
+	{
+		this.Id = (int)index;
+	}
 }

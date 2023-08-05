@@ -3,6 +3,7 @@ using ChurchMiceServer.Controllers.Models;
 using ChurchMiceServer.CQS.CommandHandlers;
 using ChurchMiceServer.Domains.Models;
 using ChurchMiceServer.Domains.Proxies;
+using ChurchMiceTesting.Mocks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -10,14 +11,14 @@ namespace ChurchMiceTesting;
 
 public class ControllerTests
 {
-    private MockContext contextMock = new MockContext();
+    private MockRepositoryContext contextMock = new MockRepositoryContext();
     private MockEmailProxy emailProxyMock = new MockEmailProxy();
     private MockConfigurationLoader configurationLoaderMock = new MockConfigurationLoader();
     private UserProxy userProxy;
 
     public ControllerTests()
     {
-        userProxy = new UserProxy(contextMock.Get(), emailProxyMock.Get(), configurationLoaderMock.Get());
+        userProxy = new UserProxy(contextMock, emailProxyMock.Get(), configurationLoaderMock.Get());
     }
     
     [Fact]
@@ -55,6 +56,25 @@ public class ControllerTests
         var result = controller.Login(request);
 
         Assert.IsType<BadRequestObjectResult>(result);
+    }
+
+    [Fact]
+    public void GivenUserController_WhenLoggingInWithExistingUserWithCorrectPassword_ThenAuthenticatesSuccessfully()
+    {
+        var controller = CreateMockedUserController();
+        var loggerMock = new Mock<ILogger<LoginCommandHandler>>();
+
+        controller.LoginCommandHandler = new LoginCommandHandler(userProxy, loggerMock.Object);
+        userProxy.CreateUser(CreateTestUser());
+
+        var request = new AuthenticateRequest()
+        {
+            Username = "test",
+            Password = "Password"
+        };
+        var result = controller.Login(request);
+
+        Assert.IsType<OkObjectResult>(result);
     }
 
     private UserController CreateMockedUserController()

@@ -8,4 +8,9 @@ public partial class UserToken : IRepositoryIndex<string>
 	{
 		return Id;
 	}
+
+	public void SetIndex(object index)
+	{
+		this.Id = (string)index;
+	}
 }
