@@ -12,24 +12,27 @@ namespace ChurchMiceServer.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UserController : ControllerBase
+public partial class UserController : ControllerBase
 {
     private readonly IUserProxy userProxy;
     private readonly ILogger<UserController> logger;
 
-    private readonly LoginCommandHandler loginCommandHandler;
-    private readonly SetPasswordCommandHandler setPasswordCommandHandler;
-    private readonly ChangePasswordCommandHandler changePasswordCommandHandler;
-    private readonly LogoutCommandHandler logoutCommandHandler;
+    public LoginCommandHandler LoginCommandHandler { get; set; }
+    public SetPasswordCommandHandler SetPasswordCommandHandler { get; set; }
+    public ChangePasswordCommandHandler ChangePasswordCommandHandler { get; set; }
+    public LogoutCommandHandler LogoutCommandHandler { get; set; }
 
-    public UserController(IServiceProvider serviceProvider, IUserProxy userProxy, ILogger<UserController> logger)
+    public UserController(IServiceProvider? serviceProvider, IUserProxy userProxy, ILogger<UserController> logger)
     {
         this.userProxy = userProxy;
         this.logger = logger;
-        this.loginCommandHandler = ActivatorUtilities.CreateInstance<LoginCommandHandler>(serviceProvider);
-        this.setPasswordCommandHandler = ActivatorUtilities.CreateInstance<SetPasswordCommandHandler>(serviceProvider);
-        this.changePasswordCommandHandler = ActivatorUtilities.CreateInstance<ChangePasswordCommandHandler>(serviceProvider);
-        this.logoutCommandHandler = ActivatorUtilities.CreateInstance<LogoutCommandHandler>(serviceProvider);
+        if (serviceProvider != null)
+        {
+            this.LoginCommandHandler = ActivatorUtilities.CreateInstance<LoginCommandHandler>(serviceProvider);
+            this.SetPasswordCommandHandler = ActivatorUtilities.CreateInstance<SetPasswordCommandHandler>(serviceProvider);
+            this.ChangePasswordCommandHandler = ActivatorUtilities.CreateInstance<ChangePasswordCommandHandler>(serviceProvider);
+            this.LogoutCommandHandler = ActivatorUtilities.CreateInstance<LogoutCommandHandler>(serviceProvider);
+        }
     }
 
     [HttpPost("login")]
@@ -38,7 +41,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            var response = loginCommandHandler.Handle(new LoginCommand(model.Username, model.Password));
+            var response = LoginCommandHandler.Handle(new LoginCommand(model.Username, model.Password));
             var user = userProxy.GetUserByGuid(response.Token.UserId);
             return Ok(new JwtResponse(response.Token.Value, response.Token.User,  user.Fullname, user.Email));
         }
@@ -56,7 +59,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            setPasswordCommandHandler.Handle(new SetPasswordCommand(model.Username, model.ResetKey, model.Password));
+            SetPasswordCommandHandler.Handle(new SetPasswordCommand(model.Username, model.ResetKey, model.Password));
             return Ok("Password set");
         }
         catch (Exception ex)
@@ -77,7 +80,7 @@ public class UserController : ControllerBase
             if (possibleUser != null)
             {
                 User user = (User) possibleUser;
-                logoutCommandHandler.Handle(new LogoutCommand(user.Username));
+                LogoutCommandHandler.Handle(new LogoutCommand(user.Username));
             }
         }
         catch (Exception ex)
@@ -91,7 +94,7 @@ public class UserController : ControllerBase
     [HttpPost("changePassword")]
     public IActionResult ChangePassword(ChangePasswordRequest model)
     {
-        changePasswordCommandHandler.Handle(new ChangePasswordCommand(model.Email));
+        ChangePasswordCommandHandler.Handle(new ChangePasswordCommand(model.Email));
         return Ok("Password change sent in Email");
     }
 }

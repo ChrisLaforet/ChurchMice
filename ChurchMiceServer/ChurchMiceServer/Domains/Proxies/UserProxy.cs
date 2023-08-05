@@ -51,7 +51,6 @@ public class UserProxy : IUserProxy
         context.SaveChanges();
         return user.Id;
     }
-
     
     public JsonWebToken AuthenticateUser(string username, string password)
     {

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChurchMiceTesting;
 
-public class UnitTests
+public class ProxyTests
 {
     [Fact]
     public void GivenAUserProxy_WhenAddingAUser_ThenPersistsNewUser()
