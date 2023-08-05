@@ -1,9 +1,10 @@
 using System.Linq.Expressions;
+using ChurchMiceServer.Domains.Interfaces;
 using ChurchMiceServer.Persistence;
 
 namespace ChurchMiceServer.Domains.Repositories;
 
-public class Repository<T> : IRepository<T> where T: class
+public class Repository<T,K> : IRepository<T,K> where T: class where K: class
 {
     protected readonly ChurchMiceContext context;
     
@@ -32,7 +33,7 @@ public class Repository<T> : IRepository<T> where T: class
         return context.Set<T>().ToList();
     }
     
-    public T GetById(int id)
+    public T GetById(K id)
     {
         return context.Set<T>().Find(id);
     }

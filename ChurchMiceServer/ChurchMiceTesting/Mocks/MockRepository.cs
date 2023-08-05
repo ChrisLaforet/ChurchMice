@@ -1,13 +1,14 @@
 ﻿using System.Linq.Expressions;
 using ChurchMiceServer.Domains;
+using ChurchMiceServer.Domains.Interfaces;
 
 namespace ChurchMiceTesting.Mocks;
 
-public class MockRepository<T> : IRepository<T> where T: class
+public class MockRepository<T,K> : IRepository<T,K> where T: IRepositoryIndex<K> where K: class
 {
 	private List<T> records = new List<T>();
 	
-	public T GetById(int id)
+	public T GetById(K id)
 	{
 		// How to determine which field is an ID??
 		// What about an ID that is not an int!

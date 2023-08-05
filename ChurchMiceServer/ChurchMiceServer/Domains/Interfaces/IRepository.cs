@@ -1,12 +1,13 @@
 using System.Linq.Expressions;
+using ChurchMiceServer.Domains.Interfaces;
 
 namespace ChurchMiceServer.Domains;
 
 // Based on: https://codewithmukesh.com/blog/repository-pattern-in-aspnet-core/
 
-public interface IRepository<T> where T: class
+public interface IRepository<T,K> where T: IRepositoryIndex<K> where K: class
 {
-    T GetById(int id);
+    T GetById(K id);
     IEnumerable<T> GetAll();
     IEnumerable<T> Find(Expression<Func<T, bool>> expression);
     void Add(T entity);
