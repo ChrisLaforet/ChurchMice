@@ -16,6 +16,7 @@ export class NewLoginComponent implements OnInit {
   newPassword = '';
   newConfirmPassword = '';
 
+  // https://stackoverflow.com/questions/46180915/angular-2-check-if-email-exists
   constructor(
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
