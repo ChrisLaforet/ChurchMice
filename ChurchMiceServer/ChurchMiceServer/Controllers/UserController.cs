@@ -21,6 +21,7 @@ public partial class UserController : ControllerBase
     public SetPasswordCommandHandler SetPasswordCommandHandler { get; set; }
     public ChangePasswordCommandHandler ChangePasswordCommandHandler { get; set; }
     public LogoutCommandHandler LogoutCommandHandler { get; set; }
+    public CheckExistingNameCommandHandler CheckExistingNameCommandHandler { get; set; }
 
     public UserController(IServiceProvider? serviceProvider, IUserProxy userProxy, ILogger<UserController> logger)
     {
@@ -32,6 +33,7 @@ public partial class UserController : ControllerBase
             this.SetPasswordCommandHandler = ActivatorUtilities.CreateInstance<SetPasswordCommandHandler>(serviceProvider);
             this.ChangePasswordCommandHandler = ActivatorUtilities.CreateInstance<ChangePasswordCommandHandler>(serviceProvider);
             this.LogoutCommandHandler = ActivatorUtilities.CreateInstance<LogoutCommandHandler>(serviceProvider);
+            this.CheckExistingNameCommandHandler = ActivatorUtilities.CreateInstance<CheckExistingNameCommandHandler>(serviceProvider);
         }
     }
 
@@ -96,5 +98,18 @@ public partial class UserController : ControllerBase
     {
         ChangePasswordCommandHandler.Handle(new ChangePasswordCommand(model.Email));
         return Ok("Password change sent in Email");
+    }
+    
+    [HttpPost("checkExistingName")]
+    [AllowAnonymous]
+    public IActionResult CheckExistingName(CheckExistingNameRequest model)
+    {
+        if (CheckExistingNameCommandHandler.Handle(new CheckExistingNameCommand(model.CheckField, model.CheckValue)).Value)
+        {
+            return Ok("Value is available");
+        }
+
+        return BadRequest(new { message = "Value is already used" });
+
     }
 }

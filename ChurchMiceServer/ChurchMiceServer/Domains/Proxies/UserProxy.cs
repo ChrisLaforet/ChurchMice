@@ -44,7 +44,7 @@ public class UserProxy : IUserProxy
 
     public IList<User> GetUsersByEmail(string email)
     {
-        return context.Users.Where(user => user.Email.ToLower() == email.ToLower()).ToList();
+        return context.Users.Where(user => user.Email != null && user.Email.ToLower().Equals(email.ToLower())).ToList();
     }
 
     public string CreateUser(User user)
