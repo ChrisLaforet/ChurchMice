@@ -23,6 +23,8 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
     public virtual DbSet<EmailQueue> EmailQueue { get; set; }
     
     public virtual DbSet<Member> Members { get; set; }
+    
+    public virtual DbSet<MemberImage> MemberImages { get; set; }
 
 	
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
@@ -257,6 +259,33 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
                 .HasColumnName("UserID")
                 .HasMaxLength(50);
           });
+        
+        modelBuilder.Entity<MemberImage>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+                
+            entity.ToTable("MemberImage");
+
+            entity.Property(e => e.Id)
+                .HasColumnName("ID");
+
+            entity.Property(e => e.MemberId)
+                .HasColumnName("MemberID")
+                .IsRequired();
+
+            entity.Property(e => e.Image)
+                .HasColumnName("Image")
+                .IsRequired();
+            
+            entity.Property(e => e.UploadDate)
+                .HasColumnName("UploadDate")
+                .HasColumnType("datetime")
+                .IsRequired();
+            
+            entity.Property(e => e.ApproveDate)
+                .HasColumnName("ApproveDate")
+                .HasColumnType("datetime");
+        });
 
         OnModelCreatingPartial(modelBuilder);
     }

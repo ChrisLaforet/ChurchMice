@@ -9,6 +9,7 @@ public interface IRepositoryContext : IDisposable
         IUserRepository Users { get; }
         IUserRoleRepository UserRoles { get; }
         IUserTokenRepository UserTokens { get; }
+        IMemberImageRepository MemberImages { get; }
         int SaveChanges();
         void Remove(object toRemove);
 }

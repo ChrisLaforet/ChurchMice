@@ -16,6 +16,7 @@ public class RepositoryContext : IRepositoryContext
 		this.Users = new UserRepository(context);
 		this.UserRoles = new UserRoleRepository(context);
 		this.UserTokens = new UserTokenRepository(context);
+		this.MemberImages = new MemberImageRepository(context);
 	}
 	
 	public void Dispose()
@@ -32,6 +33,8 @@ public class RepositoryContext : IRepositoryContext
 	public IUserRoleRepository UserRoles { get; private set; }
 	
 	public IUserTokenRepository UserTokens { get; private set; }
+	
+	public IMemberImageRepository MemberImages { get; private set; }
 	
 	
 	public int SaveChanges()

@@ -24,6 +24,9 @@ public class MockRepositoryContext : IRepositoryContext
 		
 		UserTokens = new MockUserTokenRepository();
 		repositories.Add((IMockRepositoryMetrics)UserTokens);
+
+		MemberImages = new MockMemberImageRepository();
+		repositories.Add((IMockRepositoryMetrics)MemberImages);
 	}
 	
 	public void Dispose()
@@ -38,6 +41,7 @@ public class MockRepositoryContext : IRepositoryContext
 	public IUserRepository Users { get; private set; }
 	public IUserRoleRepository UserRoles { get; private set; }
 	public IUserTokenRepository UserTokens { get; private set; }
+	public IMemberImageRepository MemberImages { get; private set; }
 	
 	public int SaveChanges()
 	{
