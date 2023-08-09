@@ -131,3 +131,29 @@ GO
 ALTER TABLE [dbo].[Member] CHECK CONSTRAINT [FK_Member_User]
 GO
 
+/****** Object:  Table [dbo].[MemberImage]    Script Date: 8/8/2023 8:50:39 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[MemberImage](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[MemberID] [int] NOT NULL,
+	[Image] [varchar](max) NOT NULL,
+	[UploadDate] [datetime2](7) NOT NULL,
+	[ApproveDate] [datetime2](7) NULL,
+ CONSTRAINT [PK_MemberImage] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[MemberImage]  WITH CHECK ADD  CONSTRAINT [FK_MemberImage_Member] FOREIGN KEY([MemberID])
+REFERENCES [dbo].[Member] ([ID])
+GO
+
+ALTER TABLE [dbo].[MemberImage] CHECK CONSTRAINT [FK_MemberImage_Member]
+GO
