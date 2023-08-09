@@ -13,19 +13,22 @@ namespace ChurchMiceServer.Controllers;
 [ApiController]
 public class MemberController : ControllerBase
 {
-    private readonly ILogger<UserController> logger;
+    private readonly ILogger<MemberController> logger;
     
-    private readonly MemberQueryHandler memberQueryHandler;
-    private readonly CreateMemberCommandHandler createMemberCommandHandler;
-    private readonly UpdateMemberCommandHandler updateMemberCommandHandler;
+    public MemberQueryHandler MemberQueryHandler { get; set; }
+    public CreateMemberCommandHandler CreateMemberCommandHandler { get; set; }
+    public UpdateMemberCommandHandler UpdateMemberCommandHandler { get; set; }
 
-    public MemberController(IServiceProvider serviceProvider, ILogger<UserController> logger)
+    public MemberController(IServiceProvider serviceProvider, ILogger<MemberController> logger)
     {
         this.logger = logger;
-        
-        this.memberQueryHandler = ActivatorUtilities.CreateInstance<MemberQueryHandler>(serviceProvider);
-        this.createMemberCommandHandler = ActivatorUtilities.CreateInstance<CreateMemberCommandHandler>(serviceProvider);
-        this.updateMemberCommandHandler = ActivatorUtilities.CreateInstance<UpdateMemberCommandHandler>(serviceProvider);
+
+        if (serviceProvider != null)
+        {
+            this.MemberQueryHandler = ActivatorUtilities.CreateInstance<MemberQueryHandler>(serviceProvider);
+            this.CreateMemberCommandHandler = ActivatorUtilities.CreateInstance<CreateMemberCommandHandler>(serviceProvider);
+            this.UpdateMemberCommandHandler = ActivatorUtilities.CreateInstance<UpdateMemberCommandHandler>(serviceProvider);
+        }
     }
 
     [HttpGet("getMemberById")]
@@ -34,7 +37,7 @@ public class MemberController : ControllerBase
     {
         try
         {
-            return memberQueryHandler.Handle(new MemberQuery(id));
+            return MemberQueryHandler.Handle(new MemberQuery(id));
         }
         catch (Exception ex)
         {
@@ -48,13 +51,13 @@ public class MemberController : ControllerBase
     [Authorize]
     public MemberResponse CreateMember(MemberRequest request)
     {
-        return createMemberCommandHandler.Handle(new CreateMemberCommand(request,  HttpContext.User.Identity.Name));
+        return CreateMemberCommandHandler.Handle(new CreateMemberCommand(request,  HttpContext.User.Identity.Name));
     }
     
     [HttpPut("update")]
     [Authorize]
     public MemberResponse UpdateMember(MemberRequest request)
     {
-        return updateMemberCommandHandler.Handle(new UpdateMemberCommand(request,  HttpContext.User.Identity.Name));
+        return UpdateMemberCommandHandler.Handle(new UpdateMemberCommand(request,  HttpContext.User.Identity.Name));
     }
 }
