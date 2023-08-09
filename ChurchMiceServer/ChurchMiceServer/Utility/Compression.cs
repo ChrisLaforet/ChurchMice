@@ -10,7 +10,7 @@ namespace ChurchMiceServer.Utility
 
 		public static string CompressToBase64(string toCompress)
 		{
-			return System.Convert.ToBase64String(CompressBytes(Encoding.UTF8.GetBytes(toCompress)));
+			return Convert.ToBase64String(CompressBytes(Encoding.UTF8.GetBytes(toCompress)));
 		}
 
 		public static byte[] CompressBytes(byte[] bytes)
@@ -27,7 +27,7 @@ namespace ChurchMiceServer.Utility
 
 		public static string DecompressFromBase64(string toDecompress)
 		{
-			return Encoding.UTF8.GetString(DecompressBytes(System.Convert.FromBase64String(toDecompress)));
+			return Encoding.UTF8.GetString(DecompressBytes(Convert.FromBase64String(toDecompress)));
 		}
 
 		public static byte[] DecompressBytes(byte[] bytes)
