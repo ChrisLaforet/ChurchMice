@@ -131,7 +131,8 @@ GO
 ALTER TABLE [dbo].[Member] CHECK CONSTRAINT [FK_Member_User]
 GO
 
-/****** Object:  Table [dbo].[MemberImage]    Script Date: 8/8/2023 8:50:39 PM ******/
+
+/****** Object:  Table [dbo].[MemberImage]    Script Date: 8/9/2023 5:09:24 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -144,11 +145,15 @@ CREATE TABLE [dbo].[MemberImage](
 	[Image] [varchar](max) NOT NULL,
 	[UploadDate] [datetime2](7) NOT NULL,
 	[ApproveDate] [datetime2](7) NULL,
+	[ImageType] [varchar](50) NOT NULL,
  CONSTRAINT [PK_MemberImage] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[MemberImage] ADD  CONSTRAINT [DF_MemberImage_ImageType]  DEFAULT ('image/png') FOR [ImageType]
 GO
 
 ALTER TABLE [dbo].[MemberImage]  WITH CHECK ADD  CONSTRAINT [FK_MemberImage_Member] FOREIGN KEY([MemberID])
