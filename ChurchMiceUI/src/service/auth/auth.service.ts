@@ -5,7 +5,7 @@ import { AsyncSubject, BehaviorSubject, Observable } from 'rxjs';
 import { AuthenticatedUser, JwtContent, JwtResponseDto } from '@data/index';
 import { first } from 'rxjs/operators';
 import jwt_decode from 'jwt-decode';
-import { IApikeyReaderService, NotificationService } from '@service/index';
+import { IApiKeyReaderService, NotificationService } from '@service/index';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,7 @@ export class AuthService {
   private authenticationState?: AsyncSubject<AuthenticatedUser>;
   private authenticatedUser?: AuthenticatedUser;
 
-  constructor(private apikeyReaderService: IApikeyReaderService,
+  constructor(private apiKeyReaderService: IApiKeyReaderService,
               private http: HttpClient,
               private notifyService: NotificationService) {
     this.baseUrl = environment.servicesUrl + '/api/user';
@@ -33,7 +33,7 @@ export class AuthService {
     this.headers = new HttpHeaders()
       .set('content-type', 'application/json')
       .set('Access-Control-Allow-Origin', '*')
-      .set('apikey', apikeyReaderService.getApikey());
+      .set('apikey', apiKeyReaderService.getApiKey());
   }
 
   public login(username: string, password: string): Observable<AuthenticatedUser> {

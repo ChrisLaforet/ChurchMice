@@ -1,5 +1,13 @@
-<div class="d-flex flex-column align-items-center align-items-sm-start pt-2 min-vh-100 bg-gradient-primary"
-     id="sideMenu">
+<div class="nav-section d-flex flex-column align-items-center align-items-sm-start pt-2 min-vh-100 bg-gradient-primary" id="sideMenu">
+
+  <!-- Sidebar - Brand -->
+  <a class="d-flex align-items-center justify-content-center ms-1 d-none d-sm-inline" href="https://www.amgr.org/index.cfm">
+    <div class="sidebar-brand-text mx-3">
+      <a class="navbar-brand js-scroll-trigger" href="#">
+        <img src="assets/images/ChurchMiceLogo.png" class="align-content-center align-middle" width="100%" alt="Church Mice Software logo">
+      </a>
+    </div>
+  </a>
 
   <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
     <div class="sidebar-heading ms-1 d-none d-sm-inline">Authorization</div>
@@ -11,6 +19,15 @@
         <span class="d-none d-sm-inline">Login</span>
       </a>
     </li>
+
+
+    <li class="nav-item active">
+      <a class="nav-link" href="/newLogin">
+        <fa-icon [icon]="faUserPlus" class="fa-fw sidebar-icon fa-lg"></fa-icon>
+        <span class="d-none d-sm-inline">Create my login</span>
+      </a>
+    </li>
+
   </ul>
 
 </div>

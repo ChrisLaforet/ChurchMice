@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntypedFormBuilder } from '@angular/forms';
-import { AuthService, NotificationService } from '@service/index';
+import { AuthService, IRecaptchaKeyReaderService, NotificationService } from '@service/index';
+import { ReCaptchaV3Service } from 'ngx-captcha';
 import { TopBarComponent } from '@app/top-bar/top-bar.component';
 
 @Component({
@@ -10,11 +11,14 @@ import { TopBarComponent } from '@app/top-bar/top-bar.component';
   styleUrls: ['./new-login.component.css']
 })
 export class NewLoginComponent implements OnInit {
+
   submitted = false;
   newUserName = '';
   newEmail = '';
   newPassword = '';
   newConfirmPassword = '';
+
+  siteKey: any;
 
   // https://stackoverflow.com/questions/46180915/angular-2-check-if-email-exists
   constructor(
@@ -22,7 +26,11 @@ export class NewLoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private notifyService: NotificationService) {
+    private notifyService: NotificationService,
+    private reCaptchaV3Service: ReCaptchaV3Service,
+    private recaptchaKeyReaderService: IRecaptchaKeyReaderService) {
+
+    this.siteKey = recaptchaKeyReaderService.getSiteKey();
   }
 
   ngOnInit(): void {

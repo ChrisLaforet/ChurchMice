@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IApikeyReaderService } from '@service/index';
+import { IApiKeyReaderService } from '@service/index';
 import { environment } from '@environments/environment';
 import { UserDto } from '@data/index';
 import { Observable } from 'rxjs';
@@ -15,7 +15,7 @@ export class UserService {
 
   private readonly headers: HttpHeaders;
 
-  constructor(private apikeyReaderService: IApikeyReaderService,
+  constructor(private apikeyReaderService: IApiKeyReaderService,
               private http: HttpClient) {
     this.baseUrl = environment.servicesUrl + '/api/user';
     this.allUsersUrl = this.baseUrl;
@@ -23,7 +23,7 @@ export class UserService {
     this.headers = new HttpHeaders()
       .set('content-type', 'application/json')
       .set('Access-Control-Allow-Origin', '*')
-      .set('apikey', apikeyReaderService.getApikey());
+      .set('apikey', apikeyReaderService.getApiKey());
 //      .set('apikey', apikeyReaderService.getApikey());
   }
 

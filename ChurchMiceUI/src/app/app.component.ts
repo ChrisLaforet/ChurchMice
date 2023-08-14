@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IApikeyReaderService } from '@service/index';
+import { IApiKeyReaderService } from '@service/index';
 import { AuthService } from '@service/index';
 
 @Component({
@@ -11,9 +11,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   title = 'ChurchMice';
 
-  constructor(private apikeyReaderService: IApikeyReaderService,
+  constructor(private apikeyReaderService: IApiKeyReaderService,
               private authService: AuthService) {
-    apikeyReaderService.getApikey();
+    apikeyReaderService.getApiKey();
   }
 
   ngOnInit(): void {

@@ -9,6 +9,7 @@ html {
 
 .topbar {
   height: 4.375rem;
+  background: #F7CA6D;
 }
 
 .topbar #sidebarToggleTop {
@@ -43,15 +44,15 @@ html {
 }
 
 .topbar.navbar-light .navbar-nav .nav-item .nav-link {
-  color: #d1d3e2;
+  color: #488CF7;
 }
 
 .topbar.navbar-light .navbar-nav .nav-item .nav-link:hover {
-  color: #b7b9cc;
+  color: #F76954;
 }
 
 .topbar.navbar-light .navbar-nav .nav-item .nav-link:active {
-  color: #858796;
+  color: #488CF7;
 }
 
 .row {

@@ -7,8 +7,10 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from '@app/nav-menu/nav-menu.component';
 import { AuthGuard } from '@app/helper';
 import { HomeComponent } from './home/home.component';
-import { IApikeyReaderService } from '@service/key-support/apikey-reader.service.interface';
-import { ApikeyReaderService } from '@service/key-support/apikey-reader.service';
+import { IApiKeyReaderService } from '@service/key-support/api-key-reader.service.interface';
+import { ApiKeyReaderService } from '@service/key-support/api-key-reader.service';
+import { IRecaptchaKeyReaderService } from '@service/key-support/recaptcha-key-reader.service.interface';
+import { RecaptchaKeyReaderService } from '@service/key-support/recaptcha-key-reader.service';
 import { TopBarComponent } from '@app/top-bar/top-bar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -26,6 +28,7 @@ import { ForgottenPasswordComponent } from '@app/forgotten-password/forgotten-pa
 import { USCurrencyPipe } from '@app/pipes';
 import { NewLoginComponent } from '@app/new-login/new-login.component';
 import { NewMemberComponent } from '@app/new-member/new-member.component';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 library.add(fas, far);
 
@@ -49,6 +52,7 @@ library.add(fas, far);
     FormsModule,
     NgbModule,
     ReactiveFormsModule,
+    NgxCaptchaModule,
     RouterModule.forRoot([
       {path: '', component: HomeComponent, pathMatch: 'full'},
 
@@ -65,8 +69,12 @@ library.add(fas, far);
   ],
   providers: [
     {
-      provide: IApikeyReaderService,
-      useClass: ApikeyReaderService
+      provide: IApiKeyReaderService,
+      useClass: ApiKeyReaderService
+    },
+    {
+      provide: IRecaptchaKeyReaderService,
+      useClass: RecaptchaKeyReaderService
     },
     {
       provide: CurrentUserService,

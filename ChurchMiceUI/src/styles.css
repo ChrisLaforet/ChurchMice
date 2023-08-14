@@ -1,1 +1,75 @@
 /* You can add global styles to this file, and also import other style files */
+.display-page-return-arrow {
+  color: #858796 !important;
+  margin-right: 0.25rem;
+}
+
+.display-page-header {
+  margin-bottom: 0.75rem;
+}
+
+.display-page-row {
+
+}
+
+.display-page-edit-row {
+  margin-top: 0.5rem !important;
+}
+
+.display-page-title {
+  font-size: 1.5rem;
+  font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.display-page-subtitle {
+  color: #858796 !important;
+  font-size: 1.10rem;
+}
+
+.display-page-divider {
+  background-color: #f8f9fc !important;
+  color: #858796 !important;
+  font-size: 1.25rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.action-icon {
+  color: #858796 !important;
+  margin-right: 0.5em;
+}
+
+a.action-icon:link {
+  color: #858796 !important;
+  text-decoration: none;
+}
+
+a.action-icon:active {
+  color: #858796 !important;
+  text-decoration: none;
+}
+
+a.action-icon:hover {
+  color: rgb(78, 115, 223) !important;
+}
+
+
+.inline-link {
+  display: block;
+  text-align: left;
+  padding: 0.25rem;
+  color: sandybrown;
+  font-size: 1rem;
+}
+
+.inline-link:link {
+  text-decoration: none;
+}
+
+.inline-link:visited {
+  text-decoration: none;
+}
+
+.inline-link:hover {
+  color: orangered;
+}

@@ -6,8 +6,11 @@ export * from './auth/current-user.service';
 
 export * from './formatter/us-date-parser-formatter';
 
-export * from './key-support/apikey-reader.service.interface'
-export * from './key-support/apikey-reader.service'
+export * from './key-support/api-key-reader.service.interface'
+export * from './key-support/api-key-reader.service'
+
+export * from './key-support/recaptcha-key-reader.service.interface'
+export * from './key-support/recaptcha-key-reader.service'
 
 export * from './user/user.service';
 

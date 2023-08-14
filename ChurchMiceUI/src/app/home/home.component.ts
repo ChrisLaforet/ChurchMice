@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ApikeyReaderService, IApikeyReaderService } from '@service/index';
+import { ApiKeyReaderService, IApiKeyReaderService } from '@service/index';
 import { environment } from '@environments/environment';
 
 @Component({
@@ -8,7 +8,7 @@ import { environment } from '@environments/environment';
 })
 export class HomeComponent {
 
-  constructor(private apikeyReaderService: IApikeyReaderService) {
+  constructor(private apikeyReaderService: IApiKeyReaderService) {
 
   }
 

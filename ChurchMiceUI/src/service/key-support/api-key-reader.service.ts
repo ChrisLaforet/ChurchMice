@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { IApikeyReaderService } from '@service/index';
+import { IApiKeyReaderService } from '@service/index';
 import ApiKeyJson from '@assets/api-key.json';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ApikeyReaderService implements IApikeyReaderService {
+export class ApiKeyReaderService implements IApiKeyReaderService {
 
   private readonly apiKey: string;
 
@@ -13,7 +13,7 @@ export class ApikeyReaderService implements IApikeyReaderService {
     this.apiKey = ApiKeyJson.apiKey;
   }
 
-  getApikey(): string {
+  getApiKey(): string {
     return this.apiKey;
   }
 }
