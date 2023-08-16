@@ -143,9 +143,10 @@ CREATE TABLE [dbo].[MemberImage](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[MemberID] [int] NOT NULL,
 	[Image] [varchar](max) NOT NULL,
-	[UploadDate] [datetime2](7) NOT NULL,
-	[ApproveDate] [datetime2](7) NULL,
 	[ImageType] [varchar](50) NOT NULL,
+	[UploadDate] [datetime2](7) NOT NULL,
+	[UploadUserID] [varchar](50) NOT NULL,
+	[ApproveDate] [datetime2](7) NULL,
  CONSTRAINT [PK_MemberImage] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -161,4 +162,11 @@ REFERENCES [dbo].[Member] ([ID])
 GO
 
 ALTER TABLE [dbo].[MemberImage] CHECK CONSTRAINT [FK_MemberImage_Member]
+GO
+
+ALTER TABLE [dbo].[MemberImage]  WITH CHECK ADD  CONSTRAINT [FK_MemberImage_User] FOREIGN KEY([UploadUserID])
+REFERENCES [dbo].[User] ([ID])
+GO
+
+ALTER TABLE [dbo].[MemberImage] CHECK CONSTRAINT [FK_MemberImage_User]
 GO
