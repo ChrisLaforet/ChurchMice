@@ -1,5 +1,5 @@
 .nav-section {
-  background: #79F7BC;
+  background: #5FC990;
 }
 
 .nav {
@@ -18,7 +18,7 @@
   display: block;
   text-align: left;
   padding: 0.5rem;
-  color: sandybrown;
+  color: lightgray;
   font-size: 0.8rem;
 }
 
