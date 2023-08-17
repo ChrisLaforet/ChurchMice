@@ -60,4 +60,17 @@ public class MemberController : ControllerBase
     {
         return UpdateMemberCommandHandler.Handle(new UpdateMemberCommand(request,  HttpContext.User.Identity.Name));
     }
+
+	[HttpPost("uploadImage")]
+	[Authorize]
+	public IActionResult UploadImage(UploadImageRequest request)
+	{
+        var command = new UploadImageCommand(request.UploadUserId, request.MemberId, request.Image);
+if (request.MemberId == 1)
+{
+    return Ok("Member image accepted");
+}
+		return BadRequest(new { message = "Image can't be accepted" });
+	}
+	
 }

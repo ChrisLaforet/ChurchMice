@@ -284,7 +284,8 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
 
 			entity.Property(e => e.UploadUserId)
 	            .HasColumnName("UploadUserID")
-	            .IsRequired();
+				.HasMaxLength(50)
+				.IsRequired();
 
 			entity.Property(e => e.UploadDate)
                 .HasColumnName("UploadDate")

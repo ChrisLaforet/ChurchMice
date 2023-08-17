@@ -110,6 +110,5 @@ public partial class UserController : ControllerBase
         }
 
         return BadRequest(new { message = "Value is already used" });
-
     }
 }
