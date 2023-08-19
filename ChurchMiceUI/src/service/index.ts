@@ -17,3 +17,4 @@ export * from './user/user.service';
 export * from './utility/date-operations';
 export * from './utility/datepicker-utilities';
 export * from './utility/us-currency-operations';
+export * from './utility/upload.service';

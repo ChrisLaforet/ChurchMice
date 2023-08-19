@@ -1,0 +1,41 @@
+<div class="display-page-header">
+  <span id="ScreenTitle" class="display-page-title">Upload Photo of Member</span>
+</div>
+<div>
+  <p></p>
+</div>
+<div>
+  <div *ngIf="!this.submitted">
+    <form #forgottenPasswordForm="ngForm" name="forgottenPasswordForm"
+          (ngSubmit)="forgottenPasswordForm.form.valid && onSubmit()" novalidate>
+
+      <div class="row display-page-edit-row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="userName">Username or Email</label>
+          <input type="text" class="form-control" id="userName" name="userName" #userName="ngModel"
+                 [(ngModel)]="loginName" required minlength="5">
+          <div class="text-danger" *ngIf="(userName.errors?.required || userName.errors?.minlength)">
+            Valid username or email must be provided.
+          </div>
+        </div>
+      </div>
+
+      <div>&nbsp;</div>
+
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <button class="btn btn-outline-secondary" [disabled]="!forgottenPasswordForm.form.valid" type="submit">
+            Email my password reset...
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <div *ngIf="this.submitted">
+    <em>Requesting password reset...</em>
+  </div>
+
+  <div>&nbsp;</div>
+</div>

@@ -29,6 +29,7 @@ import { USCurrencyPipe } from '@app/pipes';
 import { NewLoginComponent } from '@app/new-login/new-login.component';
 import { NewMemberComponent } from '@app/new-member/new-member.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
+import { UploadMemberImageComponent } from '@app/upload-member-image/upload-member-image.component';
 
 library.add(fas, far);
 
@@ -42,6 +43,7 @@ library.add(fas, far);
     ForgottenPasswordComponent,
     NewLoginComponent,
     NewMemberComponent,
+    UploadMemberImageComponent,
     USCurrencyPipe
   ],
   imports: [
