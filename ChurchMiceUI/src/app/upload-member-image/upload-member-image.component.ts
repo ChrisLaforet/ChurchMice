@@ -5,6 +5,7 @@ import { first } from 'rxjs/operators';
 import { AuthService, NotificationService, UploadService } from '@service/index';
 import { AuthenticatedUser } from '@data/index';
 import { TopBarComponent } from '@app/top-bar/top-bar.component';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-upload-member-image',
@@ -58,22 +59,22 @@ export class UploadMemberImageComponent implements OnInit {
     }
     let file: File = files[0];
 
-    this.upload.uploadFile(this.appCfg.baseUrl + "/api/flash/upload", file)
-      .subscribe(
-        event => {
-          if (event.type == HttpEventType.UploadProgress) {
-            const percentDone = Math.round(100 * event.loaded / event.total);
-            console.log(`File is ${percentDone}% loaded.`);
-          } else if (event instanceof HttpResponse) {
-            console.log('File is completely loaded!');
-          }
-        },
-        (err) => {
-          console.log("Upload Error:", err);
-        }, () => {
-          console.log("Upload done");
-        }
-      )
-  }
+  //
+  //     .subscribe(
+  //       event => {
+  //         if (event.type == HttpEventType.UploadProgress) {
+  //           const percentDone = Math.round(100 * event.loaded / event.total);
+  //           console.log(`File is ${percentDone}% loaded.`);
+  //         } else if (event instanceof HttpResponse) {
+  //           console.log('File is completely loaded!');
+  //         }
+  //       },
+  //       (err) => {
+  //         console.log("Upload Error:", err);
+  //       }, () => {
+  //         console.log("Upload done");
+  //       }
+  //     )
+   }
 }
 
