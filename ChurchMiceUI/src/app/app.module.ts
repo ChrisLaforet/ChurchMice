@@ -30,6 +30,7 @@ import { NewLoginComponent } from '@app/new-login/new-login.component';
 import { NewMemberComponent } from '@app/new-member/new-member.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { UploadMemberImageComponent } from '@app/upload-member-image/upload-member-image.component';
+import { UserContentComponent } from '@app/user-content/user-content.component';
 
 library.add(fas, far);
 
@@ -44,7 +45,8 @@ library.add(fas, far);
     NewLoginComponent,
     NewMemberComponent,
     UploadMemberImageComponent,
-    USCurrencyPipe
+    USCurrencyPipe,
+    UserContentComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -62,7 +64,13 @@ library.add(fas, far);
       {path: 'forgotten', component: ForgottenPasswordComponent},
       {path: 'newLogin', component: NewLoginComponent},
 
-      {path: 'newMember', component: NewMemberComponent, canActivate: [AuthGuard]}
+      {path: 'newMember', component: NewMemberComponent, canActivate: [AuthGuard]},
+
+
+      {path: 'about', component: UserContentComponent, data: {page: 'about'}},
+      {path: 'main', component: UserContentComponent, data: {page: 'main'}},
+      {path: 'services', component: UserContentComponent, data: {page: 'services'}},
+      {path: 'beliefs', component: UserContentComponent, data: {page: 'beliefs'}}
 
     ]),
     InputDirectiveModule,
