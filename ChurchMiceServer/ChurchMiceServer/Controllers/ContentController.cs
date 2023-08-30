@@ -13,6 +13,7 @@ public class ContentController : ControllerBase
 	private readonly ILogger<ContentController> logger;
     
 	public ContentFileListQueryHandler ContentFileListQueryHandler { get; set; }
+	public ContentFileQueryHandler ContentFileQueryHandler { get; set; }
 
 	public ContentController(IServiceProvider serviceProvider, ILogger<ContentController> logger)
 	{
@@ -21,12 +22,13 @@ public class ContentController : ControllerBase
 		if (serviceProvider != null)
 		{
 			this.ContentFileListQueryHandler = ActivatorUtilities.CreateInstance<ContentFileListQueryHandler>(serviceProvider);
+			this.ContentFileQueryHandler = ActivatorUtilities.CreateInstance<ContentFileQueryHandler>(serviceProvider);
 		}
 	}
 
-	[HttpGet("getContent")]
+	[HttpGet]
 	[Authorize]
-	public ContentListResponse getContent()
+	public ContentListResponse Get()
 	{
 		try
 		{
@@ -48,4 +50,22 @@ public class ContentController : ControllerBase
 		return new ContentListResponse();
 	}
 
+	[HttpGet]
+	[Authorize]
+	public IActionResult GetContent(string key)
+	{
+		try
+		{
+			var fileContent = ContentFileQueryHandler.Handle(new ContentFileQuery(key));
+			if (fileContent != null)
+			{
+				return File(fileContent.Content, fileContent.MimeType, fileContent.FileName);
+			}
+		}
+		catch (Exception ex)
+		{
+			logger.Log(LogLevel.Debug, $"Error retrieving user content for {key}", ex);
+		}
+
+		return NotFound();
 }
