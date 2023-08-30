@@ -10,32 +10,52 @@ public class ConfigurationProxy : IConfigurationProxy
 	{
 		this.context = context;
 	}
-	
-	public void SetUserContentPath(string path)
+
+	private void SetConfiguredValueFor(string key, string value)
 	{
-		var contentPath = context.Configurations.Find(IConfigurationProxy.CONTENT_PATH_KEYWORD);
-		if (contentPath != null)
+		var config = context.Configurations.Find(key);
+		if (config != null)
 		{
-			contentPath.Value = path;
+			config.Value = value;
 		}
 		else
 		{
 			context.Configurations.Add(new Models.Configuration() 
-				{
-					Keyword = IConfigurationProxy.CONTENT_PATH_KEYWORD, 
-					Value = path
-				});
+			{
+				Keyword = key, 
+				Value = value
+			});
 		}
 		context.SaveChanges();
 	}
-
-	public string GetUserContentPath()
+	
+	public void SetUserContentPath(string path)
 	{
-		var contentPath = context.Configurations.Find(IConfigurationProxy.CONTENT_PATH_KEYWORD);
+		SetConfiguredValueFor(IConfigurationProxy.CONTENT_PATH_KEYWORD, path);
+	}
+
+	private string GetConfiguredValueFor(string key)
+	{
+		var contentPath = context.Configurations.Find(key);
 		if (contentPath != null)
 		{
 			return contentPath.Value;
 		}
-		throw new NotConfiguredException(IConfigurationProxy.CONTENT_PATH_KEYWORD);
+		throw new NotConfiguredException(key);
+	}
+	
+	public string GetUserContentPath()
+	{
+		return GetConfiguredValueFor(IConfigurationProxy.CONTENT_PATH_KEYWORD);
+	}
+
+	public void SetChurchName(string name)
+	{
+		SetConfiguredValueFor(IConfigurationProxy.CHURCH_NAME_KEYWORD, name);
+	}
+
+	public string GetChurchName()
+	{
+		return GetConfiguredValueFor(IConfigurationProxy.CHURCH_NAME_KEYWORD);
 	}
 }

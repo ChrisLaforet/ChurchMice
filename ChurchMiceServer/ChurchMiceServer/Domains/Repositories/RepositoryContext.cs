@@ -11,6 +11,7 @@ public class RepositoryContext : IRepositoryContext
 	public RepositoryContext(ChurchMiceContext context)
 	{
 		this.context = context;
+		this.Configurations = new ConfigurationRepository(context);
 		this.EmailQueues = new EmailQueueRepository(context);
 		this.Members = new MemberRepository(context);
 		this.Users = new UserRepository(context);

@@ -68,6 +68,7 @@ public class Startup
 		services.AddTransient<IUserTokenRepository, UserTokenRepository>();
 		services.AddTransient<IRepositoryContext, RepositoryContext>();
 		
+		services.AddScoped<IConfigurationProxy, ConfigurationProxy>();
 		services.AddScoped<IUserProxy, UserProxy>();
 		services.AddScoped<IMemberProxy, MemberProxy>();
 		services.AddScoped<IEmailProxy, EmailProxy>();
