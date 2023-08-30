@@ -23,7 +23,7 @@ export class UploadMemberImageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    // fill this in
   }
 
   onSubmit(): void {
@@ -33,23 +33,23 @@ export class UploadMemberImageComponent implements OnInit {
 
   // At the drag drop area
   // (drop)="onDropFile($event)"
-  onDropFile(event: DragEvent) {
-    event.preventDefault();
-    this.uploadFile(event.dataTransfer.files);
-  }
+  // onDropFile(event: DragEvent) {
+  //   event.preventDefault();
+  //   this.uploadFile(event.dataTransfer.files);
+  // }
 
   // At the drag drop area
   // (dragover)="onDragOverFile($event)"
-  onDragOverFile(event) {
-    event.stopPropagation();
-    event.preventDefault();
-  }
+  // onDragOverFile(event) {
+  //   event.stopPropagation();
+  //   event.preventDefault();
+  // }
 
   // At the file input element
   // (change)="selectFile($event)"
-  selectFile(event) {
-    this.uploadFile(event.target.files);
-  }
+  // selectFile(event) {
+  //   this.uploadFile(event.target.files);
+  // }
 
   uploadFile(files: FileList) {
     if (files.length == 0) {
