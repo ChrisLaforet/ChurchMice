@@ -1,4 +1,3 @@
-using System.Collections;
 using ChurchMiceServer.Domains.Interfaces;
 using ChurchMiceServer.Domains.Models;
 using ChurchMiceServer.Persistence;

@@ -24,6 +24,8 @@ public class RepositoryContext : IRepositoryContext
 		context.Dispose();
 	}
 
+	public IConfigurationRepository Configurations { get; set; }
+	
 	public IEmailQueueRepository EmailQueues { get; private set; }
 	
 	public IMemberRepository Members { get; private set; }

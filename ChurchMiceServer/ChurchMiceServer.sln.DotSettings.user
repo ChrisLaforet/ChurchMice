@@ -3,9 +3,11 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=32e8680c_002D4bc6_002D4492_002D969c_002D6d28cc49e13a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="UserControllerTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::7BDCFD5A-F3A2-4518-8AF3-8D52929020F2::net6.0::ChurchMiceTesting.UserControllerTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::7BDCFD5A-F3A2-4518-8AF3-8D52929020F2::net6.0::ChurchMiceTesting.ProxyTests.GivenAConfigurationProxy_WhenAddingKeywordValue_ThenPersistsKeyword&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::7BDCFD5A-F3A2-4518-8AF3-8D52929020F2::net6.0::ChurchMiceTesting.ProxyTests.GivenAUserProxy_WhenAddingAUser_ThenPersistsNewUser&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6ba85bd1_002Da5c1_002D4ba0_002D9039_002D3d3a5feeb9fb/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="UnitTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6ba85bd1_002Da5c1_002D4ba0_002D9039_002D3d3a5feeb9fb/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UnitTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::7BDCFD5A-F3A2-4518-8AF3-8D52929020F2::net6.0::ChurchMiceTesting.ControllerTests.GivenUserController_WhenLoggingInWithNonExistentUser_ThenFailsToAuthenticate&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::7BDCFD5A-F3A2-4518-8AF3-8D52929020F2::net6.0::ChurchMiceTesting.ControllerTests.GivenUserController_WhenLoggingInWithExistingUserWithWrongPassword_ThenFailsToAuthenticate&lt;/TestId&gt;&#xD;
@@ -14,7 +16,7 @@
     &lt;TestId&gt;xUnit::7BDCFD5A-F3A2-4518-8AF3-8D52929020F2::net6.0::ChurchMiceTesting.ControllerTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7cd6b243_002Dc249_002D47fb_002D98ed_002D96f32fcafefa/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GivenUserController_WhenLoggingInWithNonExistentUser_ThenFailsToAuthenticate" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7cd6b243_002Dc249_002D47fb_002D98ed_002D96f32fcafefa/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GivenUserController_WhenLoggingInWithNonExistentUser_ThenFailsToAuthenticate" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::7BDCFD5A-F3A2-4518-8AF3-8D52929020F2::net6.0::ChurchMiceTesting.UserControllerTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;

@@ -170,3 +170,22 @@ GO
 
 ALTER TABLE [dbo].[MemberImage] CHECK CONSTRAINT [FK_MemberImage_User]
 GO
+
+
+/****** Object:  Table [dbo].[Configuration]    Script Date: 8/30/2023 7:06:47 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Configuration](
+	[Keyword] [varchar](20) NOT NULL,
+	[Value] [varchar](1024) NOT NULL,
+ CONSTRAINT [PK_Configuration] PRIMARY KEY CLUSTERED 
+(
+	[Keyword] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+

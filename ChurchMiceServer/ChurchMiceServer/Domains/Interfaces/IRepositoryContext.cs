@@ -4,6 +4,7 @@ namespace ChurchMiceServer.Domains;
 
 public interface IRepositoryContext : IDisposable
 {
+        IConfigurationRepository Configurations { get; }
         IEmailQueueRepository EmailQueues { get; }
         IMemberRepository Members { get; }
         IUserRepository Users { get; }

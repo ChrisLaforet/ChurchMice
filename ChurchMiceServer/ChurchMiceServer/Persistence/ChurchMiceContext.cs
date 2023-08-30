@@ -25,6 +25,8 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
     public virtual DbSet<Member> Members { get; set; }
     
     public virtual DbSet<MemberImage> MemberImages { get; set; }
+    
+    public virtual DbSet<ChurchMiceServer.Domains.Models.Configuration> Configurations { get; set; }
 
 	
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
@@ -295,6 +297,24 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
             entity.Property(e => e.ApproveDate)
                 .HasColumnName("ApproveDate")
                 .HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<ChurchMiceServer.Domains.Models.Configuration>(entity =>
+        {
+            entity.HasKey(e => e.Keyword);
+
+            entity.ToTable("Configuration");
+
+            entity.Property(e => e.Keyword)
+                .HasColumnName("Keyword")
+                .HasMaxLength(20)
+                .IsUnicode(false);
+
+            entity.Property(e => e.Value)
+                .IsRequired()
+                .HasColumnName("Value")
+                .HasMaxLength(1024)
+                .IsUnicode(false);
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -1,6 +1,8 @@
 ﻿using ChurchMiceServer.Domains;
 using ChurchMiceServer.Domains.Interfaces;
 using ChurchMiceServer.Domains.Models;
+using ChurchMiceServer.Domains.Repositories;
+using Configuration = System.Configuration.Configuration;
 
 namespace ChurchMiceTesting.Mocks;
 
@@ -10,6 +12,9 @@ public class MockRepositoryContext : IRepositoryContext
 	
 	public MockRepositoryContext()
 	{
+		Configurations = new MockConfigurationRepository();
+		repositories.Add((IMockRepositoryMetrics)Configurations);
+		
 		EmailQueues = new MockEmailQueueRepository();
 		repositories.Add((IMockRepositoryMetrics)EmailQueues);
 
@@ -36,6 +41,7 @@ public class MockRepositoryContext : IRepositoryContext
 
 	private List<IMockRepositoryMetrics> repositories = new List<IMockRepositoryMetrics>();
 	
+	public IConfigurationRepository Configurations { get; private set; }
 	public IEmailQueueRepository EmailQueues { get; private set; }
 	public IMemberRepository Members { get; private set; }
 	public IUserRepository Users { get; private set; }

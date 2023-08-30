@@ -60,6 +60,7 @@ public class Startup
 
 		// Supporting interstitial repository and unit-of-work encapsulating layer over DbContext
 		//services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+		services.AddTransient<IConfigurationRepository, ConfigurationRepository>();
 		services.AddTransient<IEmailQueueRepository, EmailQueueRepository>();
 		services.AddTransient<IMemberRepository, MemberRepository>();
 		services.AddTransient<IUserRepository, UserRepository>();
