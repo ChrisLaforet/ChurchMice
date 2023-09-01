@@ -1,5 +1,5 @@
 .nav-section {
-  background: #5FC990;
+  background: #575F6B;
 }
 
 .nav {
@@ -27,7 +27,7 @@
 }
 
 .nav-item .nav-link:hover {
-  color: orangered;
+  color: #EFE477;
 }
 
 .nav-item .sidebar-icon {
@@ -39,7 +39,7 @@
   text-align: left;
   text-transform: uppercase;
   font-size: 0.7rem;
-  color: #F76954;
+  color: #EBC39C;
 }
 
 .nav .sidebar-divider {

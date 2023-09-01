@@ -9,7 +9,7 @@ html {
 
 .topbar {
   height: 4.375rem;
-  background: #F7CA6D;
+  background: #8A97AB;
 }
 
 .topbar #sidebarToggleTop {
@@ -31,24 +31,24 @@ html {
   width: 3rem;
 }
 
-.topbar.navbar-dark .navbar-nav .nav-item .nav-link {
-  color: rgba(255, 255, 255, 0.8);
-}
+/*.topbar.navbar-dark .navbar-nav .nav-item .nav-link {*/
+/*  color: #C8DBF7;*/
+/*}*/
 
-.topbar.navbar-dark .navbar-nav .nav-item .nav-link:hover {
-  color: #fff;
-}
+/*.topbar.navbar-dark .navbar-nav .nav-item .nav-link:hover {*/
+/*  color: #fff;*/
+/*}*/
 
-.topbar.navbar-dark .navbar-nav .nav-item .nav-link:active {
-  color: #fff;
-}
+/*.topbar.navbar-dark .navbar-nav .nav-item .nav-link:active {*/
+/*  color: #fff;*/
+/*}*/
 
 .topbar.navbar-light .navbar-nav .nav-item .nav-link {
-  color: #488CF7;
+  color: #C8DBF7;
 }
 
 .topbar.navbar-light .navbar-nav .nav-item .nav-link:hover {
-  color: #F76954;
+  color: #EFE477;
 }
 
 .topbar.navbar-light .navbar-nav .nav-item .nav-link:active {
@@ -63,6 +63,6 @@ html {
 .title {
   margin-left: 1rem;
   font-size: 1.75rem;
-  text-shadow: 2px 2px #eeeeee;
+  text-shadow: 1px 1px #eeeeee;
   text-overflow: fade;
 }
