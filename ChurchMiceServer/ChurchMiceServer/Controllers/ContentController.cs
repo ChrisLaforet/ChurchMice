@@ -50,7 +50,7 @@ public class ContentController : ControllerBase
 		return new ContentListResponse();
 	}
 
-	[HttpGet]
+	[HttpGet("getContent")]
 	[Authorize]
 	public IActionResult GetContent(string key)
 	{
@@ -64,8 +64,9 @@ public class ContentController : ControllerBase
 		}
 		catch (Exception ex)
 		{
-			logger.Log(LogLevel.Debug, $"Error retrieving user content for {key}", ex);
+			logger.Log(LogLevel.Debug, $"Error retrieving user content for key of {key}", ex);
 		}
 
 		return NotFound();
+	}
 }

@@ -32,18 +32,20 @@ public class ContentFileQueryHandler : IQueryHandler<ContentFileQuery, FileConte
 		{
 			logger.LogInformation(icfe.Message);
 		}
+		catch (Exception e)
+		{
+			logger.LogInformation($"Unable to open/read contents of file for {query.Key} because of {e.Message}");
+		}
 
 		return null;
 	}
 
-	private FileContentResponse? FetchFileContentFor(string Key)
+	private FileContentResponse? FetchFileContentFor(string key)
 	{
 		var path = configurationProxy.GetUserContentPath();
-		
-		// TODO: attempt to open file
-		// read contents
-		// create response
-		
+		var fileName = GetFilenameFor(key);
+		var content = File.ReadAllBytes(Path.Combine(path, fileName));
+		return new FileContentResponse(content, GetMimeTypeFor(key), fileName);
 	}
 
 	private string GetFilenameFor(string key)
@@ -71,7 +73,6 @@ public class ContentFileQueryHandler : IQueryHandler<ContentFileQuery, FileConte
 		{
 			return "image/png";
 		}
-
 		return "text/html";
 	}
 }
