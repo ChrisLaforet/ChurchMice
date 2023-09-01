@@ -33,7 +33,8 @@
 }
 
 .container-background {
-  background: #EFF7FF;
+  /*background: #EFF7FF;*/
+  background: #FCFCFA;
 }
 
 .router-outlet-background {
