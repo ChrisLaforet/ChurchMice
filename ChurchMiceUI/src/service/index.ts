@@ -4,6 +4,8 @@ export * from './angular/notification.service';
 export * from './auth/auth.service';
 export * from './auth/current-user.service';
 
+export * from './configuration/configuration.service';
+
 export * from './formatter/us-date-parser-formatter';
 
 export * from './key-support/api-key-reader.service.interface'

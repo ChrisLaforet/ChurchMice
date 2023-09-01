@@ -27,7 +27,6 @@ public class ContentController : ControllerBase
 	}
 
 	[HttpGet]
-	[Authorize]
 	public ContentListResponse Get()
 	{
 		try
@@ -50,8 +49,7 @@ public class ContentController : ControllerBase
 		return new ContentListResponse();
 	}
 
-	[HttpGet("getContent")]
-	[Authorize]
+	[HttpGet("getContent/{key}")]
 	public IActionResult GetContent(string key)
 	{
 		try

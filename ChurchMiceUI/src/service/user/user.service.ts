@@ -24,7 +24,6 @@ export class UserService {
       .set('content-type', 'application/json')
       .set('Access-Control-Allow-Origin', '*')
       .set('apikey', apikeyReaderService.getApiKey());
-//      .set('apikey', apikeyReaderService.getApikey());
   }
 
   getAllUsers(): Observable<UserDto[]> {

@@ -31,6 +31,8 @@ import { NewMemberComponent } from '@app/new-member/new-member.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { UploadMemberImageComponent } from '@app/upload-member-image/upload-member-image.component';
 import { UserContentComponent } from '@app/user-content/user-content.component';
+import { ConfigurationLoader } from '../operation/configuration/configuration-loader';
+import { Configuration } from '@data/configuration/configuration';
 
 library.add(fas, far);
 
@@ -93,8 +95,11 @@ library.add(fas, far);
     {
       provide: NgbDateParserFormatter,
       useClass: UnitedStatesDateParserFormatter
+    },
+    {
+      provide: ConfigurationLoader,
+      useClass: ConfigurationLoader
     }
-
   ],
   bootstrap: [AppComponent]
 })

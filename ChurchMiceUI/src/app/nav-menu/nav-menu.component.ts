@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   faRightToBracket,
   faUserPlus
 } from '@fortawesome/free-solid-svg-icons';
+import { ConfigurationLoader } from '../../operation/configuration/configuration-loader';
 
 @Component({
   selector: 'app-nav-menu',
@@ -10,6 +11,8 @@ import {
   styleUrls: ['./nav-menu.component.css']
 })
 export class NavMenuComponent {
+  @Input() configurationLoader?: ConfigurationLoader = undefined;
+
   isExpanded = false;
 
   faRightToBracket = faRightToBracket;

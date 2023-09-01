@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IApiKeyReaderService } from '@service/index';
 import { AuthService } from '@service/index';
+import { ConfigurationLoader } from '../operation/configuration/configuration-loader';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +10,9 @@ import { AuthService } from '@service/index';
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  title = 'ChurchMice';
-
   constructor(private apikeyReaderService: IApiKeyReaderService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private configurationLoader: ConfigurationLoader) {
     apikeyReaderService.getApiKey();
   }
 
@@ -22,5 +22,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
 
+  }
+
+  getConfigurationLoader(): ConfigurationLoader {
+    return this.configurationLoader;
   }
 }

@@ -49,13 +49,13 @@ public class ConfigurationProxy : IConfigurationProxy
 		return GetConfiguredValueFor(IConfigurationProxy.CONTENT_PATH_KEYWORD);
 	}
 
-	public void SetChurchName(string name)
+	public void SetMinistryName(string name)
 	{
-		SetConfiguredValueFor(IConfigurationProxy.CHURCH_NAME_KEYWORD, name);
+		SetConfiguredValueFor(IConfigurationProxy.MINISTRY_NAME_KEYWORD, name);
 	}
 
-	public string GetChurchName()
+	public string GetMinistryName()
 	{
-		return GetConfiguredValueFor(IConfigurationProxy.CHURCH_NAME_KEYWORD);
+		return GetConfiguredValueFor(IConfigurationProxy.MINISTRY_NAME_KEYWORD);
 	}
 }
