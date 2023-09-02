@@ -49,8 +49,8 @@ export class TopBarComponent implements OnDestroy {
   }
 
   getMinistryName(): string {
-    if (this.configurationLoader !== undefined && this.configurationLoader.GetConfiguration() !== null && this.configurationLoader.GetConfiguration().ministryName !== undefined) {
-      return '' + this.configurationLoader.GetConfiguration().ministryName;
+    if (this.configurationLoader !== undefined && this.configurationLoader.GetConfiguration() !== null && this.configurationLoader.GetConfiguration().hasMinistryName()) {
+      return this.configurationLoader.GetConfiguration().getMinistryName();
     }
     return 'Church Mice';
 }

@@ -4,7 +4,8 @@
   <a class="d-flex align-items-center justify-content-center ms-1 d-none d-sm-inline" href="https://www.amgr.org/index.cfm">
     <div class="sidebar-brand-text mx-3">
       <a class="navbar-brand js-scroll-trigger" href="#">
-        <img src="assets/images/ChurchMiceLogo.png" class="align-content-center align-middle" width="100%" alt="Church Mice Software logo">
+        <img src="assets/images/ChurchMiceLogo.png" class="align-content-center align-middle" width="100%" alt="Church Mice Software logo" *ngIf="image === null">
+        <img [src]="image"  class="align-content-center align-middle" width="100%" alt="Ministry logo" *ngIf="image !== null">
       </a>
     </div>
   </a>

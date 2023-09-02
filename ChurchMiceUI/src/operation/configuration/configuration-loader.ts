@@ -83,7 +83,7 @@ export class ConfigurationLoader {
           switch (key) {
             case 'logo':
               this.configuration.logo = this.downloadBlobFile(event);
-              console.log(this.configuration);
+              // console.log(this.configuration);
               break;
           }
         }
