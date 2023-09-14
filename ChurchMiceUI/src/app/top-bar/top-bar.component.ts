@@ -3,7 +3,7 @@ import { faBell, faCartShopping, faEllipsisVertical, faEnvelope } from '@fortawe
 import { Subscription } from 'rxjs';
 import { AuthenticatedUser } from '@data/index';
 import { AuthService } from '@service/index';
-import { ConfigurationLoader } from '../../operation/configuration/configuration-loader';
+import { ConfigurationLoader } from '../../operation';
 
 @Component({
   selector: 'app-top-bar',
@@ -49,8 +49,10 @@ export class TopBarComponent implements OnDestroy {
   }
 
   getMinistryName(): string {
-    if (this.configurationLoader !== undefined && this.configurationLoader.GetConfiguration() !== null && this.configurationLoader.GetConfiguration().hasMinistryName()) {
-      return this.configurationLoader.GetConfiguration().getMinistryName();
+    if (this.configurationLoader !== undefined &&
+      this.configurationLoader.getConfiguration() !== null &&
+      this.configurationLoader.getConfiguration().hasMinistryName()) {
+      return this.configurationLoader.getConfiguration().getMinistryName();
     }
     return 'Church Mice';
 }

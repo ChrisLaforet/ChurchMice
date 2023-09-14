@@ -10,7 +10,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 })
 export class ConfigurationLoader {
 
-  private configuration: Configuration;
+  private readonly configuration: Configuration;
 
   constructor(configurationService: ConfigurationService) {
     this.configuration = new Configuration();
@@ -94,7 +94,7 @@ export class ConfigurationLoader {
     return new Blob([data.body], { type: data.body.type });
   }
 
-  public GetConfiguration(): Configuration {
+  public getConfiguration(): Configuration {
     return this.configuration;
   }
 }

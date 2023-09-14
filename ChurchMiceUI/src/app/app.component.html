@@ -7,7 +7,7 @@
       <app-top-bar [configurationLoader]="getConfigurationLoader()"></app-top-bar>
       <div class="container router-outlet-background">
         <!-- important - everything that hits the router outlet should make a redirected call to something in the main site to refresh the user's session -->
-        <router-outlet></router-outlet>
+        <router-outlet (activate)="onRouterOutletLoaded($event)"></router-outlet>
       </div>
       <div class="container copyright-footer shadow">
         ChurchMice (OpenSource edition)

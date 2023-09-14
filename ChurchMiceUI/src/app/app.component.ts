@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IApiKeyReaderService } from '@service/index';
 import { AuthService } from '@service/index';
 import { ConfigurationLoader } from '../operation/configuration/configuration-loader';
+import { RouterOutletComponent } from '../operation';
 
 @Component({
   selector: 'app-root',
@@ -26,5 +27,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   getConfigurationLoader(): ConfigurationLoader {
     return this.configurationLoader;
+  }
+
+  onRouterOutletLoaded(component: RouterOutletComponent) {
+    console.log("Outlet component")
+    component.configurationLoader = this.configurationLoader;
   }
 }

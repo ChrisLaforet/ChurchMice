@@ -1,7 +1,7 @@
 ﻿<div class="container">
   <div class="row">
-    <div class="col-6 mx-auto">
-      <iframe id="target" title="content-target"></iframe>
+    <div class="col-12">
+      <iframe #target id="target" width="100%" title="content-target" (load)="loadContent(target)" *ngIf="checkHasConfiguredComponent()"></iframe>
     </div>
   </div>
 </div>

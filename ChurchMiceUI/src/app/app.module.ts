@@ -32,7 +32,6 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 import { UploadMemberImageComponent } from '@app/upload-member-image/upload-member-image.component';
 import { UserContentComponent } from '@app/user-content/user-content.component';
 import { ConfigurationLoader } from '../operation/configuration/configuration-loader';
-import { Configuration } from '@data/configuration/configuration';
 
 library.add(fas, far);
 
@@ -70,7 +69,7 @@ library.add(fas, far);
 
 
       {path: 'about', component: UserContentComponent, data: {page: 'about'}},
-      {path: 'main', component: UserContentComponent, data: {page: 'main'}},
+      {path: 'main', component: UserContentComponent, data: {page: 'index'}},
       {path: 'services', component: UserContentComponent, data: {page: 'services'}},
       {path: 'beliefs', component: UserContentComponent, data: {page: 'beliefs'}}
 
