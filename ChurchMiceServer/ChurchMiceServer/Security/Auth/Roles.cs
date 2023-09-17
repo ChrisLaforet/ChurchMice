@@ -2,18 +2,39 @@
 
 public class Roles
 {
-	private readonly Role[] roles = { Role.GetNoAccess(), Role.GetAttender(), Role.GetMember(), Role.GetAdministrator() };
+	private static readonly Role[] roles = { Role.GetNoAccess(), Role.GetAttender(), Role.GetMember(), Role.GetAdministrator() };
 	
-	public Role[] GetRoles() {
+	public static Role[] GetRoles() {
 	    return roles;
 	}
 	
-	public Role GetRoleByLevel(int level) {
+	public static Role GetRoleByLevel(int level)
+	{
+		Role foundRole = Role.GetNoAccess();
 	    foreach (var role in roles) {
-	        if (role.Level == level) {
-	            return role;
+	        if (role.Level <= level && foundRole.Level < role.Level) {
+	            foundRole = role;
 	        }
 	    }
-	    return Role.GetNoAccess();
+	    return foundRole;
+	}
+
+	public static List<Role> GetAllRolesWithinLevel(int level)
+	{
+		var allRoles = new List<Role>();
+		foreach (var role in GetRoles())
+		{
+			if (role.IsNoAccess)
+			{
+				continue;
+			}
+
+			if (role.Level <= level)
+			{
+				allRoles.Add(role);
+			}
+		}
+
+		return allRoles;
 	}
 }

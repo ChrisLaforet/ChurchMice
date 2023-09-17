@@ -19,4 +19,5 @@ public interface IUserProxy
 	void ExpireUserTokens();
 	void DestroyUserToken(JsonWebToken token);
 	bool ValidateUserToken(JsonWebToken token);
+	string[] GetUserRoles(JsonWebToken token);
 }

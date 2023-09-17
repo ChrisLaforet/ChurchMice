@@ -2,17 +2,27 @@
 
 public class Role
 {
+	public const int NO_ACCESS_LEVEL = 0;
+	
 	public int Level { get; private set; }
 	public string Name { get; private set; }
 	public bool HasAccess { get; private set; }
 	public bool IsMember { get; private set; }
 	public bool IsAdministrator { get; private set; }
 
+	public bool IsNoAccess
+	{
+		get
+		{
+			return Level == NO_ACCESS_LEVEL;
+		}
+	}
+
 	public static Role GetNoAccess()
 	{
 		return new Role()
 		{
-			Level = 0,
+			Level = NO_ACCESS_LEVEL,
 			Name = "NoAccess",
 			HasAccess = false,
 			IsMember = false,
@@ -48,7 +58,7 @@ public class Role
 	{
 		return new Role()
 		{
-			Level = 100,
+			Level = 10000,
 			Name = "Administrator",
 			HasAccess = true,
 			IsMember = true,

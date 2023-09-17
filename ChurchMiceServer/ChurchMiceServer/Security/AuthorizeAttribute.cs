@@ -44,7 +44,8 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
 			throw new AuthenticationException("Invalid bearer token");
 		}
 
-		var identity = new GenericIdentity(jwt.User); 
+		var identity = new GenericIdentity(jwt.User);
+		//var roles = userProxy.GetUserRoles(jwt);
 // TODO: get the roles from jwt when they are created
 		var principal = new GenericPrincipal(identity, null);
 		Thread.CurrentPrincipal = principal;

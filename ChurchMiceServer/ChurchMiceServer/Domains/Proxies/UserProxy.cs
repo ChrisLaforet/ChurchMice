@@ -1,4 +1,5 @@
-﻿using System.Security.Authentication;
+﻿using System.Collections.ObjectModel;
+using System.Security.Authentication;
 using ChurchMiceServer.Security.JWT;
 using System.Security.Cryptography;
 using System.Text;
@@ -20,8 +21,8 @@ public class UserProxy : IUserProxy
     private readonly string emailSender;
     private readonly IEmailProxy emailProxy;
 
-    public UserProxy(IRepositoryContext context, 
-                IEmailProxy emailProxy, 
+    public UserProxy(IRepositoryContext context,
+                IEmailProxy emailProxy,
                 IConfigurationLoader configurationLoader)
     {
         this.context = context;
@@ -54,7 +55,7 @@ public class UserProxy : IUserProxy
         context.SaveChanges();
         return user.Id;
     }
-    
+
     public JsonWebToken AuthenticateUser(string username, string password)
     {
         var passwordHash = passwordProcessor.HashPassword(password);
@@ -63,7 +64,7 @@ public class UserProxy : IUserProxy
         {
             throw new AuthenticationException();
         }
-        
+
         return CreateJWTFor(user);
     }
 
@@ -76,13 +77,27 @@ public class UserProxy : IUserProxy
         return System.Convert.ToBase64String(aes.Key);
     }
 
+    private List<string> GetRolesFor(User user)
+    {
+        var roleLevels = context.UserRoles.Where(role => role.UserId == user.Id).Select(role => role.RoleLevel).ToHashSet();
+        var roles = new List<string>();
+        
+        if (!roleLevels.Any() || roleLevels.Max() <= Role.GetNoAccess().Level)
+        {
+            roles.Add(Role.GetNoAccess().Name);
+        }
+        
+        foreach (var role in Roles.GetAllRolesWithinLevel(roleLevels.Max()))
+        {
+            roles.Add(role.Name);
+        }
+
+        return roles;
+    }
+
     private JsonWebToken CreateJWTFor(User user)
     {
         var userTokenId = Guid.NewGuid(); // jwt serial
-        var roles = new List<string>();
-// TODO: CML - get role level and assign        
-roles.Add("READ");
-roles.Add("WRITE");
 
         var userToken = new UserToken();
         userToken.Id = userTokenId.ToString();
@@ -93,10 +108,10 @@ roles.Add("WRITE");
         context.UserTokens.Add(userToken);
         context.SaveChanges();
 
-        return JsonWebToken.New(userToken.TokenKey, userTokenId, 
+        return JsonWebToken.New(userToken.TokenKey, userTokenId,
             user.Username,
             user.Id,
-            roles, 
+            GetRolesFor(user),
             userToken.Expired);
     }
 
@@ -155,12 +170,12 @@ roles.Add("WRITE");
         {
             throw new AuthenticationException();
         }
-        
+
         if (user.ResetKey != resetKey || user.ResetExpirationDatetime == null || user.ResetExpirationDatetime <= DateTime.Now)
         {
             throw new AuthenticationException();
         }
-        
+
         var passwordHash = passwordProcessor.HashPassword(password);
 
         // save password
@@ -168,7 +183,7 @@ roles.Add("WRITE");
         user.ResetKey = null;
         user.ResetExpirationDatetime = null;
         context.Users.Update(user);
-        
+
         // force user to have to relogin
         LogoutUser(username);
 
@@ -184,9 +199,9 @@ roles.Add("WRITE");
             user.ResetKey = resetKey;
             user.ResetExpirationDatetime = DateTime.Now.AddDays(5);
             context.Users.Update(user);
-            
-// TODO: change ChurchMice to name of church once configuration is added
-// TODO: add url to the password change screen when configuration is added
+
+            // TODO: change ChurchMice to name of church once configuration is added
+            // TODO: add url to the password change screen when configuration is added
             var contents = new StringBuilder();
             contents.Append(
                 "A password request for ChurchMice has been created.  If you did not request this, you do not have to do anything.  However, if you did, use your login portal for ChurchMice and select Change Password.");
@@ -195,9 +210,9 @@ roles.Add("WRITE");
             contents.Append("\r\n\r\nUse the following for the ResetKey: ");
             contents.Append(resetKey);
             contents.Append("\r\n");
-            
+
             emailProxy.SendMessageTo(email, emailSender, "Password change requested", contents.ToString());
-        }            
+        }
         context.SaveChanges();
     }
 
@@ -235,7 +250,7 @@ roles.Add("WRITE");
             return key.ToString();
         }
     }
-    
+
     public void LogoutUser(string username)
     {
         var user = GetUserByUsername(username);
@@ -249,4 +264,11 @@ roles.Add("WRITE");
 
         context.SaveChanges();
     }
+
+    public string[] GetUserRoles(JsonWebToken token)
+    {
+// TODO: CML - get the user roles        
+        return null;
+    }
+
 }
