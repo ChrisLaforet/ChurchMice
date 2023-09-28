@@ -84,10 +84,43 @@ export class AuthService {
   }
 
   public logout() {
-    this.http.put<JwtResponseDto>(this.logoutUrl, '', {'headers': this.headers});
+    this.doLogout().pipe(first())
+      .subscribe({
+        next: (resp: any) => {
+          console.log('Successfully logged out');
+          return;
+        },
+        error: (err: any) => {
+          console.log('Error while logging out');
+          return;
+        }
+      });
+
     localStorage.removeItem(AuthService.STORED_AUTHENTICATED_USER);
     this.authenticatedUser = undefined;
     this.currentAuthenticationState.next(null);
+  }
+
+  private doLogout(): Observable<any> {
+    let newHeaders = new HttpHeaders();
+    this.headers.keys().forEach(key => {
+      const value = this.headers.get(key);
+      if (value !== null) {
+        newHeaders = newHeaders.set(key, value);
+      }
+    });
+
+    let json = localStorage.getItem(AuthService.STORED_AUTHENTICATED_USER);
+    if (json != null) {
+      try {
+        var authenticatedUser = <AuthenticatedUser>JSON.parse(json);
+        newHeaders = newHeaders.set('Authorization', 'Bearer ' + authenticatedUser.token);
+      } catch (e) {
+        console.log('Cannot parse AuthenticatedUser while logging out');
+      }
+    }
+
+    return this.http.put<JwtResponseDto>(this.logoutUrl, null, {'headers': newHeaders});
   }
 
   public getAuthenticatedUser(): AuthenticatedUser | null {
