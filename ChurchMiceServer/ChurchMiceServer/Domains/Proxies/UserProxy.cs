@@ -1,11 +1,9 @@
-﻿using System.Collections.ObjectModel;
-using System.Security.Authentication;
+﻿using System.Security.Authentication;
 using ChurchMiceServer.Security.JWT;
 using System.Security.Cryptography;
 using System.Text;
 using ChurchMiceServer.Configuration;
 using ChurchMiceServer.Domains.Models;
-using ChurchMiceServer.Persistence;
 using ChurchMiceServer.Security.Auth;
 using ChurchMiceServer.Services;
 using Microsoft.IdentityModel.Tokens;
@@ -20,13 +18,16 @@ public class UserProxy : IUserProxy
     private readonly PasswordProcessor passwordProcessor;
     private readonly string emailSender;
     private readonly IEmailProxy emailProxy;
-
+    private readonly IConfigurationProxy configurationProxy;
+    
     public UserProxy(IRepositoryContext context,
                 IEmailProxy emailProxy,
+                IConfigurationProxy configurationProxy,
                 IConfigurationLoader configurationLoader)
     {
         this.context = context;
         this.emailProxy = emailProxy;
+        this.configurationProxy = configurationProxy;
         this.emailSender = configurationLoader.GetKeyValueFor(IEmailSenderService.SMTP_SENDER);
         this.passwordProcessor = new PasswordProcessor(configurationLoader);
     }
@@ -53,6 +54,14 @@ public class UserProxy : IUserProxy
         user.Id = Guid.NewGuid().ToString();
         context.Users.Add(user);
         context.SaveChanges();
+
+        var role = new UserRole();
+        role.RoleLevel = 100;
+        role.UserId = user.Id;
+        role.Id = 100;
+        context.UserRoles.Add(role);
+        context.SaveChanges();
+        
         return user.Id;
     }
 
@@ -79,7 +88,13 @@ public class UserProxy : IUserProxy
 
     private List<string> GetRolesFor(User user)
     {
-        var roleLevels = context.UserRoles.Where(role => role.UserId == user.Id).Select(role => role.RoleLevel).ToHashSet();
+        var possibleRoleLevels = context.UserRoles.Where(role => role.UserId == user.Id).Select(role => role.RoleLevel);
+        var roleLevels = new HashSet<int>();
+        if (!possibleRoleLevels.IsNullOrEmpty())
+        {
+            roleLevels = context.UserRoles.Where(role => role.UserId == user.Id).Select(role => role.RoleLevel).ToHashSet();
+        }
+
         var roles = new List<string>();
         
         if (!roleLevels.Any() || roleLevels.Max() <= Role.GetNoAccess().Level)
@@ -190,6 +205,11 @@ public class UserProxy : IUserProxy
         context.SaveChanges();
     }
 
+    public string HashPassword(string password)
+    {
+        return passwordProcessor.HashPassword(password);
+    }
+
     public void ChangePasswordFor(string email)
     {
         var resetKey = GenerateResetKey();
@@ -200,11 +220,14 @@ public class UserProxy : IUserProxy
             user.ResetExpirationDatetime = DateTime.Now.AddDays(5);
             context.Users.Update(user);
 
-            // TODO: change ChurchMice to name of church once configuration is added
             // TODO: add url to the password change screen when configuration is added
             var contents = new StringBuilder();
-            contents.Append(
-                "A password request for ChurchMice has been created.  If you did not request this, you do not have to do anything.  However, if you did, use your login portal for ChurchMice and select Change Password.");
+            contents.Append("A password request for ChurchMice software");
+            if (!string.IsNullOrEmpty(configurationProxy.GetMinistryName()))
+            {
+                contents.Append($" for {configurationProxy.GetMinistryName()}");
+            }
+            contents.Append(" has been created.  If you did not request this, you do not have to do anything.  However, if you did, use your login portal for ChurchMice and select Change Password.");
             contents.Append("\r\n\r\nYour login username is: ");
             contents.Append(user.Username);
             contents.Append("\r\n\r\nUse the following for the ResetKey: ");

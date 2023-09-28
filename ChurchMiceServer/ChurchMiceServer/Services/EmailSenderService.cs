@@ -20,6 +20,7 @@ public class EmailSenderService : IEmailSenderService
         System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls13; 
         var mail = new MailMessage(); 
  
+        logger.LogInformation($"Sending email to {to} from {from} with subject {subject}");
 //        var sender = configurationLoader.GetKeyValueFor(IEmailSenderService.SMTP_SENDER);
         
         mail.From = new MailAddress(from);
@@ -39,5 +40,7 @@ public class EmailSenderService : IEmailSenderService
         smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
         smtp.Send(mail);
         //smtp.SendAsync(mail, "d843cb13-fa54-427e-bb18-dafe5cf0ae24"); 
+        logger.LogInformation($"Sent email to {to} from {from} with subject {subject}");
+
     }
 }

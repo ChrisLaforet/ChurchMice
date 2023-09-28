@@ -13,6 +13,7 @@ public interface IUserProxy
 	string CreateUser(User user);
 
 	void SetPasswordFor(string username, string resetKey, string password);
+	string HashPassword(string password);
 	void ChangePasswordFor(string email);
 	void LogoutUser(string username);
 	

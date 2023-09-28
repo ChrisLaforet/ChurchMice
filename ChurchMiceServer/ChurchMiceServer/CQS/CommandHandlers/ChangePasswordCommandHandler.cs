@@ -1,5 +1,4 @@
-﻿using System.Security.Authentication;
-using ChurchMiceServer.CQS.Commands;
+﻿using ChurchMiceServer.CQS.Commands;
 using ChurchMiceServer.CQS.Responses;
 using ChurchMiceServer.Domains.Proxies;
 
@@ -18,14 +17,14 @@ public class ChangePasswordCommandHandler : ICommandHandler<ChangePasswordComman
 	
 	public NothingnessResponse Handle(ChangePasswordCommand command)
 	{
-		logger.Log(LogLevel.Information, "Request to change password for " + command.Email);
+		logger.LogInformation($"Request to change password for {command.Email}");
 		try
 		{
 			userProxy.ChangePasswordFor(command.Email);
 		}
 		catch (Exception ex)
 		{
-			logger.Log(LogLevel.Error, "Caught an exception during request to change password: " + ex);
+			logger.LogError( $"Caught an exception during request to change password: {ex.ToString()}");
 		}
 		return new NothingnessResponse();
 	}

@@ -14,6 +14,8 @@ public class UserControllerTests
     private MockRepositoryContext contextMock = new MockRepositoryContext();
     private MockEmailProxy emailProxyMock = new MockEmailProxy();
     private MockConfigurationLoader configurationLoaderMock = new MockConfigurationLoader(); 
+    private MockConfigurationProxy configurationProxyMock = new MockConfigurationProxy();
+
     private Mock<ILogger<LoginCommandHandler>> loginCommandLoggerMock = new Mock<ILogger<LoginCommandHandler>>();
     private Mock<ILogger<CheckExistingNameCommandHandler>> checkExistingNameCommandHandlerLoggerMock = new Mock<ILogger<CheckExistingNameCommandHandler>>();
 
@@ -22,7 +24,7 @@ public class UserControllerTests
 
     public UserControllerTests()
     {
-        userProxy = new UserProxy(contextMock, emailProxyMock.Get(), configurationLoaderMock.Get());
+        userProxy = new UserProxy(contextMock, emailProxyMock.Get(), configurationProxyMock.Get(), configurationLoaderMock.Get());
         userController = CreateMockedUserController();
     }
     

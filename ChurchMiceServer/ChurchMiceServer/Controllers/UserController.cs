@@ -22,6 +22,7 @@ public partial class UserController : ControllerBase
     public ChangePasswordCommandHandler ChangePasswordCommandHandler { get; set; }
     public LogoutCommandHandler LogoutCommandHandler { get; set; }
     public CheckExistingNameCommandHandler CheckExistingNameCommandHandler { get; set; }
+    public CreateUserCommandHandler CreateUserCommandHandler { get; set; }
 
     public UserController(IServiceProvider? serviceProvider, IUserProxy userProxy, ILogger<UserController> logger)
     {
@@ -34,6 +35,7 @@ public partial class UserController : ControllerBase
             this.ChangePasswordCommandHandler = ActivatorUtilities.CreateInstance<ChangePasswordCommandHandler>(serviceProvider);
             this.LogoutCommandHandler = ActivatorUtilities.CreateInstance<LogoutCommandHandler>(serviceProvider);
             this.CheckExistingNameCommandHandler = ActivatorUtilities.CreateInstance<CheckExistingNameCommandHandler>(serviceProvider);
+            this.CreateUserCommandHandler = ActivatorUtilities.CreateInstance<CreateUserCommandHandler>(serviceProvider);
         }
     }
 
@@ -94,6 +96,7 @@ public partial class UserController : ControllerBase
     }
 
     [HttpPost("changePassword")]
+    [AllowAnonymous]
     public IActionResult ChangePassword(ChangePasswordRequest model)
     {
         ChangePasswordCommandHandler.Handle(new ChangePasswordCommand(model.Email));
@@ -112,15 +115,23 @@ public partial class UserController : ControllerBase
         return BadRequest(new { message = "Value is already used" });
     }
     
-    // [HttpPost("createUser")]
-    // [AllowAnonymous]
-    // public IActionResult CreateUser(CreateUserRequest model)
-    // {
-    //     if (CheckExistingNameCommandHandler.Handle(new CheckExistingNameCommand(model.CheckField, model.CheckValue)).Value)
-    //     {
-    //         return Ok("Value is available");
-    //     }
-    //
-    //     return BadRequest(new { message = "Value is already used" });
-    // }
+    [HttpPost("createUser")]
+    [AllowAnonymous]
+    public IActionResult CreateUser(CreateUserRequest model)
+    {
+        if (!CheckExistingNameCommandHandler.Handle(new CheckExistingNameCommand("USERNAME", model.UserName)).Value)
+        {
+            return BadRequest(new {message = "Requested user name is not permitted"});
+        }
+
+        try
+        {
+            CreateUserCommandHandler.Handle(new CreateUserCommand(model.UserName, model.Password, model.Email, model.FullName));
+            return Ok("Check your Email (and Spam filters) to complete creating your account");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new {message = "Something went wrong while creating user account"});
+        }
+    }
 }

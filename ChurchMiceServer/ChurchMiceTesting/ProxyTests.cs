@@ -12,8 +12,9 @@ public class ProxyTests
         var contextMock = new MockRepositoryContext();
         var emailProxyMock = new MockEmailProxy();
         var configurationLoaderMock = new MockConfigurationLoader();
+        var configurationProxyMock = new MockConfigurationProxy();
 
-        var userProxy = new UserProxy(contextMock, emailProxyMock.Get(), configurationLoaderMock.Get());
+        var userProxy = new UserProxy(contextMock, emailProxyMock.Get(), configurationProxyMock.Get(), configurationLoaderMock.Get());
         var user = new User();
         user.Username = "username";
         user.Fullname = "full name";

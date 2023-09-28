@@ -17,6 +17,7 @@ public class MemberControllerTests
     private MockRepositoryContext contextMock = new MockRepositoryContext();
     private MockEmailProxy emailProxyMock = new MockEmailProxy();
     private MockConfigurationLoader configurationLoaderMock = new MockConfigurationLoader();
+    private MockConfigurationProxy configurationProxyMock = new MockConfigurationProxy();
     //private Mock<ILogger<SOMETHINGCommandHandler>> SOMETHINGCommandLoggerMock = new Mock<ILogger<SOMETHINGCommandHandler>>();
 
     private UserProxy userProxy;
@@ -25,7 +26,7 @@ public class MemberControllerTests
 
     public MemberControllerTests()
     {
-        userProxy = new UserProxy(contextMock, emailProxyMock.Get(), configurationLoaderMock.Get());
+        userProxy = new UserProxy(contextMock, emailProxyMock.Get(), configurationProxyMock.Get(), configurationLoaderMock.Get());
         memberProxy = new MemberProxy(contextMock);
         memberController = CreateMockedMemberController();
     }
