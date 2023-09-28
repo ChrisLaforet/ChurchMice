@@ -14,6 +14,7 @@ export class NewLoginComponent implements OnInit {
 
   submitted = false;
   newUserName = '';
+  newFullName = '';
   newEmail = '';
   newPassword = '';
   newConfirmPassword = '';
