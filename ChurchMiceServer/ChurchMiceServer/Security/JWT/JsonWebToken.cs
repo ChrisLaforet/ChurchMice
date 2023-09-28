@@ -13,7 +13,7 @@ namespace ChurchMiceServer.Security.JWT
     public class JsonWebToken
     {
         public const string JWT_SIGNATURE_ALGORITHM = "HS256";
-        public const string JWT_ISSUER = "AMGRHerdMgmt";
+        public const string JWT_ISSUER = "ChurchMiceServer";
 
         public const string SERIAL_CLAIM = "ser";
         public const string USER_NAME_CLAIM = "user";

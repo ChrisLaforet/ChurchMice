@@ -101,6 +101,8 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
 
             entity.Property(e => e.UserId)
                 .HasColumnName("UserID")
+                .HasMaxLength(50)
+                .IsUnicode(false)
                 .IsRequired();
                 
             entity.Property(e => e.RoleLevel)

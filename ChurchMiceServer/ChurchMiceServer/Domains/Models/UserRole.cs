@@ -6,5 +6,5 @@ public partial class UserRole
 	public string UserId { get; set; }
 	public int RoleLevel { get; set; }
 
-	public virtual User User { get; set; }
+//	public virtual User User { get; set; }
 }
