@@ -111,4 +111,16 @@ public partial class UserController : ControllerBase
 
         return BadRequest(new { message = "Value is already used" });
     }
+    
+    [HttpPost("createUser")]
+    [AllowAnonymous]
+    public IActionResult CreateUser(CreateUserRequest model)
+    {
+        if (CheckExistingNameCommandHandler.Handle(new CheckExistingNameCommand(model.CheckField, model.CheckValue)).Value)
+        {
+            return Ok("Value is available");
+        }
+
+        return BadRequest(new { message = "Value is already used" });
+    }
 }

@@ -1,34 +1,50 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   faChurch,
   faCircleQuestion,
   faClock,
   faRightToBracket,
+  faRightFromBracket,
   faScaleBalanced,
   faUserPlus
 } from '@fortawesome/free-solid-svg-icons';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { ConfigurationLoader } from '../../operation';
+import { AuthService } from '@service/auth/auth.service';
+import { AuthenticatedUser } from '@data/auth/authenticated-user';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.css']
 })
-export class NavMenuComponent {
+export class NavMenuComponent implements OnDestroy {
 
   image: SafeUrl | null = null;
   isExpanded = false;
 
   faRightToBracket = faRightToBracket;
+  faRightFromBracket = faRightFromBracket;
   faUserPlus = faUserPlus;
   faChurch = faChurch;
   faCircleQuestion = faCircleQuestion;
   faClock = faClock;
   faScaleBalanced = faScaleBalanced;
 
+  subscription: Subscription;
+  user: AuthenticatedUser | null;
+
   constructor(private configurationLoader: ConfigurationLoader,
-              private sanitizer: DomSanitizer) { }
+              private authService: AuthService,
+              private sanitizer: DomSanitizer) {
+    this.user = null;
+    this.subscription = this.authService.currentAuthenticationState.subscribe(user => this.user = user);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   collapse() {
     this.isExpanded = false;
@@ -98,5 +114,9 @@ export class NavMenuComponent {
 
   hasServices(): boolean {
     return this.checkHasConfiguredComponent('SERVICES');
+  }
+
+  isLoggedIn(): boolean {
+    return this.user !== null;
   }
 }

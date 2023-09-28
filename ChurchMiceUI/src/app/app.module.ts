@@ -24,6 +24,7 @@ import { UnitedStatesDateParserFormatter } from '@app/formatter';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { LoginComponent } from '@app/login/login.component';
+import { LogoutComponent } from '@app/logout/logout.component';
 import { ForgottenPasswordComponent } from '@app/forgotten-password/forgotten-password.component';
 import { USCurrencyPipe } from '@app/pipes';
 import { NewLoginComponent } from '@app/new-login/new-login.component';
@@ -43,6 +44,7 @@ library.add(fas, far);
     HomeComponent,
     TopBarComponent,
     LoginComponent,
+    LogoutComponent,
     ForgottenPasswordComponent,
     NewLoginComponent,
     NewMemberComponent,
@@ -61,13 +63,15 @@ library.add(fas, far);
     NgxCaptchaModule,
     RouterModule.forRoot([
       {path: '', component: HomeComponent, pathMatch: 'full'},
+      {path: 'home', component: HomeComponent},
 
       {path: 'login', component: LoginComponent},
+      {path: 'logout', component: LogoutComponent},
+
       {path: 'forgotten', component: ForgottenPasswordComponent},
       {path: 'newLogin', component: NewLoginComponent},
 
       {path: 'newMember', component: NewMemberComponent, canActivate: [AuthGuard]},
-
 
       {path: 'about', component: UserContentComponent, data: {page: 'about'}},
       {path: 'main', component: UserContentComponent, data: {page: 'index'}},

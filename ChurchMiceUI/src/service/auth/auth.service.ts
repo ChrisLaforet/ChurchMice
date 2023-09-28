@@ -14,6 +14,7 @@ export class AuthService {
   private readonly baseUrl: string;
   private readonly loginUrl: string;
   private readonly logoutUrl: string;
+  private readonly createUserUrl: string;
 
   private readonly headers: HttpHeaders;
 
@@ -30,6 +31,7 @@ export class AuthService {
     this.baseUrl = environment.servicesUrl + '/api/user';
     this.loginUrl = this.baseUrl + '/login';
     this.logoutUrl = this.baseUrl + '/logout';
+    this.createUserUrl = this.baseUrl + '/createUser';
     this.headers = new HttpHeaders()
       .set('content-type', 'application/json')
       .set('Access-Control-Allow-Origin', '*')
@@ -82,6 +84,7 @@ export class AuthService {
   }
 
   public logout() {
+    this.http.put<JwtResponseDto>(this.logoutUrl, '', {'headers': this.headers});
     localStorage.removeItem(AuthService.STORED_AUTHENTICATED_USER);
     this.authenticatedUser = undefined;
     this.currentAuthenticationState.next(null);

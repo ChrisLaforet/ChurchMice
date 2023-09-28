@@ -50,13 +50,19 @@
     <div class="sidebar-heading ms-1 d-none d-sm-inline">Authorization</div>
     <!-- needs icon -->
 
-    <li class="nav-item active">
+    <li class="nav-item active" *ngIf="!isLoggedIn()">
       <a class="nav-link" href="/login">
         <fa-icon [icon]="faRightToBracket" class="fa-fw sidebar-icon fa-lg"></fa-icon>
         <span class="d-none d-sm-inline">Login</span>
       </a>
     </li>
 
+    <li class="nav-item active" *ngIf="isLoggedIn()">
+      <a class="nav-link" href="/logout">
+        <fa-icon [icon]="faRightFromBracket" class="fa-fw sidebar-icon fa-lg"></fa-icon>
+        <span class="d-none d-sm-inline">Log out</span>
+      </a>
+    </li>
 
     <li class="nav-item active">
       <a class="nav-link" href="/newLogin">
