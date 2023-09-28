@@ -15,23 +15,23 @@ export class Configuration {
   }
 
   public hasIndex(): boolean {
-    return this.index != undefined;
+    return this.index !== undefined;
   }
 
   public hasAbout(): boolean {
-    return this.about != undefined;
+    return this.about !== undefined;
   }
 
   public hasBeliefs(): boolean {
-    return this.beliefs != undefined;
+    return this.beliefs !== undefined;
   }
 
   public hasServices(): boolean {
-    return this.services != undefined;
+    return this.services !== undefined;
   }
 
   public hasLogo(): boolean {
-    return this.logo != undefined;
+    return this.logo !== undefined;
   }
 
   public getIndex(): string {

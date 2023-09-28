@@ -12,8 +12,6 @@ import { ConfigurationLoader } from '../../operation';
 })
 export class TopBarComponent implements OnDestroy {
 
-  @Input() configurationLoader?: ConfigurationLoader = undefined;
-
   faBell = faBell;
   faEnvelope = faEnvelope;
   faCartShopping = faCartShopping;
@@ -24,7 +22,8 @@ export class TopBarComponent implements OnDestroy {
   subscription: Subscription;
   user: AuthenticatedUser | null;
 
-  constructor(private authService: AuthService) {
+  constructor(private configurationLoader: ConfigurationLoader,
+              private authService: AuthService) {
     this.user = null;
     this.subscription = this.authService.currentAuthenticationState.subscribe(user => this.user = user);
   }

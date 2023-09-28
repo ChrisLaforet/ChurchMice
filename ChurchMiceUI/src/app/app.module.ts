@@ -1,11 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from '@app/nav-menu/nav-menu.component';
-import { AuthGuard } from '@app/helper';
+import { AppInitializer, AuthGuard } from '@app/helper';
 import { HomeComponent } from './home/home.component';
 import { IApiKeyReaderService } from '@service/key-support/api-key-reader.service.interface';
 import { ApiKeyReaderService } from '@service/key-support/api-key-reader.service';
@@ -31,7 +31,8 @@ import { NewMemberComponent } from '@app/new-member/new-member.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { UploadMemberImageComponent } from '@app/upload-member-image/upload-member-image.component';
 import { UserContentComponent } from '@app/user-content/user-content.component';
-import { ConfigurationLoader } from '../operation/configuration/configuration-loader';
+import { ConfigurationLoader } from '../operation';
+import { ConfigurationService } from '@service/configuration/configuration.service';
 
 library.add(fas, far);
 
@@ -95,10 +96,7 @@ library.add(fas, far);
       provide: NgbDateParserFormatter,
       useClass: UnitedStatesDateParserFormatter
     },
-    {
-      provide: ConfigurationLoader,
-      useClass: ConfigurationLoader
-    }
+    { provide: APP_INITIALIZER, useFactory: AppInitializer, multi: true, deps: [ConfigurationLoader, ConfigurationService] },
   ],
   bootstrap: [AppComponent]
 })

@@ -1,13 +1,13 @@
 <div class="container-fluid" id="viewPort">
   <div class="row flex-nowrap">
     <div class="col-auto col-sm-4 col-md-3 col-lg-3 col-xl-2 col-xxl-2 " id="menuSide">
-      <app-nav-menu [configurationLoader]="getConfigurationLoader()"></app-nav-menu>
+      <app-nav-menu></app-nav-menu>
     </div>
     <div class="col container-background" id="contentSide">
-      <app-top-bar [configurationLoader]="getConfigurationLoader()"></app-top-bar>
+      <app-top-bar></app-top-bar>
       <div class="container router-outlet-background">
         <!-- important - everything that hits the router outlet should make a redirected call to something in the main site to refresh the user's session -->
-        <router-outlet (activate)="onRouterOutletLoaded($event)"></router-outlet>
+        <router-outlet></router-outlet>
       </div>
       <div class="container copyright-footer shadow">
         ChurchMice (OpenSource edition)

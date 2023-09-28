@@ -17,8 +17,6 @@ import { ConfigurationLoader } from '../../operation';
 })
 export class NavMenuComponent {
 
-  @Input() configurationLoader?: ConfigurationLoader = undefined;
-
   image: SafeUrl | null = null;
   isExpanded = false;
 
@@ -29,7 +27,8 @@ export class NavMenuComponent {
   faClock = faClock;
   faScaleBalanced = faScaleBalanced;
 
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor(private configurationLoader: ConfigurationLoader,
+              private sanitizer: DomSanitizer) { }
 
   collapse() {
     this.isExpanded = false;

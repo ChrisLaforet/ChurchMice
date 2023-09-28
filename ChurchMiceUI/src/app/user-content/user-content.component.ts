@@ -8,14 +8,14 @@ import { ReplaySubject, Observable, take } from 'rxjs';
   selector: 'app-user-content',
   templateUrl: './user-content.component.html',
 })
-export class UserContentComponent implements RouterOutletComponent {
-
-  configurationLoader?: ConfigurationLoader = undefined;
+export class UserContentComponent {
 
   private pageType: string | undefined = undefined;
   iframeDoc$ = new ReplaySubject<any>(1);
 
-  constructor(private route: ActivatedRoute, private domSanitizer: DomSanitizer) {
+  constructor(private configurationLoader: ConfigurationLoader,
+              private route: ActivatedRoute,
+              private domSanitizer: DomSanitizer) {
     route.data.pipe()
       .subscribe({
         next: (data) => {
@@ -23,11 +23,6 @@ export class UserContentComponent implements RouterOutletComponent {
           return;
         }
       });
-  }
-
-  ngOnChanges() {
-    console.log("ONCHANGE")
-    console.log(this.configurationLoader);
   }
 
   checkHasConfiguredComponent() : boolean {
