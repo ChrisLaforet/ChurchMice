@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfigurationLoader, RouterOutletComponent } from '../../operation';
+import { ConfigurationLoader } from '../../operation';
 
 @Component({
   selector: 'app-home',

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IApiKeyReaderService } from '@service/index';
 import { AuthService } from '@service/index';
-import { ConfigurationLoader, RouterOutletComponent } from '../operation';
+import { ConfigurationLoader } from '../operation';
 
 
 @Component({

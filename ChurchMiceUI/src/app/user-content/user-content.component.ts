@@ -1,7 +1,7 @@
 ﻿import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ConfigurationLoader, RouterOutletComponent } from '../../operation';
+import { ConfigurationLoader } from '../../operation';
 import { ReplaySubject, Observable, take } from 'rxjs';
 
 @Component({
