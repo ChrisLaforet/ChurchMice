@@ -15,6 +15,7 @@ public class UtilityTests
 
 	[Theory]
 	// [InlineData("user@[IPv6:2001:db8:1ff::a0b:dbd0]")]  -- IPv6 is legitimately the domain part
+	[InlineData("chris@laforet.name")]
 	// Seeded below with examples from cjaude: https://gist.github.com/cjaoude/fd9910626629b53c4d25
 	[InlineData("email@example.com")]
 	[InlineData("firstname.lastname@example.com")]

@@ -44,7 +44,7 @@ public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Nothi
 	public User CreateUserFor(CreateUserCommand command)
 	{
 		var user = new User();
-		user.Id = Guid.NewGuid().ToString();
+		//user.Id = Guid.NewGuid().ToString();
 		user.Email = command.Email;
 		user.Fullname = command.FullName;
 		user.Username = command.UserName;
@@ -57,18 +57,17 @@ public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Nothi
 
 	private void RequestEmailValidationFrom(User user) 
 	{
-		// TODO: add url to the PATH TO VALIDATION screen when configuration is added
 		var contents = new StringBuilder();
 		contents.Append("A new account has been requested in ChurchMice software");
 		if (!string.IsNullOrEmpty(configurationProxy.GetMinistryName()))
 		{
 			contents.Append($" for {configurationProxy.GetMinistryName()}");
 		}
-		contents.Append(" and has been created.  If you did not request this, you do not have to do anything.  However, if you did, please validate your Email address with us.");
+		contents.Append(" and has been created.  If you did not request this, you do not have to do anything.\r\nHowever, if you did, please validate your Email address with us before being granted access.");
 		contents.Append("\r\n\r\nYour login username is: ");
 		contents.Append(user.Username);
 		contents.Append("\r\n\r\nClick the following link to validate your Email address: ");
-		contents.Append("PATH TO VALIDATION");
+		contents.Append($"{configurationProxy.GetBaseUrl()}/validateUserEmail");
 		contents.Append("\r\n");
 		
 		emailProxy.SendMessageTo(user.Email, emailSender, "Please confirm your Email", contents.ToString());
@@ -88,7 +87,7 @@ public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Nothi
 			throw new InvalidFieldException("Password");
 		}
 		
-		if (EmailAddressValidation.IsValidEmail(command.Email))
+		if (!EmailAddressValidation.IsValidEmail(command.Email))
 		{
 			logger.LogError($"Attempt to create user {command.UserName} with invalid Email address of {command.Email}");
 			throw new InvalidFieldException("Email");

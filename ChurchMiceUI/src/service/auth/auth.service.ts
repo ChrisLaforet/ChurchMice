@@ -124,7 +124,6 @@ export class AuthService {
   }
 
   public getAuthenticatedUser(): AuthenticatedUser | null {
-    // TODO: handle user from local storage
     if (this.authenticatedUser == null) {
       let json = localStorage.getItem(AuthService.STORED_AUTHENTICATED_USER);
       if (json == null) {

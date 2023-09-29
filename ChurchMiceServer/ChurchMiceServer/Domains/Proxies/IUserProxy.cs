@@ -11,6 +11,7 @@ public interface IUserProxy
 	IList<User> GetUsersByEmail(string email);
 	JsonWebToken AuthenticateUser(string username, string password);
 	string CreateUser(User user);
+	void ValidateEmailForUser(string username, string password);
 
 	void SetPasswordFor(string username, string resetKey, string password);
 	string HashPassword(string password);

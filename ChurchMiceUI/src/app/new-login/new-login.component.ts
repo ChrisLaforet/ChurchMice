@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntypedFormBuilder } from '@angular/forms';
-import { AuthService, IRecaptchaKeyReaderService, NotificationService } from '@service/index';
+import { AuthService, IRecaptchaKeyReaderService, NotificationService, UserService } from '@service/index';
 import { ReCaptchaV3Service } from 'ngx-captcha';
-import { TopBarComponent } from '@app/top-bar/top-bar.component';
+import { first } from 'rxjs/operators';
+import { MessageResponseDto } from '@data/dto/message-response.dto';
+
 
 @Component({
   selector: 'app-new-login',
@@ -27,6 +29,7 @@ export class NewLoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
+    private userService: UserService,
     private notifyService: NotificationService,
     private reCaptchaV3Service: ReCaptchaV3Service,
     private recaptchaKeyReaderService: IRecaptchaKeyReaderService) {
@@ -40,7 +43,23 @@ export class NewLoginComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
-    this.notifyService.showInfo('Requesting to create a new login', 'Create new login')
+    this.notifyService.showInfo('Requesting to create a new login', 'Create new login');
+
+    this.userService.createUserFor(this.newUserName, this.newPassword, this.newEmail, this.newFullName)
+      .pipe()
+      .subscribe({
+        error: (err: any) => {
+          this.notifyService.showError('An error has occurred while creating new login.', 'Error');
+          this.submitted = false;
+          return;
+        },
+        complete: () => {
+          this.notifyService.showSuccess('New login user has been created.  Check your Email for instructions.', 'Success');
+          this.submitted = false;
+          this.router.navigate(['/main']);
+          return;
+        }
+      });
 
     // this.authService.login(this.loginName, this.loginPassword)
     //   .pipe(first())

@@ -4,7 +4,6 @@ import { UntypedFormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AuthService, NotificationService } from '@service/index';
 import { AuthenticatedUser } from '@data/index';
-import { TopBarComponent } from '@app/top-bar/top-bar.component';
 
 @Component({
   selector: 'app-login',
@@ -39,7 +38,6 @@ export class LoginComponent implements OnInit {
           // TODO: update the header with correct user information!
           console.log(user);
           this.notifyService.showSuccess('Welcome, ' + user.fullName + ', you are successfully logged in', 'Success');
-          //this.router.navigate(['TODO_SET_THIS_PATH_AND_UNCOMMENT']);
         },
         error: (err: any) => {
           this.submitted = false;
@@ -47,6 +45,7 @@ export class LoginComponent implements OnInit {
         },
         complete: () => {
           this.submitted = false;
+          this.router.navigate(['/main']);
           return;
         }
       });

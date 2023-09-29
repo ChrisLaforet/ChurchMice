@@ -56,9 +56,8 @@ public class UserProxy : IUserProxy
         context.SaveChanges();
 
         var role = new UserRole();
-        role.RoleLevel = 100;
+        role.RoleLevel = Role.NO_ACCESS_LEVEL;
         role.UserId = user.Id;
-        role.Id = 100;
         context.UserRoles.Add(role);
         context.SaveChanges();
         
@@ -77,6 +76,42 @@ public class UserProxy : IUserProxy
         return CreateJWTFor(user);
     }
 
+    public void ValidateEmailForUser(string username, string password)
+    {
+        var passwordHash = passwordProcessor.HashPassword(password);
+        var user = GetUserByUsername(username);
+        if (user == null || user.PasswordHash.IsNullOrEmpty() || user.PasswordHash != passwordHash)
+        {
+            throw new AuthenticationException();
+        }
+
+        UpdateRoleForUser(user);
+    }
+
+    private void UpdateRoleForUser(User user)
+    {
+        var roles = context.UserRoles.Where(role => role.UserId == user.Id);
+        if (!roles.IsNullOrEmpty())
+        {
+            // we will not permit a high role to be overwritten
+            if (roles.FirstOrDefault(role => role.RoleLevel > Role.ATTENDER_LEVEL) != null)
+            {
+                return;
+            }
+            
+            foreach (var role in roles)
+            {
+                context.UserRoles.Remove(role);
+            }
+        }
+        
+        var newRole = new UserRole();
+        newRole.RoleLevel = Role.ATTENDER_LEVEL;
+        newRole.UserId = user.Id;
+        context.UserRoles.Add(newRole);
+        context.SaveChanges();
+    }
+    
     private string GenerateTokenKey()
     {
         var aes = Aes.Create();
@@ -92,7 +127,7 @@ public class UserProxy : IUserProxy
         var roleLevels = new HashSet<int>();
         if (!possibleRoleLevels.IsNullOrEmpty())
         {
-            roleLevels = context.UserRoles.Where(role => role.UserId == user.Id).Select(role => role.RoleLevel).ToHashSet();
+            roleLevels = possibleRoleLevels.ToHashSet();
         }
 
         var roles = new List<string>();
@@ -227,9 +262,11 @@ public class UserProxy : IUserProxy
             {
                 contents.Append($" for {configurationProxy.GetMinistryName()}");
             }
-            contents.Append(" has been created.  If you did not request this, you do not have to do anything.  However, if you did, use your login portal for ChurchMice and select Change Password.");
+            contents.Append(" has been created.  If you did not request this, you do not have to do anything.\r\nHowever, if you did, use your login portal for ChurchMice and select Change Password.");
             contents.Append("\r\n\r\nYour login username is: ");
             contents.Append(user.Username);
+            contents.Append("\r\n\r\nGo to the following link to Change Password: ");
+            contents.Append($"{configurationProxy.GetBaseUrl()}/changePassword");
             contents.Append("\r\n\r\nUse the following for the ResetKey: ");
             contents.Append(resetKey);
             contents.Append("\r\n");

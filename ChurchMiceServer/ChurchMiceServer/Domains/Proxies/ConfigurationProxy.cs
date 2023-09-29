@@ -58,4 +58,15 @@ public class ConfigurationProxy : IConfigurationProxy
 	{
 		return GetConfiguredValueFor(IConfigurationProxy.MINISTRY_NAME_KEYWORD);
 	}
+
+	public void SetBaseUrl(string url)
+	{
+		SetConfiguredValueFor(IConfigurationProxy.BASE_URL_KEYWORD, url);
+	}
+
+	public string GetBaseUrl()
+	{
+		return GetConfiguredValueFor(IConfigurationProxy.BASE_URL_KEYWORD);
+
+	}
 }

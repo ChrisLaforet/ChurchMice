@@ -6,7 +6,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[User](
-	[ID] [varchar](50) NOT NULL,
+	[ID] [varchar](50) DEFAULT NEWID() NOT NULL,
 	[Username] [varchar](20) NOT NULL,
 	[Fullname] [varchar](50) NOT NULL,
 	[Email] [varchar](100) NOT NULL,

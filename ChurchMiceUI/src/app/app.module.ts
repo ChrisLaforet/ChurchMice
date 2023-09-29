@@ -34,6 +34,7 @@ import { UploadMemberImageComponent } from '@app/upload-member-image/upload-memb
 import { UserContentComponent } from '@app/user-content/user-content.component';
 import { ConfigurationLoader } from '../operation';
 import { ConfigurationService } from '@service/configuration/configuration.service';
+import { ValidateEmailComponent } from '@app/validate-email/validate-email.component';
 
 library.add(fas, far);
 
@@ -50,7 +51,8 @@ library.add(fas, far);
     NewMemberComponent,
     UploadMemberImageComponent,
     USCurrencyPipe,
-    UserContentComponent
+    UserContentComponent,
+    ValidateEmailComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -70,6 +72,8 @@ library.add(fas, far);
 
       {path: 'forgotten', component: ForgottenPasswordComponent},
       {path: 'newLogin', component: NewLoginComponent},
+      {path: 'validateUserEmail', component: ValidateEmailComponent},
+      //{path: 'changePassword', component: ChangePasswordComponent},
 
       {path: 'newMember', component: NewMemberComponent, canActivate: [AuthGuard]},
 

@@ -23,6 +23,8 @@ public partial class UserController : ControllerBase
     public LogoutCommandHandler LogoutCommandHandler { get; set; }
     public CheckExistingNameCommandHandler CheckExistingNameCommandHandler { get; set; }
     public CreateUserCommandHandler CreateUserCommandHandler { get; set; }
+    public ValidateUserEmailCommandHandler ValidateUserEmailCommandHandler { get; set; }
+
 
     public UserController(IServiceProvider? serviceProvider, IUserProxy userProxy, ILogger<UserController> logger)
     {
@@ -36,6 +38,7 @@ public partial class UserController : ControllerBase
             this.LogoutCommandHandler = ActivatorUtilities.CreateInstance<LogoutCommandHandler>(serviceProvider);
             this.CheckExistingNameCommandHandler = ActivatorUtilities.CreateInstance<CheckExistingNameCommandHandler>(serviceProvider);
             this.CreateUserCommandHandler = ActivatorUtilities.CreateInstance<CreateUserCommandHandler>(serviceProvider);
+            this.ValidateUserEmailCommandHandler = ActivatorUtilities.CreateInstance<ValidateUserEmailCommandHandler>(serviceProvider);
         }
     }
 
@@ -64,7 +67,7 @@ public partial class UserController : ControllerBase
         try
         {
             SetPasswordCommandHandler.Handle(new SetPasswordCommand(model.Username, model.ResetKey, model.Password));
-            return Ok("Password set");
+            return Ok(new {message = "Password set"});
         }
         catch (Exception ex)
         {
@@ -92,7 +95,7 @@ public partial class UserController : ControllerBase
             logger.Log(LogLevel.Debug, "Exception caught while attempting to log out: " + ex);
         }
 
-        return Ok("Logged out");
+        return Ok(new {message = "Logged out"});
     }
 
     [HttpPost("changePassword")]
@@ -100,7 +103,7 @@ public partial class UserController : ControllerBase
     public IActionResult ChangePassword(ChangePasswordRequest model)
     {
         ChangePasswordCommandHandler.Handle(new ChangePasswordCommand(model.Email));
-        return Ok("Password change sent in Email");
+        return Ok(new {message = "Password change sent in Email"});
     }
     
     [HttpPost("checkExistingName")]
@@ -109,7 +112,7 @@ public partial class UserController : ControllerBase
     {
         if (CheckExistingNameCommandHandler.Handle(new CheckExistingNameCommand(model.CheckField, model.CheckValue)).Value)
         {
-            return Ok("Value is available");
+            return Ok(new {message = "Value is available"});
         }
 
         return BadRequest(new { message = "Value is already used" });
@@ -127,11 +130,27 @@ public partial class UserController : ControllerBase
         try
         {
             CreateUserCommandHandler.Handle(new CreateUserCommand(model.UserName, model.Password, model.Email, model.FullName));
-            return Ok("Check your Email (and Spam filters) to complete creating your account");
+            return Ok(new {message = "Check your Email (and Spam filters) to complete creating your account"});
         }
         catch (Exception ex)
         {
             return BadRequest(new {message = "Something went wrong while creating user account"});
         }
     }
+    
+    [HttpPost("validateUserEmail")]
+    [AllowAnonymous]
+    public IActionResult ValidateUserEmail(ValidateUserEmailRequest model)
+    {
+        try
+        {
+            ValidateUserEmailCommandHandler.Handle(new ValidateUserEmailCommand(model.UserName, model.Password));
+            return Ok(new {message = "Email address for user account has been validated"});
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new {message = "Something went wrong while validating Email address for user account"});
+        }
+    }
+    
 }
