@@ -17,6 +17,7 @@ export class UserService {
   private readonly validateEmailUrl: string;
   private readonly requestPasswordChangeUrl: string;
   private readonly completePasswordChangeUrl: string;
+  private readonly checkUsernameIsAvailableUrl: string;
 
   private readonly headers: HttpHeaders;
 
@@ -29,6 +30,7 @@ export class UserService {
     this.validateEmailUrl = this.baseUrl + '/validateUserEmail';
     this.requestPasswordChangeUrl = this.baseUrl + '/requestPasswordChange';
     this.completePasswordChangeUrl = this.baseUrl + '/completePasswordChange';
+    this.checkUsernameIsAvailableUrl = this.baseUrl + '/checkUserNameAvailable';
     this.headers = new HttpHeaders()
       .set('content-type', 'application/json')
       .set('Access-Control-Allow-Origin', '*')
@@ -75,5 +77,12 @@ export class UserService {
       "password": password
     };
     return this.http.post<MessageResponseDto>(this.completePasswordChangeUrl, userData, {'headers': this.headers});
+  }
+
+  public checkUsernameIsAvailable(username: string) {
+    var userData = {
+      "username": username
+    };
+    return this.http.post<MessageResponseDto>(this.checkUsernameIsAvailableUrl, userData, {'headers': this.headers});
   }
 }

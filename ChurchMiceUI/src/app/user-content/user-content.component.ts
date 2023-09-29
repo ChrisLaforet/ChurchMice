@@ -62,7 +62,6 @@ export class UserContentComponent {
   }
 
   loadContent(target: HTMLIFrameElement): void {
-    console.log("loadContent")
     if (target.contentDocument === null) {
       return;
     }

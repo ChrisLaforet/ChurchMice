@@ -1,6 +1,8 @@
 ﻿using ChurchMiceServer.Controllers.Models;
 using ChurchMiceServer.CQS.CommandHandlers;
 using ChurchMiceServer.CQS.Commands;
+using ChurchMiceServer.CQS.Queries;
+using ChurchMiceServer.CQS.QueryHandlers;
 using ChurchMiceServer.Domains.Models;
 using Microsoft.AspNetCore.Mvc;
 using ChurchMiceServer.Domains.Proxies;
@@ -21,7 +23,7 @@ public partial class UserController : ControllerBase
     public SetPasswordCommandHandler SetPasswordCommandHandler { get; set; }
     public ChangePasswordCommandHandler ChangePasswordCommandHandler { get; set; }
     public LogoutCommandHandler LogoutCommandHandler { get; set; }
-    public CheckExistingNameCommandHandler CheckExistingNameCommandHandler { get; set; }
+    public CheckExistingNameQueryHandler CheckExistingNameQueryHandler { get; set; }
     public CreateUserCommandHandler CreateUserCommandHandler { get; set; }
     public ValidateUserEmailCommandHandler ValidateUserEmailCommandHandler { get; set; }
 
@@ -36,7 +38,7 @@ public partial class UserController : ControllerBase
             this.SetPasswordCommandHandler = ActivatorUtilities.CreateInstance<SetPasswordCommandHandler>(serviceProvider);
             this.ChangePasswordCommandHandler = ActivatorUtilities.CreateInstance<ChangePasswordCommandHandler>(serviceProvider);
             this.LogoutCommandHandler = ActivatorUtilities.CreateInstance<LogoutCommandHandler>(serviceProvider);
-            this.CheckExistingNameCommandHandler = ActivatorUtilities.CreateInstance<CheckExistingNameCommandHandler>(serviceProvider);
+            this.CheckExistingNameQueryHandler = ActivatorUtilities.CreateInstance<CheckExistingNameQueryHandler>(serviceProvider);
             this.CreateUserCommandHandler = ActivatorUtilities.CreateInstance<CreateUserCommandHandler>(serviceProvider);
             this.ValidateUserEmailCommandHandler = ActivatorUtilities.CreateInstance<ValidateUserEmailCommandHandler>(serviceProvider);
         }
@@ -106,11 +108,11 @@ public partial class UserController : ControllerBase
         return Ok(new {message = "Password change sent in Email"});
     }
     
-    [HttpPost("checkExistingName")]
+    [HttpPost("checkUserNameAvailable")]
     [AllowAnonymous]
-    public IActionResult CheckExistingName(CheckExistingNameRequest model)
+    public IActionResult CheckUserNameAvailable(CheckUserNameAvailableRequest model)
     {
-        if (CheckExistingNameCommandHandler.Handle(new CheckExistingNameCommand(model.CheckField, model.CheckValue)).Value)
+        if (CheckExistingNameQueryHandler.Handle(new CheckExistingNameQuery(CheckExistingNameQuery.CHECK_USERNAME, model.UserName)).Value)
         {
             return Ok(new {message = "Value is available"});
         }
@@ -122,7 +124,7 @@ public partial class UserController : ControllerBase
     [AllowAnonymous]
     public IActionResult CreateUser(CreateUserRequest model)
     {
-        if (!CheckExistingNameCommandHandler.Handle(new CheckExistingNameCommand("USERNAME", model.UserName)).Value)
+        if (!CheckExistingNameQueryHandler.Handle(new CheckExistingNameQuery("USERNAME", model.UserName)).Value)
         {
             return BadRequest(new {message = "Requested user name is not permitted"});
         }

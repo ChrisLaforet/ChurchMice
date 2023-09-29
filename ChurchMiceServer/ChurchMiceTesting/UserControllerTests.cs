@@ -17,7 +17,7 @@ public class UserControllerTests
     private MockConfigurationProxy configurationProxyMock = new MockConfigurationProxy();
 
     private Mock<ILogger<LoginCommandHandler>> loginCommandLoggerMock = new Mock<ILogger<LoginCommandHandler>>();
-    private Mock<ILogger<CheckExistingNameCommandHandler>> checkExistingNameCommandHandlerLoggerMock = new Mock<ILogger<CheckExistingNameCommandHandler>>();
+    private Mock<ILogger<CheckExistingNameQueryHandler>> checkExistingNameCommandHandlerLoggerMock = new Mock<ILogger<CheckExistingNameQueryHandler>>();
 
     private UserProxy userProxy;
     private UserController userController;
@@ -78,10 +78,10 @@ public class UserControllerTests
     [Fact]
     public void GivenUserController_WhenCheckingForExistingName_ThenReturnsBadRequest()
     {
-        userController.CheckExistingNameCommandHandler = new CheckExistingNameCommandHandler(userProxy, checkExistingNameCommandHandlerLoggerMock.Object);
+        userController.CheckExistingNameQueryHandler = new CheckExistingNameQueryHandler(userProxy, checkExistingNameCommandHandlerLoggerMock.Object);
         userProxy.CreateUser(CreateTestUser());
 
-        var request = new CheckExistingNameRequest()
+        var request = new CheckUserNameAvailableRequest()
         {
             CheckField = "Username",
             CheckValue = "test"
@@ -94,10 +94,10 @@ public class UserControllerTests
     [Fact]
     public void GivenUserController_WhenCheckingForExistingEmail_ThenReturnsBadRequest()
     {
-        userController.CheckExistingNameCommandHandler = new CheckExistingNameCommandHandler(userProxy, checkExistingNameCommandHandlerLoggerMock.Object);
+        userController.CheckExistingNameQueryHandler = new CheckExistingNameQueryHandler(userProxy, checkExistingNameCommandHandlerLoggerMock.Object);
         userProxy.CreateUser(CreateTestUser());
 
-        var request = new CheckExistingNameRequest()
+        var request = new CheckUserNameAvailableRequest()
         {
             CheckField = "Email",
             CheckValue = "test@test.com"
@@ -110,10 +110,10 @@ public class UserControllerTests
     [Fact]
     public void GivenUserController_WhenCheckingForNonExistantName_ThenReturnsOk()
     {
-        userController.CheckExistingNameCommandHandler = new CheckExistingNameCommandHandler(userProxy, checkExistingNameCommandHandlerLoggerMock.Object);
+        userController.CheckExistingNameQueryHandler = new CheckExistingNameQueryHandler(userProxy, checkExistingNameCommandHandlerLoggerMock.Object);
         userProxy.CreateUser(CreateTestUser());
 
-        var request = new CheckExistingNameRequest()
+        var request = new CheckUserNameAvailableRequest()
         {
             CheckField = "Username",
             CheckValue = "nobody"
@@ -126,10 +126,10 @@ public class UserControllerTests
     [Fact]
     public void GivenUserController_WhenCheckingForNonExistantEmail_ThenReturnsOk()
     {
-        userController.CheckExistingNameCommandHandler = new CheckExistingNameCommandHandler(userProxy, checkExistingNameCommandHandlerLoggerMock.Object);
+        userController.CheckExistingNameQueryHandler = new CheckExistingNameQueryHandler(userProxy, checkExistingNameCommandHandlerLoggerMock.Object);
         userProxy.CreateUser(CreateTestUser());
 
-        var request = new CheckExistingNameRequest()
+        var request = new CheckUserNameAvailableRequest()
         {
             CheckField = "Email",
             CheckValue = "nobody@test.com"
