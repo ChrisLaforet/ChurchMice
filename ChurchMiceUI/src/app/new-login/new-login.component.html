@@ -13,9 +13,12 @@
         <div class="col-lg-4 col-md-6 col-sm-12">
           <label for="userName">User name</label>
           <input type="text" class="form-control" id="userName" name="userName" #userName="ngModel"
-                 [(ngModel)]="newUserName" required minlength="2">
+                 [(ngModel)]="newUserName" required minlength="5" (blur)="this.isUserNameNotAvailable()">
           <div class="text-danger" *ngIf="(userName.errors?.required || userName.errors?.minlength)">
             A unique user name must be provided.
+          </div>
+          <div class="text-danger" *ngIf="this.nameIsNotAvailable">
+            The provided name is not permitted to be used - please choose another.
           </div>
         </div>
 

@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntypedFormBuilder } from '@angular/forms';
 import { AuthService, IRecaptchaKeyReaderService, NotificationService, UserService } from '@service/index';
 import { ReCaptchaV3Service } from 'ngx-captcha';
-import { first } from 'rxjs/operators';
-import { MessageResponseDto } from '@data/dto/message-response.dto';
+import { fromEvent, debounceTime } from 'rxjs';
 
 
 @Component({
@@ -20,6 +19,8 @@ export class NewLoginComponent implements OnInit {
   newEmail = '';
   newPassword = '';
   newConfirmPassword = '';
+
+  nameIsNotAvailable = false;
 
   siteKey: any;
 
@@ -38,7 +39,27 @@ export class NewLoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.logout();
+  }
+
+  isUserNameNotAvailable() {
+
+    if (this.newUserName === null || this.newUserName.length == 0) {
+      this.nameIsNotAvailable = false;
+    }
+
+    this.userService.checkUsernameIsAvailable(this.newUserName)
+      .pipe()
+      .subscribe({
+        error: (err: any) => {
+          this.nameIsNotAvailable = true;
+          return;
+        },
+        complete: () => {
+          this.nameIsNotAvailable = false;
+          return ;
+        }
+    })
+    return false;
   }
 
   onSubmit(): void {
