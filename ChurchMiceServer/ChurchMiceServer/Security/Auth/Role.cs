@@ -2,6 +2,8 @@
 
 public class Role
 {
+	// Note: ChurchMice uses the concept of Cascading Roles, that is, higher roles include all lower roles.
+	// This approach is not necessarily valid for other implementations where roles are discrete grants.
 	public const int NO_ACCESS_LEVEL = 0;
 	public const int ATTENDER_LEVEL = 100;
 	public const int MEMBER_LEVEL = 1000;

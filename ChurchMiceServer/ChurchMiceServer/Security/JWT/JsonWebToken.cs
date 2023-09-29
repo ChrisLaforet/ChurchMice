@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Authentication;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
-using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
 namespace ChurchMiceServer.Security.JWT
@@ -249,6 +245,11 @@ namespace ChurchMiceServer.Security.JWT
             }
 
             return roles.Contains(role);
+        }
+
+        public string[] GetRoles()
+        {
+            return roles.ToArray();
         }
 
         public string Issuer

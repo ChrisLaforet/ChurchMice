@@ -29,4 +29,11 @@ public class AdminController : ControllerBase
 	{
 		return new ConfigurationValuesResponse(LocalConfigurationQueryHandler.Handle(new LocalConfigurationQuery()));
 	}
+
+	[HttpPut("setLocalConfigurationValue")]
+	[Authorize(Roles = "Administrator")]
+	public IActionResult SetLocalConfigurationValue()
+	{
+		throw new NotImplementedException();
+	}
 }

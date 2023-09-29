@@ -13,18 +13,13 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
 	public const string AUTHORIZATION_KEY = "authorization";
 	public const string BEARER_HEADER = "Bearer ";
 
+	public string? Roles { get; set; }
+	
 	public void OnAuthorization(AuthorizationFilterContext context)
 	{
-		// Checks the bearer token
-		// TODO: CML- finish authorization support??
-// 		var user = context.HttpContext.Items["User"];
-// 		if (user == null)
-// 		{
-// 			throw new AuthenticationException("Not authenticated");
-// 			// not logged in
-// //				context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
-// 		}
+		// TODO: CML- finish authorization support?? - now roles are in, is there anything else needed here?
 
+		// Checks the bearer JWT token
 		var bearer = context.HttpContext.Request.Headers[AUTHORIZATION_KEY];
 		if (bearer.IsNullOrEmpty())
 		{
@@ -41,15 +36,38 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
 		var userProxy = context.HttpContext.RequestServices.GetService<IUserProxy>();
 		if (userProxy == null || !userProxy.ValidateUserToken(jwt))
 		{
-			throw new AuthenticationException("Invalid bearer token");
+			throw new AuthenticationException("Invalid or expired bearer token");
 		}
 
+		var roles = jwt.GetRoles();
+		ValidateHasAuthorizedRole(jwt);
+		
 		var identity = new GenericIdentity(jwt.User);
-		//var roles = userProxy.GetUserRoles(jwt);
-// TODO: get the roles from jwt when they are created
-		var principal = new GenericPrincipal(identity, null);
+		var principal = new GenericPrincipal(identity, roles);
 		Thread.CurrentPrincipal = principal;
 		context.HttpContext.User = principal;
 		//HttpContext.Current.User = principal;
+	}
+
+	private void ValidateHasAuthorizedRole(JsonWebToken jwt)
+	{
+		if (Roles?.Length > 0)
+		{
+			var expectedRoles = Roles.Split(",", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+			bool isMissingRole = true;
+			foreach (var expectedRole in expectedRoles)
+			{
+				if (jwt.GetRoles().Contains(expectedRole))
+				{
+					isMissingRole = false;
+					break;
+				}
+			}
+
+			if (isMissingRole)
+			{
+				throw new UnauthorizedAccessException($"User {jwt.User} does not have a role in {Roles}");
+			}
+		}
 	}
 }

@@ -329,8 +329,7 @@ public class UserProxy : IUserProxy
 
     public string[] GetUserRoles(JsonWebToken token)
     {
-// TODO: CML - get the user roles        
-        return null;
+        return token.GetRoles();
     }
 
 }
