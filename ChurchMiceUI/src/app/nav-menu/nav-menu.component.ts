@@ -4,6 +4,7 @@ import {
   faCircleCheck,
   faCircleQuestion,
   faClock,
+  faGear,
   faRightToBracket,
   faRightFromBracket,
   faScaleBalanced,
@@ -14,6 +15,7 @@ import { ConfigurationLoader } from '../../operation';
 import { AuthService } from '@service/auth/auth.service';
 import { AuthenticatedUser } from '@data/auth/authenticated-user';
 import { Subscription } from 'rxjs';
+import { JwtRoleExtractor } from '@app/helper';
 
 @Component({
   selector: 'app-nav-menu',
@@ -33,6 +35,7 @@ export class NavMenuComponent implements OnDestroy {
   faClock = faClock;
   faScaleBalanced = faScaleBalanced;
   faCircleCheck = faCircleCheck;
+  faGear = faGear;
 
   subscription: Subscription;
   user: AuthenticatedUser | null;
@@ -120,5 +123,12 @@ export class NavMenuComponent implements OnDestroy {
 
   isLoggedIn(): boolean {
     return this.user !== null;
+  }
+
+  isAdministrator(): boolean {
+    if (this.user === null || this.user.token === null) {
+      return false;
+    }
+    return JwtRoleExtractor.isUserAnAdministrator(this.user.token);
   }
 }
