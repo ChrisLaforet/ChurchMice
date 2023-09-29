@@ -245,34 +245,36 @@ public class UserProxy : IUserProxy
         return passwordProcessor.HashPassword(password);
     }
 
-    public void ChangePasswordFor(string email)
+    public void ChangePasswordFor(string username)
     {
         var resetKey = GenerateResetKey();
 
-        foreach (var user in GetUsersByEmail(email))
+        var user = GetUserByUsername(username);
+        if (user == null)
         {
-            user.ResetKey = resetKey;
-            user.ResetExpirationDatetime = DateTime.Now.AddDays(5);
-            context.Users.Update(user);
-
-            // TODO: add url to the password change screen when configuration is added
-            var contents = new StringBuilder();
-            contents.Append("A password request for ChurchMice software");
-            if (!string.IsNullOrEmpty(configurationProxy.GetMinistryName()))
-            {
-                contents.Append($" for {configurationProxy.GetMinistryName()}");
-            }
-            contents.Append(" has been created.  If you did not request this, you do not have to do anything.\r\nHowever, if you did, use your login portal for ChurchMice and select Change Password.");
-            contents.Append("\r\n\r\nYour login username is: ");
-            contents.Append(user.Username);
-            contents.Append("\r\n\r\nGo to the following link to Change Password: ");
-            contents.Append($"{configurationProxy.GetBaseUrl()}/changePassword");
-            contents.Append("\r\n\r\nUse the following for the ResetKey: ");
-            contents.Append(resetKey);
-            contents.Append("\r\n");
-
-            emailProxy.SendMessageTo(email, emailSender, "Password change requested", contents.ToString());
+            return;
         }
+
+        user.ResetKey = resetKey;
+        user.ResetExpirationDatetime = DateTime.Now.AddDays(5);
+        context.Users.Update(user);
+
+        var contents = new StringBuilder();
+        contents.Append("A password request for ChurchMice software");
+        if (!string.IsNullOrEmpty(configurationProxy.GetMinistryName()))
+        {
+            contents.Append($" for {configurationProxy.GetMinistryName()}");
+        }
+        contents.Append(" has been created.  If you did not request this, you do not have to do anything.\r\nHowever, if you did, use your login portal for ChurchMice and select Change Password.");
+        contents.Append("\r\n\r\nYour login username is: ");
+        contents.Append(user.Username);
+        contents.Append("\r\n\r\nGo to the following link to Change Password: ");
+        contents.Append($"{configurationProxy.GetBaseUrl()}/changePassword");
+        contents.Append("\r\n\r\nUse the following for the ResetKey: ");
+        contents.Append(resetKey);
+        contents.Append("\r\n");
+
+        emailProxy.SendMessageTo(user.Email, emailSender, "Password change requested", contents.ToString());
         context.SaveChanges();
     }
 

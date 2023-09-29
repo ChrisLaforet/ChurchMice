@@ -15,6 +15,8 @@ export class UserService {
   private readonly userUrl: string;
   private readonly createUserUrl: string;
   private readonly validateEmailUrl: string;
+  private readonly requestPasswordChangeUrl: string;
+  private readonly completePasswordChangeUrl: string;
 
   private readonly headers: HttpHeaders;
 
@@ -25,6 +27,8 @@ export class UserService {
     this.userUrl = this.baseUrl + '/';
     this.createUserUrl = this.baseUrl + '/createUser';
     this.validateEmailUrl = this.baseUrl + '/validateUserEmail';
+    this.requestPasswordChangeUrl = this.baseUrl + '/requestPasswordChange';
+    this.completePasswordChangeUrl = this.baseUrl + '/completePasswordChange';
     this.headers = new HttpHeaders()
       .set('content-type', 'application/json')
       .set('Access-Control-Allow-Origin', '*')
@@ -55,5 +59,21 @@ export class UserService {
       "password": password
     };
     return this.http.post<MessageResponseDto>(this.validateEmailUrl, userData, {'headers': this.headers});
+  }
+
+  public requestPasswordChangeFor(username: string): Observable<MessageResponseDto> {
+    var userData = {
+      "username": username
+    };
+    return this.http.post<MessageResponseDto>(this.requestPasswordChangeUrl, userData, {'headers': this.headers});
+  }
+
+  public completeChangingPasswordFor(username: string, resetKey: string, password: string): Observable<MessageResponseDto> {
+    var userData = {
+      "username": username,
+      "resetkey": resetKey,
+      "password": password
+    };
+    return this.http.post<MessageResponseDto>(this.completePasswordChangeUrl, userData, {'headers': this.headers});
   }
 }

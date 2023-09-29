@@ -2,7 +2,7 @@
 
 namespace ChurchMiceServer.Controllers.Models;
 
-public class SetPasswordRequest
+public class CompletePasswordChangeRequest
 {
 	[Required]
 	public string Username { get; set; }

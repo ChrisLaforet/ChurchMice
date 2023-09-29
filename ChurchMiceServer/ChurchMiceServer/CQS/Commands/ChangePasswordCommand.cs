@@ -2,13 +2,13 @@
 
 public class ChangePasswordCommand : ICommand
 {
-	public string Email
+	public string UserName
 	{
 		get;
 	}
 
-	public ChangePasswordCommand(string email)
+	public ChangePasswordCommand(string userName)
 	{
-		this.Email = email;
+		this.UserName = userName;
 	}
 }

@@ -60,18 +60,18 @@ public partial class UserController : ControllerBase
         return BadRequest(new { message = "Unable to authenticate" });
     }
     
-    [HttpPost("setPassword")]
+    [HttpPost("completePasswordChange")]
     [AllowAnonymous]
-    public IActionResult SetPassword(SetPasswordRequest model)
+    public IActionResult CompletePasswordChange(CompletePasswordChangeRequest model)
     {
         try
         {
             SetPasswordCommandHandler.Handle(new SetPasswordCommand(model.Username, model.ResetKey, model.Password));
-            return Ok(new {message = "Password set"});
+            return Ok(new {message = "Password has been set"});
         }
         catch (Exception ex)
         {
-            logger.Log(LogLevel.Debug, "Error setting password for user " + model.Username + ": " + ex);
+            logger.LogInformation($"Error setting password for user {model.Username}: {ex.ToString()}");
         }
 
         return BadRequest(new { message = "Unable to set password" });
@@ -92,17 +92,17 @@ public partial class UserController : ControllerBase
         }
         catch (Exception ex)
         {
-            logger.Log(LogLevel.Debug, "Exception caught while attempting to log out: " + ex);
+            logger.LogDebug($"Exception caught while attempting to log out: {ex}");
         }
 
         return Ok(new {message = "Logged out"});
     }
 
-    [HttpPost("changePassword")]
+    [HttpPost("requestPasswordChange")]
     [AllowAnonymous]
-    public IActionResult ChangePassword(ChangePasswordRequest model)
+    public IActionResult RequestPasswordChange(ChangePasswordRequest model)
     {
-        ChangePasswordCommandHandler.Handle(new ChangePasswordCommand(model.Email));
+        ChangePasswordCommandHandler.Handle(new ChangePasswordCommand(model.UserName));
         return Ok(new {message = "Password change sent in Email"});
     }
     
@@ -152,5 +152,4 @@ public partial class UserController : ControllerBase
             return BadRequest(new {message = "Something went wrong while validating Email address for user account"});
         }
     }
-    
 }

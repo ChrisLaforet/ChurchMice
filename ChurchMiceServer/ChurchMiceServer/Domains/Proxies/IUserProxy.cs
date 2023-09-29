@@ -15,7 +15,7 @@ public interface IUserProxy
 
 	void SetPasswordFor(string username, string resetKey, string password);
 	string HashPassword(string password);
-	void ChangePasswordFor(string email);
+	void ChangePasswordFor(string username);
 	void LogoutUser(string username);
 	
 	void ExpireUserTokens();

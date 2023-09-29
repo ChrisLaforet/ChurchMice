@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import {
   faChurch,
+  faCircleCheck,
   faCircleQuestion,
   faClock,
   faRightToBracket,
@@ -31,6 +32,7 @@ export class NavMenuComponent implements OnDestroy {
   faCircleQuestion = faCircleQuestion;
   faClock = faClock;
   faScaleBalanced = faScaleBalanced;
+  faCircleCheck = faCircleCheck;
 
   subscription: Subscription;
   user: AuthenticatedUser | null;

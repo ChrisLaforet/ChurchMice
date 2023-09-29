@@ -60,25 +60,6 @@ export class NewLoginComponent implements OnInit {
           return;
         }
       });
-
-    // this.authService.login(this.loginName, this.loginPassword)
-    //   .pipe(first())
-    //   .subscribe({
-    //     next: (user: AuthenticatedUser) => {
-    //       // TODO: update the header with correct user information!
-    //       console.log(user);
-    //       this.notifyService.showSuccess('Welcome, ' + user.fullName + ', you are successfully logged in', 'Success');
-    //       //this.router.navigate(['TODO_SET_THIS_PATH_AND_UNCOMMENT']);
-    //     },
-    //     error: (err: any) => {
-    //       this.submitted = false;
-    //       return;
-    //     },
-    //     complete: () => {
-    //       this.submitted = false;
-    //       return;
-    //     }
-    //   });
   }
 }
 

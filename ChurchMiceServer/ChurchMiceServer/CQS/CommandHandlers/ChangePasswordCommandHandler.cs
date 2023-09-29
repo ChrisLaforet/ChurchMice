@@ -17,10 +17,10 @@ public class ChangePasswordCommandHandler : ICommandHandler<ChangePasswordComman
 	
 	public NothingnessResponse Handle(ChangePasswordCommand command)
 	{
-		logger.LogInformation($"Request to change password for {command.Email}");
+		logger.LogInformation($"Request to begin password change process for {command.UserName}");
 		try
 		{
-			userProxy.ChangePasswordFor(command.Email);
+			userProxy.ChangePasswordFor(command.UserName);
 		}
 		catch (Exception ex)
 		{
