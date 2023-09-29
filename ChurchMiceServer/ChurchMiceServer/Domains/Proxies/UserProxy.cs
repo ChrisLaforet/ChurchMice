@@ -265,7 +265,7 @@ public class UserProxy : IUserProxy
         {
             contents.Append($" for {configurationProxy.GetMinistryName()}");
         }
-        contents.Append(" has been created.  If you did not request this, you do not have to do anything.\r\nHowever, if you did, use your login portal for ChurchMice and select Change Password.");
+        contents.Append(" has been created.  If you did not request this, you do not have to do anything.\r\nHowever, if you did, follow the link below.");
         contents.Append("\r\n\r\nYour login username is: ");
         contents.Append(user.Username);
         contents.Append("\r\n\r\nGo to the following link to Change Password: ");
