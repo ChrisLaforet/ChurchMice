@@ -8,7 +8,8 @@ import {
   faRightToBracket,
   faRightFromBracket,
   faScaleBalanced,
-  faUserPlus
+  faUserPlus,
+  faUsers
 } from '@fortawesome/free-solid-svg-icons';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { ConfigurationLoader } from '../../operation';
@@ -36,6 +37,7 @@ export class NavMenuComponent implements OnDestroy {
   faScaleBalanced = faScaleBalanced;
   faCircleCheck = faCircleCheck;
   faGear = faGear;
+  faUsers = faUsers;
 
   subscription: Subscription;
   user: AuthenticatedUser | null;
