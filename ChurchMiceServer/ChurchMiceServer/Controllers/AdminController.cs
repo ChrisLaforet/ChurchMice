@@ -28,7 +28,7 @@ public class AdminController : ControllerBase
 		}
 	}
 
-	[HttpGet]
+	[HttpGet("getLocalConfiguration")]
 	public ConfigurationValuesResponse GetLocalConfiguration()
 	{
 		return new ConfigurationValuesResponse(LocalConfigurationQueryHandler.Handle(new LocalConfigurationQuery()));

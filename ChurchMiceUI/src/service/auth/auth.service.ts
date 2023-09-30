@@ -113,7 +113,7 @@ export class AuthService {
     let json = localStorage.getItem(AuthService.STORED_AUTHENTICATED_USER);
     if (json != null) {
       try {
-        var authenticatedUser = <AuthenticatedUser>JSON.parse(json);
+        const authenticatedUser = <AuthenticatedUser>JSON.parse(json);
         newHeaders = newHeaders.set('Authorization', 'Bearer ' + authenticatedUser.token);
       } catch (e) {
         console.log('Cannot parse AuthenticatedUser while logging out');

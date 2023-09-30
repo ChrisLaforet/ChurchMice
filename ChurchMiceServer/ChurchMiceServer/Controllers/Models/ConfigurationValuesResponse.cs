@@ -1,4 +1,6 @@
-﻿namespace ChurchMiceServer.Controllers.Models;
+﻿using ChurchMiceServer.Domains.Proxies;
+
+namespace ChurchMiceServer.Controllers.Models;
 
 public class ConfigurationValuesResponse
 {
@@ -9,11 +11,11 @@ public class ConfigurationValuesResponse
 	{
 		foreach (var pair in pairs)
 		{
-			if (pair.Item1.Equals("MinistryName"))
+			if (pair.Item1.Equals(IConfigurationProxy.MINISTRY_NAME_KEYWORD))
 			{
 				this.MinistryName = pair.Item2;
 			}
-			else if (pair.Item1.Equals("BaseUrl"))
+			else if (pair.Item1.Equals(IConfigurationProxy.BASE_URL_KEYWORD))
 			{
 				this.BaseUrl = pair.Item2;
 			}

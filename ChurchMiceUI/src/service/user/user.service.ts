@@ -46,7 +46,7 @@ export class UserService {
   }
 
   public createUserFor(username: string, password: string, email: string, fullname: string): Observable<MessageResponseDto> {
-    var userData = {
+    const userData = {
       "username": username,
       "password": password,
       "fullname" : fullname,
@@ -56,7 +56,7 @@ export class UserService {
   }
 
   public validateEmailFor(username: string, password: string): Observable<MessageResponseDto> {
-    var userData = {
+    const userData = {
       "username": username,
       "password": password
     };
@@ -64,14 +64,14 @@ export class UserService {
   }
 
   public requestPasswordChangeFor(username: string): Observable<MessageResponseDto> {
-    var userData = {
+    const userData = {
       "username": username
     };
     return this.http.post<MessageResponseDto>(this.requestPasswordChangeUrl, userData, {'headers': this.headers});
   }
 
   public completeChangingPasswordFor(username: string, resetKey: string, password: string): Observable<MessageResponseDto> {
-    var userData = {
+    const userData = {
       "username": username,
       "resetkey": resetKey,
       "password": password
@@ -80,7 +80,7 @@ export class UserService {
   }
 
   public checkUsernameIsAvailable(username: string) {
-    var userData = {
+    const userData = {
       "username": username
     };
     return this.http.post<MessageResponseDto>(this.checkUsernameIsAvailableUrl, userData, {'headers': this.headers});

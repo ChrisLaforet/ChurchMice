@@ -3,6 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UntypedFormBuilder } from '@angular/forms';
 import { ConfigurationService } from '@service/configuration/configuration.service';
 import { NotificationService } from '@service/angular/notification.service';
+import { LocalConfigurationDto } from '@data/configuration/local-configuration.dto';
+import { first } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-configure',
@@ -12,7 +15,7 @@ import { NotificationService } from '@service/angular/notification.service';
 export class ConfigureComponent {
   submitted = false;
   configMinistryName = '';
-  configBasUrl = '';
+  configBaseUrl = '';
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -20,30 +23,38 @@ export class ConfigureComponent {
     private router: Router,
     private configurationService: ConfigurationService,
     private notifyService: NotificationService) {
+
+    configurationService.getConfiguration()
+      .pipe(first())
+      .subscribe({
+        next: (config: LocalConfigurationDto) => {
+          this.configBaseUrl = config.baseUrl;
+          this.configMinistryName = config.ministryName;
+        },
+        error: (err) => {
+          console.error(`Error loading local configuration for editing {err}`);
+        },
+        complete:() => {
+        }
+      })
   }
 
   onSubmit(): void {
     this.submitted = true;
     this.notifyService.showInfo('Attempting to save configuration', 'Configuration')
 
-    // this.authService.login(this.loginName, this.loginPassword)
-    //   .pipe()
-    //   .subscribe({
-    //     next: (user: AuthenticatedUser) => {
-    //       // TODO: update the header with correct user information!
-    //       console.log(user);
-    //       this.notifyService.showSuccess('Welcome, ' + user.fullName + ', you are successfully logged in', 'Success');
-    //     },
-    //     error: (err: any) => {
-    //       this.submitted = false;
-    //       return;
-    //     },
-    //     complete: () => {
-    //       this.submitted = false;
-    //       this.router.navigate(['/main']);
-    //       return;
-    //     }
-    //   });
+    this.configurationService.saveConfiguration(this.configMinistryName, this.configBaseUrl)
+      .pipe()
+      .subscribe({
+        error: (err: any) => {
+          this.submitted = false;
+          this.notifyService.showError("Error while saving configuration", "Error saving")
+        },
+        complete: () => {
+          this.submitted = false;
+          this.notifyService.showSuccess("Saved configuration", "Success")
+        }
+      });
   }
 }
 

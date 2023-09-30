@@ -20,9 +20,15 @@ public class LocalConfigurationQueryHandler : IQueryHandler<LocalConfigurationQu
 		try
 		{
 			var ministryName = configurationProxy.GetMinistryName();
-			if (ministryName.Length > 0)
+			if (!string.IsNullOrEmpty(ministryName))
 			{
-				response.Add(new Tuple<string, string>("MinistryName", ministryName));
+				response.Add(new Tuple<string, string>(IConfigurationProxy.MINISTRY_NAME_KEYWORD, ministryName));
+			}
+
+			var baseUrl = configurationProxy.GetBaseUrl();
+			if (!string.IsNullOrEmpty(baseUrl))
+			{
+				response.Add(new Tuple<string, string>(IConfigurationProxy.BASE_URL_KEYWORD, baseUrl));
 			}
 		}
 		catch (Exception e)
