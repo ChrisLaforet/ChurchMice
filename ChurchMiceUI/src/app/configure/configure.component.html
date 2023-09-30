@@ -1,0 +1,45 @@
+<div class="display-page-header">
+  <span id="ScreenTitle" class="display-page-title">Configure Church Mice Settings</span>
+</div>
+<div>
+  <p></p>
+</div>
+<div>
+  <div *ngIf="!this.submitted">
+    <form #configForm="ngForm" name="configForm" (ngSubmit)="configForm.form.valid && onSubmit()" novalidate>
+
+      <div class="row display-page-edit-row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="ministryName">Ministry name</label>
+          <input type="text" class="form-control" id="ministryName" name="ministryName" #ministryName="ngModel"
+                 [(ngModel)]="configMinistryName" >
+        </div>
+      </div>
+
+      <div class="row display-page-edit-row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="baseUrl">Base </label>
+          <input type="text" class="form-control" id="baseUrl" name="baseUrl" #baseUrl="ngModel"
+                 [(ngModel)]="configBasUrl">
+        </div>
+      </div>
+
+      <div>&nbsp;</div>
+
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <button class="btn btn-outline-secondary" type="submit">
+            Save configuration...
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <div *ngIf="this.submitted">
+    <em>Saving changes...</em>
+  </div>
+
+  <div>&nbsp;</div>
+</div>

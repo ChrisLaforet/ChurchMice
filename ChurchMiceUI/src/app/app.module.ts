@@ -36,6 +36,7 @@ import { ConfigurationLoader } from '../operation';
 import { ConfigurationService } from '@service/configuration/configuration.service';
 import { ValidateEmailComponent } from '@app/validate-email/validate-email.component';
 import { ChangePasswordComponent } from '@app/change-password/change-password.component';
+import { ConfigureComponent } from '@app/configure/configure.component';
 
 library.add(fas, far);
 
@@ -54,7 +55,8 @@ library.add(fas, far);
     USCurrencyPipe,
     UserContentComponent,
     ValidateEmailComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    ConfigureComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -82,7 +84,9 @@ library.add(fas, far);
       {path: 'about', component: UserContentComponent, data: {page: 'about'}},
       {path: 'main', component: UserContentComponent, data: {page: 'index'}},
       {path: 'services', component: UserContentComponent, data: {page: 'services'}},
-      {path: 'beliefs', component: UserContentComponent, data: {page: 'beliefs'}}
+      {path: 'beliefs', component: UserContentComponent, data: {page: 'beliefs'}},
+
+      {path: 'admin/configure', component: ConfigureComponent, canActivate: [AuthGuard], data: { roles: ['Administrator']}},
 
     ]),
     InputDirectiveModule,
