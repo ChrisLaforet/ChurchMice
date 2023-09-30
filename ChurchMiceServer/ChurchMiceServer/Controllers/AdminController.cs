@@ -1,4 +1,6 @@
 ﻿using ChurchMiceServer.Controllers.Models;
+using ChurchMiceServer.CQS.CommandHandlers;
+using ChurchMiceServer.CQS.Commands;
 using ChurchMiceServer.CQS.Queries;
 using ChurchMiceServer.CQS.QueryHandlers;
 using ChurchMiceServer.Security;
@@ -13,6 +15,7 @@ public class AdminController : ControllerBase
 	private readonly ILogger<AdminController> logger;
     
 	public LocalConfigurationQueryHandler LocalConfigurationQueryHandler { get; set; }
+	public SetLocalConfigurationCommandHandler SetLocalConfigurationCommandHandler { get; set; }
 
 	public AdminController(IServiceProvider serviceProvider, ILogger<AdminController> logger)
 	{
@@ -21,6 +24,7 @@ public class AdminController : ControllerBase
 		if (serviceProvider != null)
 		{
 			this.LocalConfigurationQueryHandler = ActivatorUtilities.CreateInstance<LocalConfigurationQueryHandler>(serviceProvider);
+			this.SetLocalConfigurationCommandHandler = ActivatorUtilities.CreateInstance<SetLocalConfigurationCommandHandler>(serviceProvider);
 		}
 	}
 
@@ -30,10 +34,18 @@ public class AdminController : ControllerBase
 		return new ConfigurationValuesResponse(LocalConfigurationQueryHandler.Handle(new LocalConfigurationQuery()));
 	}
 
-	[HttpPut("setLocalConfigurationValue")]
+	[HttpPut("setLocalConfiguration")]
 	[Authorize(Roles = "Administrator")]
-	public IActionResult SetLocalConfigurationValue()
+	public IActionResult SetLocalConfiguration(LocalConfigurationChangeRequest request)
 	{
-		throw new NotImplementedException();
+		try
+		{
+			SetLocalConfigurationCommandHandler.Handle(new SetLocalConfigurationCommand(request.MinistryName, request.BaseUrl));
+			return Ok(new {message = "Changes completed successfully"});
+		}
+		catch (Exception)
+		{
+			return BadRequest(new {message = "Error changing one or more configuration items"});
+		}
 	}
 }
