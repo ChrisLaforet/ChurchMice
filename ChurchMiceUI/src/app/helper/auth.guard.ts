@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { Observable } from 'rxjs';
 import jwt_decode from 'jwt-decode';
 import { AuthService } from '@service/index';
+import { JwtRoleExtractor } from '@app/helper/jwt-role-extractor';
 
 @Injectable({providedIn: 'root'})
 export class AuthGuard implements CanActivate {
@@ -35,6 +36,32 @@ export class AuthGuard implements CanActivate {
     if (this.authService.getAuthenticatedUser() != null) {
       // @ts-ignore
       if (AuthGuard.validateTokenExpirationIsValid(this.authService.getAuthenticatedUser().token)) {
+        let requiredRoles: string[] = [];
+        if (route.data !== null && route.data['roles']) {
+          requiredRoles = route.data['roles'];
+        }
+
+        if (requiredRoles.length > 0) {
+          let notPermitted = true;
+          // @ts-ignore
+          const roles = JwtRoleExtractor.getRoles(this.authService.getAuthenticatedUser().token);
+          for (const requiredRole of requiredRoles) {
+            for (const role of roles) {
+              if (requiredRole === role) {
+                notPermitted = false;
+                break;
+              }
+            }
+            if (!notPermitted) {
+              break;
+            }
+          }
+
+          if (notPermitted) {
+            return false;
+          }
+        }
+
         return true;
       } else {
         this.authService.logout();
