@@ -37,6 +37,7 @@ import { ConfigurationService } from '@service/configuration/configuration.servi
 import { ValidateEmailComponent } from '@app/validate-email/validate-email.component';
 import { ChangePasswordComponent } from '@app/change-password/change-password.component';
 import { ConfigureComponent } from '@app/configure/configure.component';
+import { ManageUsersComponent } from '@app/manage-users/manage-users.component';
 
 library.add(fas, far);
 
@@ -56,7 +57,8 @@ library.add(fas, far);
     UserContentComponent,
     ValidateEmailComponent,
     ChangePasswordComponent,
-    ConfigureComponent
+    ConfigureComponent,
+    ManageUsersComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -87,6 +89,7 @@ library.add(fas, far);
       {path: 'beliefs', component: UserContentComponent, data: {page: 'beliefs'}},
 
       {path: 'admin/configure', component: ConfigureComponent, canActivate: [AuthGuard], data: { roles: ['Administrator']}},
+      {path: 'admin/users', component: ManageUsersComponent, canActivate: [AuthGuard], data: { roles: ['Administrator']}},
 
     ]),
     InputDirectiveModule,
