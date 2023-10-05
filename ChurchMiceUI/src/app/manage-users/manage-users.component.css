@@ -1,0 +1,21 @@
+.hide-content-controls {
+  float: right;
+}
+
+.hide-control {
+  margin-left: 1.25rem;
+  margin-right: 0.25rem;
+}
+
+.filter-text {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  width: 20rem;
+  color: #34383c;
+}
+
+.filter-button {
+  color: #858796;
+  float: right;
+}
+

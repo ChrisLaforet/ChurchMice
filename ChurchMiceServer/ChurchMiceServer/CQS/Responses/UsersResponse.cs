@@ -2,10 +2,10 @@
 
 public class UsersResponse
 {
-	public List<UserResponse> Users { get; }
+	public UserResponse[] Users { get; }
 
 	public UsersResponse(List<UserResponse> users)
 	{
-		this.Users = users;
+		this.Users = users.ToArray();
 	}
 }

@@ -33,8 +33,8 @@ export class UserManagementService {
       .set('apikey', apikeyReaderService.getApiKey());
   }
 
-  public getAllUsers(): Observable<any> {
-    return this.http.get<any>(this.allUsersUrl, {'headers': this.prepareHeaders()});
+  public getAllUsers(): Observable<UserDataDto[]> {
+    return this.http.get<UserDataDto[]>(this.allUsersUrl, {'headers': this.prepareHeaders()});
   }
 
   private prepareHeaders(): HttpHeaders {

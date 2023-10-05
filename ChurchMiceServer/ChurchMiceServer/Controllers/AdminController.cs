@@ -54,8 +54,8 @@ public class AdminController : ControllerBase
 	
 	[HttpGet("getUsers")]
 	[Authorize(Roles = "Administrator")]
-	public UsersResponse GetUsers()
+	public UserResponse[] GetUsers()
 	{
-		return GetUsersQueryHandler.Handle(new GetUsersQuery());
+		return GetUsersQueryHandler.Handle(new GetUsersQuery()).Users;
 	}
 }

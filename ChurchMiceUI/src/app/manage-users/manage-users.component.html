@@ -6,14 +6,10 @@
 
 <div *ngIf="users" class="container-fluid" >
 
-  <!-- left action buttons -->
-  <button type="button" class="btn btn-outline-secondary" [routerLink]="'../admin/createUser'">Add new login user</button>
-
-  <!-- right presentation controls -->
   <div class="hide-content-controls">
 
     <span class="hide-content-controls filter-text">
-      <input type="text" class="form-control" id="filterText" #filterText placeholder="Filter name" maxlength="20" (input)="filter(filterText.value)">
+      <input type="text" class="form-control" id="filterText" #filterText placeholder="Filter names" maxlength="20" (input)="filter(filterText.value)">
 
       <!--      <span (click)="clearFilter()" class="filter-button">-->
       <!--        <fa-icon [icon]="faFilterCircleXmark" class="fa-sm " title="Clear filter"></fa-icon>-->
@@ -25,6 +21,13 @@
     </span>
   </div>
 </div>
+
+<span>
+    <a class="add-item" href="/admin/createUser">
+      <fa-icon [icon]="faPlus" class="fa-fw sidebar-icon fa-lg"></fa-icon>
+      <span class="d-none d-sm-inline">&nbsp;Add new login user</span>
+    </a>
+  </span>
 
 <table class="table table-striped text-gray-800" aria-labelledby="tableLabel" *ngIf="users">
   <thead>
@@ -75,10 +78,10 @@
         <fa-icon [icon]="faFilePen" class="fa-fw sidebar-icon fa-sm"></fa-icon>
       </a>
       <a href="/admin/changeUserPassword?id={{ user.id }}" title="Change user password" class="action-icon">
-        <fa-icon [icon]="faUserSecret" class="fa-fw sidebar-icon fa-sm"></fa-icon>
+        <fa-icon [icon]="faKey" class="fa-fw sidebar-icon fa-sm"></fa-icon>
       </a>
-      <a href="/admin/disableUser?id={{ user.id }}" title="Lock user" class="action-icon">
-        <fa-icon [icon]="faLock" class="fa-fw sidebar-icon fa-sm"></fa-icon>
+      <a href="/admin/disableUser?id={{ user.id }}" title="Disable user" class="action-icon">
+        <fa-icon [icon]="faXmark" class="fa-fw sidebar-icon fa-sm"></fa-icon>
       </a>
     </td>
     <td class="d-none d-md-table-cell">{{ user.userName }}</td>

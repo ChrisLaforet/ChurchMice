@@ -4,8 +4,9 @@ import { HeaderSorterDriver, HeaderSortable, HeaderFilterable } from '@ui/index'
 import {
   faFilePen,
   faFilter,
-  faLock,
-  faUserSecret,
+  faXmark,
+  faPlus,
+  faKey,
   faFilterCircleXmark
 } from '@fortawesome/free-solid-svg-icons';
 import { RoleValidator } from '@app/helper';
@@ -27,8 +28,9 @@ export class ManageUsersComponent implements OnInit, HeaderSortable, HeaderFilte
 
   faFilePen = faFilePen;
   faFilter = faFilter;
-  faUserSecret = faUserSecret;
-  faLock = faLock;
+  faPlus = faPlus;
+  faKey = faKey;
+  faXmark = faXmark;
   faFilterCircleXmark = faFilterCircleXmark;
 
   public users = new Array<UserDataDto>();
@@ -41,7 +43,7 @@ export class ManageUsersComponent implements OnInit, HeaderSortable, HeaderFilte
     private notifyService: NotificationService) {
 
     this.userManagementService.getAllUsers().subscribe(data => {
-      this.users = data['users'];
+      this.users = data;
     });
   }
 
