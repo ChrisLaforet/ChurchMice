@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IApiKeyReaderService } from '@service/index';
 import { environment } from '@environments/environment';
-import { JwtResponseDto, UserDto } from '@data/index';
+import { UserDto } from '@data/index';
 import { Observable } from 'rxjs';
 import { MessageResponseDto } from '@data/dto/message-response.dto';
 

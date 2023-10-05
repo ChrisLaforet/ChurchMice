@@ -3,6 +3,7 @@ using ChurchMiceServer.CQS.CommandHandlers;
 using ChurchMiceServer.CQS.Commands;
 using ChurchMiceServer.CQS.Queries;
 using ChurchMiceServer.CQS.QueryHandlers;
+using ChurchMiceServer.CQS.Responses;
 using ChurchMiceServer.Security;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ public class AdminController : ControllerBase
     
 	public LocalConfigurationQueryHandler LocalConfigurationQueryHandler { get; set; }
 	public SetLocalConfigurationCommandHandler SetLocalConfigurationCommandHandler { get; set; }
+	public GetUsersQueryHandler GetUsersQueryHandler { get; set; }
 
 	public AdminController(IServiceProvider serviceProvider, ILogger<AdminController> logger)
 	{
@@ -25,6 +27,7 @@ public class AdminController : ControllerBase
 		{
 			this.LocalConfigurationQueryHandler = ActivatorUtilities.CreateInstance<LocalConfigurationQueryHandler>(serviceProvider);
 			this.SetLocalConfigurationCommandHandler = ActivatorUtilities.CreateInstance<SetLocalConfigurationCommandHandler>(serviceProvider);
+			this.GetUsersQueryHandler = ActivatorUtilities.CreateInstance<GetUsersQueryHandler>(serviceProvider);
 		}
 	}
 
@@ -47,5 +50,12 @@ public class AdminController : ControllerBase
 		{
 			return BadRequest(new {message = "Error changing one or more configuration items"});
 		}
+	}
+	
+	[HttpGet("getUsers")]
+	[Authorize(Roles = "Administrator")]
+	public UsersResponse GetUsers()
+	{
+		return GetUsersQueryHandler.Handle(new GetUsersQuery());
 	}
 }

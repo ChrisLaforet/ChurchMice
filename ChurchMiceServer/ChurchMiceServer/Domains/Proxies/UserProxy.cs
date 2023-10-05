@@ -49,6 +49,11 @@ public class UserProxy : IUserProxy
         return context.Users.Where(user => user.Email != null && user.Email.ToLower().Equals(email.ToLower())).ToList();
     }
 
+    public IList<User> GetUsers()
+    {
+        return context.Users.ToList();
+    }
+
     public string CreateUser(User user)
     {
         user.Id = Guid.NewGuid().ToString();
@@ -332,4 +337,17 @@ public class UserProxy : IUserProxy
         return token.GetRoles();
     }
 
+    public string GetAssignedRoleFor(string userId)
+    {
+        var assignedRole = Role.GetNoAccess().Name;
+
+        var userRole = context.UserRoles.Where(role => role.UserId == userId).FirstOrDefault();
+        if (userRole != null)
+        {
+            var role = Roles.GetRoleByLevel(userRole.RoleLevel);
+            assignedRole = role.Name;
+        }
+
+        return assignedRole;
+    }
 }

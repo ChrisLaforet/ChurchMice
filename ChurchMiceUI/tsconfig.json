@@ -11,17 +11,23 @@
       "@assets/*": [
         "src/assets/*"
       ],
+      "@data/*": [
+        "src/data/*"
+      ],
       "@environments/*": [
         "src/environments/*"
       ],
-      "@data/*": [
-        "src/data/*"
+      "@operation/*": [
+        "src/operation/*"
       ],
       "@model/*": [
         "src/model/*"
       ],
       "@service/*": [
         "src/service/*"
+      ],
+      "@ui/*": [
+        "src/ui/*"
       ]
     },
     "skipLibCheck": true,

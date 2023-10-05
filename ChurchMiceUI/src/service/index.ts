@@ -15,6 +15,9 @@ export * from './key-support/recaptcha-key-reader.service.interface'
 export * from './key-support/recaptcha-key-reader.service'
 
 export * from './user/user.service';
+export * from './user/roles';
+
+export * from './user-management/user-management.service';
 
 export * from './utility/date-operations';
 export * from './utility/datepicker-utilities';

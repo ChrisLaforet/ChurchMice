@@ -3,7 +3,6 @@ using ChurchMiceServer.CQS.Queries;
 using ChurchMiceServer.CQS.Responses;
 using ChurchMiceServer.Domains.Exceptions;
 using ChurchMiceServer.Domains.Proxies;
-using Microsoft.IdentityModel.Tokens;
 
 namespace ChurchMiceServer.CQS.QueryHandlers;
 

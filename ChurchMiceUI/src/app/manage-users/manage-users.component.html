@@ -1,8 +1,92 @@
 <div class="display-page-header">
   <span id="ScreenTitle" class="display-page-title">Manage Church Mice Users</span>
 </div>
-<div>
-  <p></p>
+
+<p *ngIf="!users"><em>Loading...</em></p>
+
+<div *ngIf="users" class="container-fluid" >
+
+  <!-- left action buttons -->
+  <button type="button" class="btn btn-outline-secondary" [routerLink]="'../admin/createUser'">Add new login user</button>
+
+  <!-- right presentation controls -->
+  <div class="hide-content-controls">
+
+    <span class="hide-content-controls filter-text">
+      <input type="text" class="form-control" id="filterText" #filterText placeholder="Filter name" maxlength="20" (input)="filter(filterText.value)">
+
+      <!--      <span (click)="clearFilter()" class="filter-button">-->
+      <!--        <fa-icon [icon]="faFilterCircleXmark" class="fa-sm " title="Clear filter"></fa-icon>-->
+      <!--      </span>-->
+
+      <!--      <span (click)="setFilter()" class="filter-button">-->
+      <!--        <fa-icon [icon]="faFilter" class="fa-sm " title="Filter name and registration"></fa-icon>-->
+      <!--      </span>-->
+    </span>
+  </div>
 </div>
-<div>
-</div>div
+
+<table class="table table-striped text-gray-800" aria-labelledby="tableLabel" *ngIf="users">
+  <thead>
+  <tr>
+    <th>Action</th>
+    <th class="d-none d-md-table-cell">
+      <span>
+        <fa-icon [icon]="headerSorter.getSortIcon(USERNAME_HEADER)" class="fa-fw sidebar-icon fa-sm"></fa-icon>&nbsp;
+        <span (click)="headerClicked(USERNAME_HEADER)">{{ USERNAME_HEADER }}</span>
+      </span>
+    </th>
+    <th>
+      <span>
+        <fa-icon [icon]="headerSorter.getSortIcon(FULLNAME_HEADER)" class="fa-fw sidebar-icon fa-sm"></fa-icon>&nbsp;
+        <span (click)="headerClicked(FULLNAME_HEADER)">{{ FULLNAME_HEADER }}</span>
+      </span>
+    </th>
+    <th class="d-none d-md-table-cell">
+      <span>
+        <fa-icon [icon]="headerSorter.getSortIcon(EMAIL_HEADER)" class="fa-fw sidebar-icon fa-sm"></fa-icon>&nbsp;
+        <span (click)="headerClicked(EMAIL_HEADER)">{{ EMAIL_HEADER }}</span>
+      </span>
+    </th>
+    <th class="d-none d-md-table-cell">
+      <span>
+        <fa-icon [icon]="headerSorter.getSortIcon(ROLE_HEADER)" class="fa-fw sidebar-icon fa-sm"></fa-icon>&nbsp;
+        <span (click)="headerClicked(ROLE_HEADER)">{{ ROLE_HEADER }}</span>
+      </span>
+    </th>
+    <th class="d-none d-lg-table-cell">
+      <span>
+        <fa-icon [icon]="headerSorter.getSortIcon(CREATE_HEADER)" class="fa-fw sidebar-icon fa-sm"></fa-icon>&nbsp;
+        <span (click)="headerClicked(CREATE_HEADER)">{{ CREATE_HEADER }}</span>
+      </span>
+    </th>
+    <th class="d-none d-lg-table-cell">
+      <span>
+        <fa-icon [icon]="headerSorter.getSortIcon(LASTLOGIN_HEADER)" class="fa-fw sidebar-icon fa-sm"></fa-icon>&nbsp;
+        <span (click)="headerClicked(LASTLOGIN_HEADER)">{{ LASTLOGIN_HEADER }}</span>
+      </span>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let user of users">
+    <td>
+      <a href="/admin/editUser?id={{ user.id }}" title="Edit user" class="action-icon">
+        <fa-icon [icon]="faFilePen" class="fa-fw sidebar-icon fa-sm"></fa-icon>
+      </a>
+      <a href="/admin/changeUserPassword?id={{ user.id }}" title="Change user password" class="action-icon">
+        <fa-icon [icon]="faUserSecret" class="fa-fw sidebar-icon fa-sm"></fa-icon>
+      </a>
+      <a href="/admin/disableUser?id={{ user.id }}" title="Lock user" class="action-icon">
+        <fa-icon [icon]="faLock" class="fa-fw sidebar-icon fa-sm"></fa-icon>
+      </a>
+    </td>
+    <td class="d-none d-md-table-cell">{{ user.userName }}</td>
+    <td class="d-none d-md-table-cell">{{ user.fullName }}</td>
+    <td class="d-none d-md-table-cell">{{ user.email }}</td>
+    <td class="d-none d-lg-table-cell">{{ user.roleLevel }}</td>
+    <td class="d-none d-lg-table-cell">{{ user.createdDate }}</td>
+    <td class="d-none d-lg-table-cell">{{ user.lastLoginDate }}</td>
+  </tr>
+  </tbody>
+</table>

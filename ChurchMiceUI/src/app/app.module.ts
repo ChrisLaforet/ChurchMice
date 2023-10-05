@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from '@app/nav-menu/nav-menu.component';
-import { AppInitializer, AuthGuard } from '@app/helper';
+import { AppInitializer, AuthGuard, RoleValidator } from '@app/helper';
 import { HomeComponent } from './home/home.component';
 import { IApiKeyReaderService } from '@service/key-support/api-key-reader.service.interface';
 import { ApiKeyReaderService } from '@service/key-support/api-key-reader.service';
@@ -38,6 +38,8 @@ import { ValidateEmailComponent } from '@app/validate-email/validate-email.compo
 import { ChangePasswordComponent } from '@app/change-password/change-password.component';
 import { ConfigureComponent } from '@app/configure/configure.component';
 import { ManageUsersComponent } from '@app/manage-users/manage-users.component';
+import { Roles } from '@service/user/roles';
+import { EditUserComponent } from '@app/edit-user/edit-user.component';
 
 library.add(fas, far);
 
@@ -58,7 +60,8 @@ library.add(fas, far);
     ValidateEmailComponent,
     ChangePasswordComponent,
     ConfigureComponent,
-    ManageUsersComponent
+    ManageUsersComponent,
+    EditUserComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -88,8 +91,8 @@ library.add(fas, far);
       {path: 'services', component: UserContentComponent, data: {page: 'services'}},
       {path: 'beliefs', component: UserContentComponent, data: {page: 'beliefs'}},
 
-      {path: 'admin/configure', component: ConfigureComponent, canActivate: [AuthGuard], data: { roles: ['Administrator']}},
-      {path: 'admin/users', component: ManageUsersComponent, canActivate: [AuthGuard], data: { roles: ['Administrator']}},
+      {path: 'admin/configure', component: ConfigureComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
+      {path: 'admin/users', component: ManageUsersComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
 
     ]),
     InputDirectiveModule,

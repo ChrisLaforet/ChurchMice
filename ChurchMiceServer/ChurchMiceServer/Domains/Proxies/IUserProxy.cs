@@ -9,6 +9,7 @@ public interface IUserProxy
 	User? GetUserByGuid(Guid guid);
 	User? GetUserByUsername(string username);
 	IList<User> GetUsersByEmail(string email);
+	IList<User> GetUsers();
 	JsonWebToken AuthenticateUser(string username, string password);
 	string CreateUser(User user);
 	void ValidateEmailForUser(string username, string password);
@@ -22,4 +23,5 @@ public interface IUserProxy
 	void DestroyUserToken(JsonWebToken token);
 	bool ValidateUserToken(JsonWebToken token);
 	string[] GetUserRoles(JsonWebToken token);
+	string GetAssignedRoleFor(string userId);
 }

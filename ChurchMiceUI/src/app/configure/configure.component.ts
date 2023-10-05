@@ -5,6 +5,8 @@ import { ConfigurationService } from '@service/configuration/configuration.servi
 import { NotificationService } from '@service/angular/notification.service';
 import { LocalConfigurationDto } from '@data/configuration/local-configuration.dto';
 import { first } from 'rxjs/operators';
+import { RoleValidator } from '@app/helper';
+import { Roles } from '@service/user/roles';
 
 
 @Component({
@@ -12,7 +14,7 @@ import { first } from 'rxjs/operators';
   templateUrl: './configure.component.html',
   styleUrls: ['./configure.component.css']
 })
-export class ConfigureComponent {
+export class ConfigureComponent implements OnInit {
   submitted = false;
   configMinistryName = '';
   configBaseUrl = '';
@@ -21,6 +23,7 @@ export class ConfigureComponent {
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private roleValidator: RoleValidator,
     private configurationService: ConfigurationService,
     private notifyService: NotificationService) {
 
@@ -38,6 +41,11 @@ export class ConfigureComponent {
         }
       })
   }
+
+  ngOnInit(): void {
+      this.roleValidator.validateUserAuthorizedFor([Roles.ADMINISTRATOR]);
+  }
+
 
   onSubmit(): void {
     this.submitted = true;

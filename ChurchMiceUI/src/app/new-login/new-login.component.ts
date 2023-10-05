@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntypedFormBuilder } from '@angular/forms';
 import { AuthService, IRecaptchaKeyReaderService, NotificationService, UserService } from '@service/index';
 import { ReCaptchaV3Service } from 'ngx-captcha';
-import { fromEvent, debounceTime } from 'rxjs';
 
 
 @Component({
@@ -11,7 +10,7 @@ import { fromEvent, debounceTime } from 'rxjs';
   templateUrl: './new-login.component.html',
   styleUrls: ['./new-login.component.css']
 })
-export class NewLoginComponent implements OnInit {
+export class NewLoginComponent {
 
   submitted = false;
   newUserName = '';
@@ -36,9 +35,6 @@ export class NewLoginComponent implements OnInit {
     private recaptchaKeyReaderService: IRecaptchaKeyReaderService) {
 
     this.siteKey = recaptchaKeyReaderService.getSiteKey();
-  }
-
-  ngOnInit(): void {
   }
 
   isUserNameNotAvailable() {
