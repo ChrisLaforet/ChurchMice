@@ -50,7 +50,29 @@ a.action-icon:active {
 }
 
 a.action-icon:hover {
-  color: rgb(78, 115, 223) !important;
+  color: darkred !important;
+}
+
+.add-item {
+  display: block;
+  text-align: left;
+  padding: 0.5rem;
+  color: #858796 !important;
+  font-size: 1.0rem;
+}
+
+a.add-item:link {
+  color: #858796 !important;
+  text-decoration: none;
+}
+
+a.add-item:active {
+  color: #858796 !important;
+  text-decoration: none
+}
+
+a.add-item:hover {
+  color: darkred !important;
 }
 
 

@@ -90,4 +90,6 @@ export class ManageUsersComponent implements OnInit, HeaderSortable, HeaderFilte
       this.filterText = filterText;
     }
   }
+
+  protected readonly Roles = Roles;
 }

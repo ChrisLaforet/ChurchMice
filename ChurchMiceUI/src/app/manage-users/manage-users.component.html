@@ -81,7 +81,7 @@
         <fa-icon [icon]="faKey" class="fa-fw sidebar-icon fa-sm"></fa-icon>
       </a>
       <a href="/admin/disableUser?id={{ user.id }}" title="Disable user" class="action-icon">
-        <fa-icon [icon]="faXmark" class="fa-fw sidebar-icon fa-sm"></fa-icon>
+        <fa-icon [icon]="faXmark" class="fa-fw sidebar-icon fa-sm" *ngIf="user.roleLevel !== Roles.NOACCESS"></fa-icon>
       </a>
     </td>
     <td class="d-none d-md-table-cell">{{ user.userName }}</td>
