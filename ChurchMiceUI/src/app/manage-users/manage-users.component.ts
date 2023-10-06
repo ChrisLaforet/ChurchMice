@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationService, Roles, UserManagementService } from '@service/index';
-import { HeaderSorterDriver, HeaderSortable, HeaderFilterable } from '@ui/index';
+import { HeaderSorterDriver, HeaderSortable, HeaderFilterable, ConfirmationDialogService } from '@ui/index';
 import {
   faFilePen,
   faFilter,
@@ -38,9 +38,12 @@ export class ManageUsersComponent implements OnInit, HeaderSortable, HeaderFilte
   filterText: string | null = null;
   headerSorter = new HeaderSorterDriver(this);
 
+  protected readonly Roles = Roles;
+
   constructor(private userManagementService: UserManagementService,
     private roleValidator: RoleValidator,
-    private notifyService: NotificationService) {
+              private notifyService: NotificationService,
+              private confirmationDialogService: ConfirmationDialogService) {
 
     this.userManagementService.getAllUsers().subscribe(data => {
       this.users = data;
@@ -49,6 +52,25 @@ export class ManageUsersComponent implements OnInit, HeaderSortable, HeaderFilte
 
   ngOnInit(): void {
     this.roleValidator.validateUserAuthorizedFor([Roles.ADMINISTRATOR]);
+  }
+
+  showUsers(): UserDataDto[] {
+    let visible = this.users;
+    if (this.filterText == null || this.filterText === '') {
+      return visible;
+    }
+
+    let filtered = new Array<UserDataDto>();
+    visible.forEach(user => {
+      // @ts-ignore
+      let filterText: string = this.filterText?.toLowerCase();
+      if (user.userName.toLowerCase().indexOf(filterText) >= 0 ||
+        user.fullName.toLowerCase().indexOf(filterText) >= 0 ||
+        user.email.toLowerCase().indexOf(filterText) >= 0) {
+        filtered.push(user);
+      }
+    });
+    return filtered;
   }
 
   sortBy(headerName: string, isAscendingOrder: boolean): void {
@@ -91,5 +113,15 @@ export class ManageUsersComponent implements OnInit, HeaderSortable, HeaderFilte
     }
   }
 
-  protected readonly Roles = Roles;
+  disableUser(user: UserDataDto): void {
+    this.confirmationDialogService.askYesNo('Confirm disable operation', 'Do you really want to disable user ' + user.userName + '?')
+      .then((confirmed) => {
+        if (confirmed) {
+          console.log('Confirmed disabling of user ' + user.userName);
+          this.userManagementService.setUserRole(user.id, Roles.NOACCESS);
+        }
+      })
+      .catch(() => {
+      });
+  }
 }

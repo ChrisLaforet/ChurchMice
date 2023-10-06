@@ -40,6 +40,8 @@ import { ConfigureComponent } from '@app/configure/configure.component';
 import { ManageUsersComponent } from '@app/manage-users/manage-users.component';
 import { Roles } from '@service/user/roles';
 import { EditUserComponent } from '@app/edit-user/edit-user.component';
+import { ConfirmationDialogComponent } from '@ui/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogService } from '@ui/confirmation-dialog/confirmation-dialog.service';
 
 library.add(fas, far);
 
@@ -61,7 +63,8 @@ library.add(fas, far);
     ChangePasswordComponent,
     ConfigureComponent,
     ManageUsersComponent,
-    EditUserComponent
+    EditUserComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -117,8 +120,9 @@ library.add(fas, far);
       useClass: UnitedStatesDateParserFormatter
     },
     { provide: APP_INITIALIZER, useFactory: AppInitializer, multi: true, deps: [ConfigurationLoader, ConfigurationService] },
+    ConfirmationDialogService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
   constructor() {

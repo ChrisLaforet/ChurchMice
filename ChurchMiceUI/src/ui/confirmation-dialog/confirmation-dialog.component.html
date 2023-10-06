@@ -1,0 +1,15 @@
+<div class="modal-header">
+  <h4 class="modal-title dialog-title">{{ title }}</h4>
+  <!--  <button type="button" class="close" aria-label="Close" (click)="dismiss()">-->
+  <!--    <span aria-hidden="true">&times;</span>-->
+  <!--  </button>-->
+</div>
+<div class="modal-body dialog-message">
+  {{ message }}
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="decline()">{{ btnCancelText }}</button>
+  <button type="button" class="btn btn-success" (click)="accept()">{{ btnOkText }}</button>
+</div>
+
+<!--Based on code at https://stackblitz.com/edit/angular-confirmation-dialog?file=app%2Fconfirmation-dialog%2Fconfirmation-dialog.component.html-->

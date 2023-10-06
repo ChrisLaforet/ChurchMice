@@ -37,6 +37,14 @@ export class UserManagementService {
     return this.http.get<UserDataDto[]>(this.allUsersUrl, {'headers': this.prepareHeaders()});
   }
 
+  public setUserRole(userId: string, role: string): Observable<any> {
+    const data = {
+      "userId": userId,
+      "role": role
+    };
+    return this.http.put<any>(this.setUserRoleUrl, data, {'headers': this.prepareHeaders()});
+  }
+
   private prepareHeaders(): HttpHeaders {
     let newHeaders = new HttpHeaders();
     this.headers.keys().forEach(key => {
