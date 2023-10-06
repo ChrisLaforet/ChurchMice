@@ -139,12 +139,12 @@ public class UserProxy : IUserProxy
         
         if (!roleLevels.Any() || roleLevels.Max() <= Role.GetNoAccess().Level)
         {
-            roles.Add(Role.GetNoAccess().Name);
+            roles.Add(Role.GetNoAccess().Code);
         }
         
         foreach (var role in Roles.GetAllRolesWithinLevel(roleLevels.Max()))
         {
-            roles.Add(role.Name);
+            roles.Add(role.Code);
         }
 
         return roles;
@@ -337,17 +337,41 @@ public class UserProxy : IUserProxy
         return token.GetRoles();
     }
 
-    public string GetAssignedRoleFor(string userId)
+    public string GetAssignedRoleLevelCodeFor(string userId)
     {
-        var assignedRole = Role.GetNoAccess().Name;
+        var roleLevelCode = Role.GetNoAccess().Code;
 
         var userRole = context.UserRoles.Where(role => role.UserId == userId).FirstOrDefault();
         if (userRole != null)
         {
             var role = Roles.GetRoleByLevel(userRole.RoleLevel);
-            assignedRole = role.Name;
+            roleLevelCode = role.Code;
         }
 
-        return assignedRole;
+        return roleLevelCode;
+    }
+
+    public bool AssignRoleTo(string userId, string roleLevelCode)
+    {
+        var desiredRole = Roles.GetRoleByLevelCode(roleLevelCode);
+        if (desiredRole == null)
+        {
+            return false;
+        }
+
+        var role = context.UserRoles.Where(role => role.UserId == userId).FirstOrDefault();
+        if (role == null)
+        {
+            role = new UserRole();
+            role.RoleLevel = desiredRole.Level;
+            role.UserId = userId;
+            context.UserRoles.Add(role);
+        }
+        else
+        {
+            role.RoleLevel = desiredRole.Level;
+        }
+        context.SaveChanges();
+        return true;
     }
 }

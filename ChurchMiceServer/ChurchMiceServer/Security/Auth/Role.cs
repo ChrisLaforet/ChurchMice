@@ -10,7 +10,7 @@ public class Role
 	public const int ADMINISTRATOR_LEVEL = 10000;
 	
 	public int Level { get; private set; }
-	public string Name { get; private set; }
+	public string Code { get; private set; }
 	public bool HasAccess { get; private set; }
 	public bool IsMember { get; private set; }
 	public bool IsAdministrator { get; private set; }
@@ -28,7 +28,7 @@ public class Role
 		return new Role()
 		{
 			Level = NO_ACCESS_LEVEL,
-			Name = "NoAccess",
+			Code = "NoAccess",
 			HasAccess = false,
 			IsMember = false,
 			IsAdministrator = false
@@ -40,7 +40,7 @@ public class Role
 		return new Role()
 		{
 			Level = ATTENDER_LEVEL,
-			Name = "Attender",
+			Code = "Attender",
 			HasAccess = true,
 			IsMember = false,
 			IsAdministrator = false
@@ -52,7 +52,7 @@ public class Role
 		return new Role()
 		{
 			Level = MEMBER_LEVEL,
-			Name = "Member",
+			Code = "Member",
 			HasAccess = true,
 			IsMember = true,
 			IsAdministrator = false
@@ -64,7 +64,7 @@ public class Role
 		return new Role()
 		{
 			Level = ADMINISTRATOR_LEVEL,
-			Name = "Administrator",
+			Code = "Administrator",
 			HasAccess = true,
 			IsMember = true,
 			IsAdministrator = true

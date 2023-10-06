@@ -37,10 +37,10 @@ export class UserManagementService {
     return this.http.get<UserDataDto[]>(this.allUsersUrl, {'headers': this.prepareHeaders()});
   }
 
-  public setUserRole(userId: string, role: string): Observable<any> {
+  public setUserRole(userId: string, roleLevelCode: string): Observable<any> {
     const data = {
       "userId": userId,
-      "role": role
+      "roleLevelCode": roleLevelCode
     };
     return this.http.put<any>(this.setUserRoleUrl, data, {'headers': this.prepareHeaders()});
   }

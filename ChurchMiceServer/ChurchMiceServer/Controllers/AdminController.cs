@@ -18,6 +18,7 @@ public class AdminController : ControllerBase
 	public LocalConfigurationQueryHandler LocalConfigurationQueryHandler { get; set; }
 	public SetLocalConfigurationCommandHandler SetLocalConfigurationCommandHandler { get; set; }
 	public GetUsersQueryHandler GetUsersQueryHandler { get; set; }
+	public SetUserRoleCommandHandler SetUserRoleCommandHandler { get; set; }
 
 	public AdminController(IServiceProvider serviceProvider, ILogger<AdminController> logger)
 	{
@@ -28,6 +29,7 @@ public class AdminController : ControllerBase
 			this.LocalConfigurationQueryHandler = ActivatorUtilities.CreateInstance<LocalConfigurationQueryHandler>(serviceProvider);
 			this.SetLocalConfigurationCommandHandler = ActivatorUtilities.CreateInstance<SetLocalConfigurationCommandHandler>(serviceProvider);
 			this.GetUsersQueryHandler = ActivatorUtilities.CreateInstance<GetUsersQueryHandler>(serviceProvider);
+			this.SetUserRoleCommandHandler = ActivatorUtilities.CreateInstance<SetUserRoleCommandHandler>(serviceProvider);
 		}
 	}
 
@@ -57,5 +59,20 @@ public class AdminController : ControllerBase
 	public UserResponse[] GetUsers()
 	{
 		return GetUsersQueryHandler.Handle(new GetUsersQuery()).Users;
+	}
+
+	[HttpPut("setUserRole")]
+	[Authorize(Roles = "Administrator")]
+	public IActionResult SetUserRole(UserRoleRequest request)
+	{
+		try
+		{
+			SetUserRoleCommandHandler.Handle(new SetUserRoleCommand(request.UserId, request.RoleLevelCode));
+			return Ok(new {message = "Role changed successfully"});
+		}
+		catch (Exception)
+		{
+			return BadRequest(new {message = "User role has not been changed"});
+		}
 	}
 }

@@ -20,7 +20,7 @@ public class GetUsersQueryHandler : IQueryHandler<GetUsersQuery, UsersResponse>
 		var users = new List<UserResponse>();
 		foreach (var user in userProxy.GetUsers())
 		{
-			users.Add(new UserResponse(user, userProxy.GetAssignedRoleFor(user.Id)));
+			users.Add(new UserResponse(user, userProxy.GetAssignedRoleLevelCodeFor(user.Id)));
 		}
 		return new UsersResponse(users);
 	}

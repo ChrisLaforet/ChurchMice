@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NotificationService, Roles, UserManagementService } from '@service/index';
+import { AuthService, NotificationService, Roles, UserManagementService } from '@service/index';
 import { HeaderSorterDriver, HeaderSortable, HeaderFilterable, ConfirmationDialogService } from '@ui/index';
 import {
   faFilePen,
@@ -11,6 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { RoleValidator } from '@app/helper';
 import { UserDataDto } from '@data/dto/user-data.dto';
+import { AuthenticatedUser } from '@data/auth/authenticated-user';
 
 @Component({
   selector: 'app-manage-users',
@@ -33,6 +34,7 @@ export class ManageUsersComponent implements OnInit, HeaderSortable, HeaderFilte
   faXmark = faXmark;
   faFilterCircleXmark = faFilterCircleXmark;
 
+  authenticatedUser: AuthenticatedUser | null = null;
   public users = new Array<UserDataDto>();
 
   filterText: string | null = null;
@@ -41,10 +43,12 @@ export class ManageUsersComponent implements OnInit, HeaderSortable, HeaderFilte
   protected readonly Roles = Roles;
 
   constructor(private userManagementService: UserManagementService,
-    private roleValidator: RoleValidator,
+              private authService: AuthService,
+              private roleValidator: RoleValidator,
               private notifyService: NotificationService,
               private confirmationDialogService: ConfirmationDialogService) {
 
+    this.authenticatedUser = this.authService.getAuthenticatedUser();
     this.userManagementService.getAllUsers().subscribe(data => {
       this.users = data;
     });
@@ -113,12 +117,26 @@ export class ManageUsersComponent implements OnInit, HeaderSortable, HeaderFilte
     }
   }
 
+  canBeDisabled(user: UserDataDto): boolean {
+    return user.roleLevel !== Roles.NOACCESS &&
+      user.id !== this.authenticatedUser?.id;
+  }
+
   disableUser(user: UserDataDto): void {
     this.confirmationDialogService.askYesNo('Confirm disable operation', 'Do you really want to disable user ' + user.userName + '?')
       .then((confirmed) => {
         if (confirmed) {
           console.log('Confirmed disabling of user ' + user.userName);
-          this.userManagementService.setUserRole(user.id, Roles.NOACCESS);
+          this.userManagementService.setUserRole(user.id, Roles.NOACCESS)      .pipe()
+            .subscribe({
+              error: (err: any) => {
+                this.notifyService.showError(`An error has occurred while disabling user ${user.userName}`, 'Error');
+              },
+              complete: () => {
+                user.roleLevel = Roles.NOACCESS;
+                this.notifyService.showSuccess(`Successfully disabled user ${user.userName}`, 'Success');
+              }
+            });
         }
       })
       .catch(() => {

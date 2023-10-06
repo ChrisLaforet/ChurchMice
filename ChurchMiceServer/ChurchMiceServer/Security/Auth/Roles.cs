@@ -37,4 +37,17 @@ public class Roles
 
 		return allRoles;
 	}
+
+	public static Role? GetRoleByLevelCode(string roleLevelCode)
+	{
+		foreach (var role in GetRoles())
+		{
+			if (role.Code.Equals(roleLevelCode, StringComparison.CurrentCultureIgnoreCase))
+			{
+				return role;
+			}
+		}
+
+		return null;
+	}
 }
