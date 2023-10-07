@@ -19,6 +19,7 @@ public class AdminController : ControllerBase
 	public SetLocalConfigurationCommandHandler SetLocalConfigurationCommandHandler { get; set; }
 	public GetUsersQueryHandler GetUsersQueryHandler { get; set; }
 	public SetUserRoleCommandHandler SetUserRoleCommandHandler { get; set; }
+	public GetUserQueryHandler GetUserQueryHandler { get; set; }
 
 	public AdminController(IServiceProvider serviceProvider, ILogger<AdminController> logger)
 	{
@@ -30,6 +31,7 @@ public class AdminController : ControllerBase
 			this.SetLocalConfigurationCommandHandler = ActivatorUtilities.CreateInstance<SetLocalConfigurationCommandHandler>(serviceProvider);
 			this.GetUsersQueryHandler = ActivatorUtilities.CreateInstance<GetUsersQueryHandler>(serviceProvider);
 			this.SetUserRoleCommandHandler = ActivatorUtilities.CreateInstance<SetUserRoleCommandHandler>(serviceProvider);
+			this.GetUserQueryHandler = ActivatorUtilities.CreateInstance<GetUserQueryHandler>(serviceProvider);
 		}
 	}
 
@@ -59,6 +61,13 @@ public class AdminController : ControllerBase
 	public UserResponse[] GetUsers()
 	{
 		return GetUsersQueryHandler.Handle(new GetUsersQuery()).Users;
+	}
+	
+	[HttpGet("getUser")]
+	[Authorize(Roles = "Administrator")]
+	public UserResponse? GetUser(string userId)
+	{
+		return GetUserQueryHandler.Handle(new GetUserQuery(userId));
 	}
 
 	[HttpPut("setUserRole")]
