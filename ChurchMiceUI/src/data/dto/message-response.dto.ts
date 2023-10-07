@@ -1,15 +1,9 @@
 export class MessageResponseDto {
   message: string;
+  other: string | null;
 
-  constructor(message: string) {
+  constructor(message: string, other: string | null) {
     this.message = message;
-  }
-
-  public toString(): string {
-    return this.getMessage();
-  }
-
-  public getMessage(): string {
-  return this.message;
+    this.other = other;
   }
 }

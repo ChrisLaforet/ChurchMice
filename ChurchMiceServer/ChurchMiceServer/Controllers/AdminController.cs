@@ -69,7 +69,7 @@ public class AdminController : ControllerBase
 		return GetUsersQueryHandler.Handle(new GetUsersQuery()).Users;
 	}
 	
-	[HttpGet("getUser")]
+	[HttpGet("getUser/{userId}")]
 	[Authorize(Roles = "Administrator")]
 	public UserResponse? GetUser(string userId)
 	{
@@ -102,8 +102,8 @@ public class AdminController : ControllerBase
 
 		try
 		{
-			CreateUserCommandHandler.Handle(new CreateUserCommand(model.UserName, model.FullName, model.Email));
-			return Ok(new {message = "Created new user"});
+			var userId = CreateUserCommandHandler.Handle(new CreateUserCommand(model.UserName, model.FullName, model.Email));
+			return Ok(new {message = "Created new user", other = userId.Value});
 		}
 		catch (Exception ex)
 		{
@@ -115,14 +115,9 @@ public class AdminController : ControllerBase
 	[Authorize(Roles = "Administrator")]
 	public IActionResult UpdateUser(UpdateUserRequest model)
 	{
-		// if (!CheckExistingNameQueryHandler.Handle(new CheckExistingNameQuery("USERNAME", model.UserName)).Value)
-		// {
-		// 	return BadRequest(new {message = "Requested user name is not permitted"});
-		// }
-
 		try
 		{
-			SaveUserCommandHandler.Handle(new SaveUserCommand(model.UserId, model.UserName, model.FullName, model.Email));
+			SaveUserCommandHandler.Handle(new SaveUserCommand(model.UserId, model.FullName, model.Email));
 			return Ok(new {message = "Updated user"});
 		}
 		catch (Exception ex)

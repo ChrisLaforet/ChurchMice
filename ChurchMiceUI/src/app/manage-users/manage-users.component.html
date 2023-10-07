@@ -74,10 +74,10 @@
   <tbody>
   <tr *ngFor="let user of showUsers()">
     <td>
-      <a href="/admin/editUser?id={{ user.id }}" title="Edit user" class="action-icon">
+      <a href="/admin/editUser/{{ user.id }}" title="Edit user" class="action-icon">
         <fa-icon [icon]="faFilePen" class="fa-fw sidebar-icon fa-sm"></fa-icon>
       </a>
-      <a href="/admin/changeUserPassword?id={{ user.id }}" title="Change user password" class="action-icon">
+      <a href="/admin/changeUserPassword?/{{ user.id }}" title="Change user password" class="action-icon">
         <fa-icon [icon]="faKey" class="fa-fw sidebar-icon fa-sm"></fa-icon>
       </a>
       <a (click)="this.disableUser(user)" title="Disable user" class="action-icon">

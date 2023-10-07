@@ -37,7 +37,7 @@ export class NewLoginComponent {
     this.siteKey = recaptchaKeyReaderService.getSiteKey();
   }
 
-  isUserNameNotAvailable() {
+  isUserNameNotAvailable(): boolean {
 
     if (this.newUserName === null || this.newUserName.length == 0) {
       this.nameIsNotAvailable = false;
@@ -65,7 +65,7 @@ export class NewLoginComponent {
     this.userService.createUserFor(this.newUserName, this.newPassword, this.newEmail, this.newFullName)
       .pipe()
       .subscribe({
-        error: (err: any) => {
+        error: () => {
           this.notifyService.showError('An error has occurred while creating new login.', 'Error');
           this.submitted = false;
           return;

@@ -42,6 +42,7 @@ import { Roles } from '@service/user/roles';
 import { EditUserComponent } from '@app/edit-user/edit-user.component';
 import { ConfirmationDialogComponent } from '@ui/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogService } from '@ui/confirmation-dialog/confirmation-dialog.service';
+import { CreateUserComponent } from '@app/create-user/create-user.component';
 
 library.add(fas, far);
 
@@ -63,6 +64,7 @@ library.add(fas, far);
     ChangePasswordComponent,
     ConfigureComponent,
     ManageUsersComponent,
+    CreateUserComponent,
     EditUserComponent,
     ConfirmationDialogComponent
   ],
@@ -96,8 +98,8 @@ library.add(fas, far);
 
       {path: 'admin/configure', component: ConfigureComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
       {path: 'admin/users', component: ManageUsersComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
-      {path: 'admin/createUser', component: EditUserComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
-      {path: 'admin/editUser', component: EditUserComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
+      {path: 'admin/createUser', component: CreateUserComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
+      {path: 'admin/editUser/:userId', component: EditUserComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
 
     ]),
     InputDirectiveModule,

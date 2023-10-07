@@ -10,7 +10,7 @@ using ChurchMiceServer.Utility;
 
 namespace ChurchMiceServer.CQS.CommandHandlers;
 
-public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, NothingnessResponse>
+public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, StringResponse>
 {
 	private readonly IUserProxy userProxy;
 	private readonly ILogger<CreateUserCommandHandler> logger;
@@ -25,13 +25,13 @@ public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Nothi
 		this.logger = logger;
 	}
 
-	public NothingnessResponse Handle(CreateUserCommand command)
+	public StringResponse Handle(CreateUserCommand command)
 	{
 		logger.LogInformation($"Request to create user for {command.UserName}");
 		ValidateUserData(command);
 
 		var user = CreateUserFor(command);
-		return new NothingnessResponse();
+		return new StringResponse(user.Id);
 	}
 
 	public User CreateUserFor(CreateUserCommand command)

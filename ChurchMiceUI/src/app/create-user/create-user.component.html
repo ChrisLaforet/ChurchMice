@@ -1,5 +1,5 @@
 <div class="display-page-header">
-  <span id="ScreenTitle" class="display-page-title">Edit Church Mice User</span>
+  <span id="ScreenTitle" class="display-page-title">Add New Church Mice User</span>
 </div>
 <div>
   <p></p>
@@ -11,9 +11,15 @@
 
       <div class="row display-page-edit-row">
         <div class="col-lg-4 col-md-6 col-sm-12">
-          <label for="userName">User name (not editable)</label>
+          <label for="userName">User name</label>
           <input type="text" class="form-control" id="userName" name="userName" #userName="ngModel"
-                 [(ngModel)]="existingUserName" readonly>
+                 [(ngModel)]="newUserName" required minlength="5" (blur)="this.isUserNameNotAvailable()">
+          <div class="text-danger" *ngIf="(userName.errors?.required || userName.errors?.minlength)">
+            A unique user name must be provided.
+          </div>
+          <div class="text-danger" *ngIf="this.nameIsNotAvailable">
+            The provided name is not permitted to be used - please choose another.
+          </div>
         </div>
 
         <div class="row display-page-edit-row">
@@ -44,7 +50,7 @@
       <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-12">
           <button class="btn btn-outline-secondary" [disabled]="!updateUserForm.form.valid" type="submit">
-            Update user account...
+            Create new user account...
           </button>
         </div>
       </div>
@@ -54,7 +60,7 @@
 
 
   <div *ngIf="this.submitted">
-    <em>Requesting update of user account...</em>
+    <em>Requesting creation of new user account...</em>
   </div>
 
   <div>&nbsp;</div>

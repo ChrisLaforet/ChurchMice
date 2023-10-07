@@ -32,24 +32,18 @@ public class SaveUserCommandHandler : ICommandHandler<SaveUserCommand, Nothingne
 			return new NothingnessResponse();
 		}
 		
-		ValidateUserData(command);
+		ValidateUserData(command, user);
 
-		userProxy.UpdateUser(command.Id, command.UserName, command.FullName, command.Email);
+		userProxy.UpdateUser(command.Id, user.Username, command.FullName, command.Email);
 
 		return new NothingnessResponse();
 	}
 
-	private void ValidateUserData(SaveUserCommand command)
+	private void ValidateUserData(SaveUserCommand command, User user)
 	{
-		if (command.UserName.Length < 2)
-		{
-			logger.LogError($"Attempt to save user with invalid username of {command.UserName}");
-			throw new InvalidFieldException("UserName");
-		}
-		
 		if (!EmailAddressValidation.IsValidEmail(command.Email))
 		{
-			logger.LogError($"Attempt to save user {command.UserName} with invalid Email address of {command.Email}");
+			logger.LogError($"Attempt to save user {user.Username} with invalid Email address of {command.Email}");
 			throw new InvalidFieldException("Email");
 		}
 	}
