@@ -6,9 +6,7 @@ import {
   NotificationService, Roles,
   UserManagementService
 } from '@service/index';
-import { ReCaptchaV3Service } from 'ngx-captcha';
 import { UserDataDto } from '@data/dto/user-data.dto';
-import { AuthenticatedUser } from '@data/auth/authenticated-user';
 import { first } from 'rxjs/operators';
 import { SelectOption } from '@ui/container/select-option';
 import { forkJoin, ReplaySubject } from 'rxjs';
@@ -107,8 +105,9 @@ export class EditUserComponent implements OnInit {
     }
 
     this.submitted = true;
-    if (this.isUserChanged() && this.isRoleLevelChanged()) {
-      let saveUserReplay = new ReplaySubject(1);
+    let saveUserReplay = new ReplaySubject(1);
+    let saveRoleReplay = new ReplaySubject(1);
+    if (this.isUserChanged()) {
       this.userManagementService.updateUser(this.userId, this.newFullName, this.newEmail)
         .pipe(first())
         .subscribe({
@@ -121,59 +120,36 @@ export class EditUserComponent implements OnInit {
             this.notifyService.showSuccess('Successfully saved user changes', 'User changes saved');
             saveUserReplay.next(null);
             saveUserReplay.complete();
-          }
-        });
-
-      let saveRoleReplay = new ReplaySubject(1);
-      this.userManagementService.setUserRole(this.userId, this.newRoleLevel)
-        .pipe(first())
-        .subscribe({
-          error: err => {
-            this.notifyService.showError('Error encountered while saving role change for user', 'Error saving');
-            saveRoleReplay.next(null);
-            saveRoleReplay.complete();
-          },
-          complete: () => {
-            this.notifyService.showSuccess('Successfully saved user role change', 'Role change saved');
-            saveRoleReplay.next(null);
-            saveRoleReplay.complete();
-          }
-        });
-
-      forkJoin([saveUserReplay, saveRoleReplay]).subscribe(results => {
-        this.submitted = false;
-      });
-    } else if (this.isUserChanged()) {
-      this.userManagementService.updateUser(this.userId, this.newFullName, this.newEmail)
-        .pipe(first())
-        .subscribe({
-          error: err => {
-            this.notifyService.showError('Error encountered while saving user changes', 'Error saving');
-            this.submitted = false;
-          },
-          complete: () => {
-            this.notifyService.showSuccess('Successfully saved user changes', 'User changes saved');
-            this.submitted = false;
           }
         });
     } else {
+      saveUserReplay.next(null);
+      saveUserReplay.complete();
+    }
+
+    if (this.isRoleLevelChanged()) {
       this.userManagementService.setUserRole(this.userId, this.newRoleLevel)
         .pipe(first())
         .subscribe({
           error: err => {
             this.notifyService.showError('Error encountered while saving role change for user', 'Error saving');
-            this.submitted = false;
+            saveRoleReplay.next(null);
+            saveRoleReplay.complete();
           },
           complete: () => {
             this.notifyService.showSuccess('Successfully saved user role change', 'Role change saved');
-            this.submitted = false;
+            saveRoleReplay.next(null);
+            saveRoleReplay.complete();
           }
         });
+    } else {
+      saveRoleReplay.next(null);
+      saveRoleReplay.complete();
     }
+
+    forkJoin([saveUserReplay, saveRoleReplay]).subscribe(results => {
+      this.loadUserFor(this.userId);
+      this.submitted = false;
+    });
   }
-
-  private saveUser(isOnlyChange: boolean) {
-
-  }
-
 }
