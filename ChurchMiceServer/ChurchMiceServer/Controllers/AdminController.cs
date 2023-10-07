@@ -20,6 +20,9 @@ public class AdminController : ControllerBase
 	public GetUsersQueryHandler GetUsersQueryHandler { get; set; }
 	public SetUserRoleCommandHandler SetUserRoleCommandHandler { get; set; }
 	public GetUserQueryHandler GetUserQueryHandler { get; set; }
+	public CheckExistingNameQueryHandler CheckExistingNameQueryHandler { get; set; }
+	public CreateUserCommandHandler CreateUserCommandHandler { get; set; }
+	public SaveUserCommandHandler SaveUserCommandHandler { get; set; }
 
 	public AdminController(IServiceProvider serviceProvider, ILogger<AdminController> logger)
 	{
@@ -32,6 +35,9 @@ public class AdminController : ControllerBase
 			this.GetUsersQueryHandler = ActivatorUtilities.CreateInstance<GetUsersQueryHandler>(serviceProvider);
 			this.SetUserRoleCommandHandler = ActivatorUtilities.CreateInstance<SetUserRoleCommandHandler>(serviceProvider);
 			this.GetUserQueryHandler = ActivatorUtilities.CreateInstance<GetUserQueryHandler>(serviceProvider);
+			this.CheckExistingNameQueryHandler = ActivatorUtilities.CreateInstance<CheckExistingNameQueryHandler>(serviceProvider);
+			this.CreateUserCommandHandler = ActivatorUtilities.CreateInstance<CreateUserCommandHandler>(serviceProvider);
+			this.SaveUserCommandHandler = ActivatorUtilities.CreateInstance<SaveUserCommandHandler>(serviceProvider);
 		}
 	}
 
@@ -82,6 +88,46 @@ public class AdminController : ControllerBase
 		catch (Exception)
 		{
 			return BadRequest(new {message = "User role has not been changed"});
+		}
+	}
+	
+	[HttpPost("createUser")]
+	[Authorize(Roles = "Administrator")]
+	public IActionResult CreateUser(CreateUserRequest model)
+	{
+		if (!CheckExistingNameQueryHandler.Handle(new CheckExistingNameQuery("USERNAME", model.UserName)).Value)
+		{
+			return BadRequest(new {message = "Requested user name is not permitted"});
+		}
+
+		try
+		{
+			CreateUserCommandHandler.Handle(new CreateUserCommand(model.UserName, model.FullName, model.Email));
+			return Ok(new {message = "Created new user"});
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(new {message = "Something went wrong while creating user account"});
+		}
+	}
+	
+	[HttpPut("updateUser")]
+	[Authorize(Roles = "Administrator")]
+	public IActionResult UpdateUser(UpdateUserRequest model)
+	{
+		// if (!CheckExistingNameQueryHandler.Handle(new CheckExistingNameQuery("USERNAME", model.UserName)).Value)
+		// {
+		// 	return BadRequest(new {message = "Requested user name is not permitted"});
+		// }
+
+		try
+		{
+			SaveUserCommandHandler.Handle(new SaveUserCommand(model.UserId, model.UserName, model.FullName, model.Email));
+			return Ok(new {message = "Updated user"});
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(new {message = "Something went wrong while creating user account"});
 		}
 	}
 }

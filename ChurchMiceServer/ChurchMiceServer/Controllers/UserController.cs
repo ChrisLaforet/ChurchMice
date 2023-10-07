@@ -24,7 +24,7 @@ public partial class UserController : ControllerBase
     public ChangePasswordCommandHandler ChangePasswordCommandHandler { get; set; }
     public LogoutCommandHandler LogoutCommandHandler { get; set; }
     public CheckExistingNameQueryHandler CheckExistingNameQueryHandler { get; set; }
-    public CreateUserCommandHandler CreateUserCommandHandler { get; set; }
+    public NewUserCommandHandler NewUserCommandHandler { get; set; }
     public ValidateUserEmailCommandHandler ValidateUserEmailCommandHandler { get; set; }
 
 
@@ -39,7 +39,7 @@ public partial class UserController : ControllerBase
             this.ChangePasswordCommandHandler = ActivatorUtilities.CreateInstance<ChangePasswordCommandHandler>(serviceProvider);
             this.LogoutCommandHandler = ActivatorUtilities.CreateInstance<LogoutCommandHandler>(serviceProvider);
             this.CheckExistingNameQueryHandler = ActivatorUtilities.CreateInstance<CheckExistingNameQueryHandler>(serviceProvider);
-            this.CreateUserCommandHandler = ActivatorUtilities.CreateInstance<CreateUserCommandHandler>(serviceProvider);
+            this.NewUserCommandHandler = ActivatorUtilities.CreateInstance<NewUserCommandHandler>(serviceProvider);
             this.ValidateUserEmailCommandHandler = ActivatorUtilities.CreateInstance<ValidateUserEmailCommandHandler>(serviceProvider);
         }
     }
@@ -122,7 +122,7 @@ public partial class UserController : ControllerBase
     
     [HttpPost("createUser")]
     [AllowAnonymous]
-    public IActionResult CreateUser(CreateUserRequest model)
+    public IActionResult CreateUser(NewUserRequest model)
     {
         if (!CheckExistingNameQueryHandler.Handle(new CheckExistingNameQuery("USERNAME", model.UserName)).Value)
         {
@@ -131,7 +131,7 @@ public partial class UserController : ControllerBase
 
         try
         {
-            CreateUserCommandHandler.Handle(new CreateUserCommand(model.UserName, model.Password, model.Email, model.FullName));
+            NewUserCommandHandler.Handle(new NewUserCommand(model.UserName, model.Password, model.Email, model.FullName));
             return Ok(new {message = "Check your Email (and Spam filters) to complete creating your account"});
         }
         catch (Exception ex)
