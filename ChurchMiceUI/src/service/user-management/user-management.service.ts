@@ -27,7 +27,7 @@ export class UserManagementService {
     this.singleUserUrl = this.baseUrl + '/getUser/';
     this.createUserUrl = this.baseUrl + '/createUser';
     this.updateUserUrl = this.baseUrl + '/updateUser';
-    this.changePasswordUrl = this.baseUrl + '/changeUserPassword';
+    this.changePasswordUrl = this.baseUrl + '/setUserPassword';
     this.setUserRoleUrl = this.baseUrl + '/setUserRole';
 
     this.headers = new HttpHeaders()
@@ -68,6 +68,14 @@ export class UserManagementService {
       "email" : email
     };
     return this.http.put<MessageResponseDto>(this.updateUserUrl, userData, {'headers': this.prepareHeaders()});
+  }
+
+  public setUserPassword(userId: string, password: string): Observable<MessageResponseDto> {
+    const userData = {
+      "userId": userId,
+      "password" : password
+    };
+    return this.http.put<MessageResponseDto>(this.changePasswordUrl, userData, {'headers': this.prepareHeaders()});
   }
 
   private prepareHeaders(): HttpHeaders {

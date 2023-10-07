@@ -43,6 +43,7 @@ import { EditUserComponent } from '@app/edit-user/edit-user.component';
 import { ConfirmationDialogComponent } from '@ui/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogService } from '@ui/confirmation-dialog/confirmation-dialog.service';
 import { CreateUserComponent } from '@app/create-user/create-user.component';
+import { EditPasswordComponent } from '@app/edit-password/edit-password.component';
 
 library.add(fas, far);
 
@@ -66,6 +67,7 @@ library.add(fas, far);
     ManageUsersComponent,
     CreateUserComponent,
     EditUserComponent,
+    EditPasswordComponent,
     ConfirmationDialogComponent
   ],
   imports: [
@@ -100,6 +102,7 @@ library.add(fas, far);
       {path: 'admin/users', component: ManageUsersComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
       {path: 'admin/createUser', component: CreateUserComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
       {path: 'admin/editUser/:userId', component: EditUserComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
+      {path: 'admin/editUserPassword/:userId', component: EditPasswordComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
 
     ]),
     InputDirectiveModule,

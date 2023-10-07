@@ -77,7 +77,7 @@
       <a href="/admin/editUser/{{ user.id }}" title="Edit user" class="action-icon">
         <fa-icon [icon]="faFilePen" class="fa-fw sidebar-icon fa-sm"></fa-icon>
       </a>
-      <a href="/admin/changeUserPassword?/{{ user.id }}" title="Change user password" class="action-icon">
+      <a href="/admin/editUserPassword/{{ user.id }}" title="Change user password" class="action-icon">
         <fa-icon [icon]="faKey" class="fa-fw sidebar-icon fa-sm"></fa-icon>
       </a>
       <a (click)="this.disableUser(user)" title="Disable user" class="action-icon">

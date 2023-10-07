@@ -259,6 +259,29 @@ public class UserProxy : IUserProxy
         context.SaveChanges();
     }
 
+    public void SetPasswordFor(string userId, string password)
+    {
+        var user = GetUserById(userId);
+        if (user == null)
+        {
+            throw new AuthenticationException();
+        }
+        
+        var passwordHash = passwordProcessor.HashPassword(password);
+
+        // save password
+        user.PasswordHash = passwordHash;
+        user.ResetKey = null;
+        user.ResetExpirationDatetime = null;
+        context.Users.Update(user);
+
+        // force user to have to relogin
+        LogoutUser(user.Username);
+
+        context.SaveChanges();
+    }
+
+
     public string HashPassword(string password)
     {
         return passwordProcessor.HashPassword(password);

@@ -23,6 +23,8 @@ public class AdminController : ControllerBase
 	public CheckExistingNameQueryHandler CheckExistingNameQueryHandler { get; set; }
 	public CreateUserCommandHandler CreateUserCommandHandler { get; set; }
 	public SaveUserCommandHandler SaveUserCommandHandler { get; set; }
+	public SetUserPasswordCommandHandler SetUserPasswordCommandHandler { get; set; }
+
 
 	public AdminController(IServiceProvider serviceProvider, ILogger<AdminController> logger)
 	{
@@ -38,6 +40,7 @@ public class AdminController : ControllerBase
 			this.CheckExistingNameQueryHandler = ActivatorUtilities.CreateInstance<CheckExistingNameQueryHandler>(serviceProvider);
 			this.CreateUserCommandHandler = ActivatorUtilities.CreateInstance<CreateUserCommandHandler>(serviceProvider);
 			this.SaveUserCommandHandler = ActivatorUtilities.CreateInstance<SaveUserCommandHandler>(serviceProvider);
+			this.SetUserPasswordCommandHandler = ActivatorUtilities.CreateInstance<SetUserPasswordCommandHandler>(serviceProvider);
 		}
 	}
 
@@ -123,6 +126,21 @@ public class AdminController : ControllerBase
 		catch (Exception ex)
 		{
 			return BadRequest(new {message = "Something went wrong while creating user account"});
+		}
+	}
+	
+	[HttpPut("setUserPassword")]
+	[Authorize(Roles = "Administrator")]
+	public IActionResult SetUserPassword(UserPasswordRequest request)
+	{
+		try
+		{
+			SetUserPasswordCommandHandler.Handle(new SetUserPasswordCommand(request.UserId, request.Password));
+			return Ok(new {message = "Password changed successfully"});
+		}
+		catch (Exception)
+		{
+			return BadRequest(new {message = "User password has not been changed"});
 		}
 	}
 }
