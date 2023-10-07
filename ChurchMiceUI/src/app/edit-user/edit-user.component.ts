@@ -3,13 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UntypedFormBuilder } from '@angular/forms';
 import {
   AuthService,
-  NotificationService,
+  NotificationService, Roles,
   UserManagementService
 } from '@service/index';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 import { UserDataDto } from '@data/dto/user-data.dto';
 import { AuthenticatedUser } from '@data/auth/authenticated-user';
 import { first } from 'rxjs/operators';
+import { SelectOption } from '@ui/container/select-option';
 
 
 @Component({
@@ -20,12 +21,15 @@ import { first } from 'rxjs/operators';
 export class EditUserComponent implements OnInit {
 
   submitted = false;
+  roleLevels: SelectOption[] = [];
+
   userId: string = '';
   user?: UserDataDto;
   existingUserName = '';
 
   newFullName = '';
   newEmail = '';
+  newRoleLevel = Roles.NOACCESS;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -35,10 +39,19 @@ export class EditUserComponent implements OnInit {
     private userManagementService: UserManagementService,
     private notifyService: NotificationService) {
 
+    this.createRoleLevels();
+  }
+
+  private createRoleLevels() {
+    this.roleLevels.push(new SelectOption(Roles.NOACCESS, Roles.NOACCESS));
+    this.roleLevels.push(new SelectOption(Roles.ATTENDER, Roles.ATTENDER));
+    this.roleLevels.push(new SelectOption(Roles.MEMBER, Roles.MEMBER));
+    this.roleLevels.push(new SelectOption(Roles.ADMINISTRATOR, Roles.ADMINISTRATOR + ' (Warning)'));
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
+      // https://indepth.dev/tutorials/angular/indepth-guide-to-passing-parameters-via-routing
       const userId = params['userId'];
       this.loadUserFor(userId);
     });
@@ -57,6 +70,7 @@ export class EditUserComponent implements OnInit {
             this.existingUserName = user.userName;
             this.newEmail = user.email;
             this.newFullName = user.fullName;
+            this.newRoleLevel = user.roleLevel;
           }
         },
         error: (err: any) => {
@@ -66,7 +80,24 @@ export class EditUserComponent implements OnInit {
       });
   }
 
+  private noChanges(): boolean {
+    if (this.user === null) {
+      return true;
+    }
+    return this.user?.fullName === this.newFullName &&
+      this.user.email === this.newEmail &&
+      this.user.roleLevel === this.newRoleLevel;
+  }
+
   onSubmit() {
+    if (this.noChanges()) {
+      this.notifyService.showWarning('There are no changes to be saved to this user record', 'Update not done');
+      return;
+    }
+
+    // saveUserData();
+    // saveRoleLevel();
+
     // this.submitted = true;
     //
     // // reset alerts on submit

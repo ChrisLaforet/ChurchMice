@@ -35,8 +35,6 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: (user: AuthenticatedUser) => {
-          // TODO: update the header with correct user information!
-          console.log(user);
           this.notifyService.showSuccess('Welcome, ' + user.fullName + ', you are successfully logged in', 'Success');
         },
         error: (err: any) => {

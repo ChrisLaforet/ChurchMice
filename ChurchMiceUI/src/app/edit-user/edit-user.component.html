@@ -27,12 +27,25 @@
           </div>
         </div>
 
-        <div class="col-lg-4 col-md-6 col-sm-12">
-          <label for="email">Email</label>
-          <input type="text" class="form-control" id="email" name="email" #email="ngModel"
-                 [(ngModel)]="newEmail" required minlength="6">
-          <div class="text-danger" *ngIf="(email.errors?.required || email.errors?.minlength)">
-            A valid email address must be provided.
+        <div class="row display-page-edit-row">
+          <div class="col-lg-4 col-md-6 col-sm-12">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" id="email" name="email" #email="ngModel"
+                   [(ngModel)]="newEmail" required minlength="6">
+            <div class="text-danger" *ngIf="(email.errors?.required || email.errors?.minlength)">
+              A valid email address must be provided.
+            </div>
+          </div>
+        </div>
+
+        <div class="row display-page-edit-row">
+          <div class="col-lg-4 col-md-6 col-sm-12">
+            <label for="roleLevel">Role level</label>
+            <select id="roleLevel" #roleLevel class="form-select" [(ngModel)]="newRoleLevel" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let level of roleLevels" [ngValue]="level.code">
+                {{ level.displayValue }}
+              </option>
+            </select>
           </div>
         </div>
       </div>
