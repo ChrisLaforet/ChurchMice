@@ -11,7 +11,7 @@ import { UserDataDto } from '@data/dto/user-data.dto';
 import { AuthenticatedUser } from '@data/auth/authenticated-user';
 import { first } from 'rxjs/operators';
 import { SelectOption } from '@ui/container/select-option';
-import { forkJoin } from 'rxjs';
+import { forkJoin, ReplaySubject } from 'rxjs';
 
 
 @Component({
@@ -82,12 +82,22 @@ export class EditUserComponent implements OnInit {
   }
 
   private noChanges(): boolean {
+    return !this.isUserChanged() && !this.isRoleLevelChanged();
+  }
+
+  private isUserChanged(): boolean {
     if (this.user === null) {
-      return true;
+      return false;
     }
-    return this.user?.fullName === this.newFullName &&
-      this.user.email === this.newEmail &&
-      this.user.roleLevel === this.newRoleLevel;
+    return this.user?.fullName !== this.newFullName ||
+      this.user.email !== this.newEmail;
+  }
+
+  private isRoleLevelChanged(): boolean {
+    if (this.user === null) {
+      return false;
+    }
+    return this.user?.roleLevel !== this.newRoleLevel;
   }
 
   onSubmit() {
@@ -96,26 +106,74 @@ export class EditUserComponent implements OnInit {
       return;
     }
 
-    // saveUserData();
-    // saveRoleLevel();
-    // forkJoin
+    this.submitted = true;
+    if (this.isUserChanged() && this.isRoleLevelChanged()) {
+      let saveUserReplay = new ReplaySubject(1);
+      this.userManagementService.updateUser(this.userId, this.newFullName, this.newEmail)
+        .pipe(first())
+        .subscribe({
+          error: err => {
+            this.notifyService.showError('Error encountered while saving user changes', 'Error saving');
+            saveUserReplay.next(null);
+            saveUserReplay.complete();
+          },
+          complete: () => {
+            this.notifyService.showSuccess('Successfully saved user changes', 'User changes saved');
+            saveUserReplay.next(null);
+            saveUserReplay.complete();
+          }
+        });
 
-    // this.submitted = true;
-    //
-    // // reset alerts on submit
-    // this.alertService.clear();
-    //
-    // // stop here if form is invalid
-    // if (this.form.invalid) {
-    //   return;
-    // }
-    //
-    // this.loading = true;
-    // if (this.isAddMode) {
-    //   this.createUser();
-    // } else {
-    //   this.updateUser();
-    // }
+      let saveRoleReplay = new ReplaySubject(1);
+      this.userManagementService.setUserRole(this.userId, this.newRoleLevel)
+        .pipe(first())
+        .subscribe({
+          error: err => {
+            this.notifyService.showError('Error encountered while saving role change for user', 'Error saving');
+            saveRoleReplay.next(null);
+            saveRoleReplay.complete();
+          },
+          complete: () => {
+            this.notifyService.showSuccess('Successfully saved user role change', 'Role change saved');
+            saveRoleReplay.next(null);
+            saveRoleReplay.complete();
+          }
+        });
+
+      forkJoin([saveUserReplay, saveRoleReplay]).subscribe(results => {
+        this.submitted = false;
+      });
+    } else if (this.isUserChanged()) {
+      this.userManagementService.updateUser(this.userId, this.newFullName, this.newEmail)
+        .pipe(first())
+        .subscribe({
+          error: err => {
+            this.notifyService.showError('Error encountered while saving user changes', 'Error saving');
+            this.submitted = false;
+          },
+          complete: () => {
+            this.notifyService.showSuccess('Successfully saved user changes', 'User changes saved');
+            this.submitted = false;
+          }
+        });
+    } else {
+      this.userManagementService.setUserRole(this.userId, this.newRoleLevel)
+        .pipe(first())
+        .subscribe({
+          error: err => {
+            this.notifyService.showError('Error encountered while saving role change for user', 'Error saving');
+            this.submitted = false;
+          },
+          complete: () => {
+            this.notifyService.showSuccess('Successfully saved user role change', 'Role change saved');
+            this.submitted = false;
+          }
+        });
+    }
+  }
+
+  private saveUser(isOnlyChange: boolean) {
+
   }
 
 }

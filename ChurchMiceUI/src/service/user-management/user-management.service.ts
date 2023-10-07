@@ -67,7 +67,7 @@ export class UserManagementService {
       "fullname" : fullname,
       "email" : email
     };
-    return this.http.post<MessageResponseDto>(this.createUserUrl, userData, {'headers': this.prepareHeaders()});
+    return this.http.put<MessageResponseDto>(this.updateUserUrl, userData, {'headers': this.prepareHeaders()});
   }
 
   private prepareHeaders(): HttpHeaders {
