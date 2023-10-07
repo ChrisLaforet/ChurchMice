@@ -13,6 +13,7 @@ public interface IUserProxy
 	JsonWebToken AuthenticateUser(string username, string password);
 	string CreateUser(User user);
 	void ValidateEmailForUser(string username, string password);
+	void UpdateUser(string userId, string userName, string fullName, string email);
 
 	void SetPasswordFor(string username, string resetKey, string password);
 	string HashPassword(string password);

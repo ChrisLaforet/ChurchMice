@@ -69,6 +69,20 @@ public class UserProxy : IUserProxy
         return user.Id;
     }
 
+    public void UpdateUser(string userId, string userName, string fullName, string email)
+    {
+        var user = GetUserById(userId);
+        if (user == null)
+        {
+            return;
+        }
+        user.Email = email;
+        user.Fullname = fullName;
+        user.Username = userName;
+        context.SaveChanges();
+    }
+
+
     public JsonWebToken AuthenticateUser(string username, string password)
     {
         var passwordHash = passwordProcessor.HashPassword(password);
