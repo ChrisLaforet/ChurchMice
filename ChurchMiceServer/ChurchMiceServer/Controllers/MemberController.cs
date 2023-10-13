@@ -37,7 +37,7 @@ public class MemberController : ControllerBase
     {
         try
         {
-            return MemberQueryHandler.Handle(new MemberQuery(id));
+            return MemberQueryHandler.Handle(new MemberQuery(memberId));
         }
         catch (Exception ex)
         {
