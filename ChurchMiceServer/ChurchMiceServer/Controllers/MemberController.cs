@@ -31,9 +31,9 @@ public class MemberController : ControllerBase
         }
     }
 
-    [HttpGet("getMemberById")]
+    [HttpGet("getMember/{memberId}")]
     [Authorize]
-    public MemberResponse GetMemberById(string id)
+    public MemberResponse GetMemberById(string memberId)
     {
         try
         {
