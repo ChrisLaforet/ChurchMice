@@ -24,6 +24,8 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
     
     public virtual DbSet<Member> Members { get; set; }
     
+    public virtual DbSet<MemberEditor> MemberEditors { get; set; }
+    
     public virtual DbSet<MemberImage> MemberImages { get; set; }
     
     public virtual DbSet<ChurchMiceServer.Domains.Models.Configuration> Configurations { get; set; }
@@ -33,6 +35,7 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        // empty for now - unless some config has to be done
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -263,7 +266,24 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
                 .HasColumnName("UserID")
                 .HasMaxLength(50);
           });
-        
+
+
+        modelBuilder.Entity<MemberEditor>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+
+            entity.ToTable("MemberEditor");
+            
+            entity.Property(e => e.MemberId)
+                .HasColumnName("MemberID")
+                .IsRequired();
+              
+            entity.Property(e => e.EditorId)
+                .HasColumnName("EditorId")
+                .HasMaxLength(50)
+                .IsRequired();
+        });
+
         modelBuilder.Entity<MemberImage>(entity =>
         {
             entity.HasKey(e => e.Id);

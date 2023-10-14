@@ -48,4 +48,34 @@ public class MemberProxy : IMemberProxy
         context.Members.Remove(member);
         context.SaveChanges();
     }
+
+    public int ConnectEditorToMember(User editor, Member member)
+    {
+        var record = context.MemberEditors.FirstOrDefault(me => me.MemberId == member.Id && me.EditorId == editor.Id);
+        if (record != null)
+        {
+            return record.Id;
+        }
+
+        record = new MemberEditor() { MemberId = member.Id, EditorId = editor.Id };
+        context.MemberEditors.Add(record);
+        context.SaveChanges();
+        return record.Id;
+    }
+
+    public void RemoveEditorFromMember(MemberEditor memberEditor)
+    {
+        context.MemberEditors.Remove(memberEditor);
+        context.SaveChanges();
+    }
+
+    public IList<MemberEditor> GetEditorsForMember(Member member)
+    {
+        return context.MemberEditors.Where(me => me.MemberId == member.Id).ToList();
+    }
+
+    public IList<MemberEditor> GetMembersForEditor(User user)
+    {
+        return context.MemberEditors.Where(me => me.EditorId == user.Id).ToList();
+    }
 }

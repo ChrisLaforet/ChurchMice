@@ -11,4 +11,8 @@ public interface IMemberProxy
     void RemoveMember(Member member);
     
     // TODO: Add memberEditor and memberImage lookups and creation here
+    int ConnectEditorToMember(User editor, Member member);
+    void RemoveEditorFromMember(MemberEditor memberEditor);
+    IList<MemberEditor> GetEditorsForMember(Member member);
+    IList<MemberEditor> GetMembersForEditor(User user);
 }
