@@ -9,4 +9,6 @@ public interface IMemberProxy
     int CreateMember(Member member);
     void UpdateMember(Member member);
     void RemoveMember(Member member);
+    
+    // TODO: Add memberEditor and memberImage lookups and creation here
 }

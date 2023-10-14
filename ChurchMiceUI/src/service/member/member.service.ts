@@ -52,7 +52,27 @@ export class MemberService {
       "anniversary": anniversary,
       "memberSince": memberSince
     };
-    return this.http.post<MemberDto>(this.createUrl, userData, {'headers': this.headers});
+    return this.http.post<MemberDto>(this.createUrl, userData, {'headers': this.prepareHeaders()});
+  }
+
+  public updateMember(member: MemberDto): Observable<MemberDto> {
+    const userData = {
+      "id": member.id,
+      "firstName": member.firstName,
+      "lastName": member.lastName,
+      "email": member.email,
+      "homePhone": member.homePhone,
+      "mobilePhone": member.mobilePhone,
+      "mailingAddress1": member.mailingAddress1,
+      "mailingAddress2": member.mailingAddress2,
+      "city": member.city,
+      "state": member.state,
+      "zip": member.zip,
+      "birthday": member.birthday,
+      "anniversary": member.anniversary,
+      "memberSince": member.memberSince
+    };
+    return this.http.put<MemberDto>(this.createUrl, userData, {'headers': this.prepareHeaders()});
   }
 
   private prepareHeaders(): HttpHeaders {
