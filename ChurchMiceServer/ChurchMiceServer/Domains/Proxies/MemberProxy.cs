@@ -49,6 +49,11 @@ public class MemberProxy : IMemberProxy
         context.SaveChanges();
     }
 
+    public IList<Member> GetMembers()
+    {
+        return context.Members.ToList();
+    }
+
     public int ConnectEditorToMember(User editor, Member member)
     {
         var record = context.MemberEditors.FirstOrDefault(me => me.MemberId == member.Id && me.EditorId == editor.Id);
@@ -74,8 +79,14 @@ public class MemberProxy : IMemberProxy
         return context.MemberEditors.Where(me => me.MemberId == member.Id).ToList();
     }
 
-    public IList<MemberEditor> GetMembersForEditor(User user)
+    public IList<Member> GetMembersForEditor(User user)
     {
-        return context.MemberEditors.Where(me => me.EditorId == user.Id).ToList();
+        var matches = context.MemberEditors.Where(me => me.EditorId == user.Id).ToList();
+        var list = new List<Member>();
+        foreach (var match in matches)
+        {
+            list.Add(GetMember(match.MemberId));
+        }
+        return list;
     }
 }

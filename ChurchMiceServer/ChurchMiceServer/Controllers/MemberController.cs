@@ -18,6 +18,7 @@ public class MemberController : ControllerBase
     public MemberQueryHandler MemberQueryHandler { get; set; }
     public CreateMemberCommandHandler CreateMemberCommandHandler { get; set; }
     public UpdateMemberCommandHandler UpdateMemberCommandHandler { get; set; }
+    public EditableMembersQueryHandler EditableMembersQueryHandler { get; set; }
 
     public MemberController(IServiceProvider serviceProvider, ILogger<MemberController> logger)
     {
@@ -28,6 +29,7 @@ public class MemberController : ControllerBase
             this.MemberQueryHandler = ActivatorUtilities.CreateInstance<MemberQueryHandler>(serviceProvider);
             this.CreateMemberCommandHandler = ActivatorUtilities.CreateInstance<CreateMemberCommandHandler>(serviceProvider);
             this.UpdateMemberCommandHandler = ActivatorUtilities.CreateInstance<UpdateMemberCommandHandler>(serviceProvider);
+            this.EditableMembersQueryHandler = ActivatorUtilities.CreateInstance<EditableMembersQueryHandler>(serviceProvider);
         }
     }
 
@@ -42,6 +44,22 @@ public class MemberController : ControllerBase
         catch (Exception ex)
         {
             logger.Log(LogLevel.Debug, "Error retrieving member record", ex);
+        }
+
+        return null;
+    }
+    
+    [HttpGet("getEditableMembers")]
+    [Authorize]
+    public IList<MemberResponse> GetEditableMembers()
+    {
+        try
+        {
+            return EditableMembersQueryHandler.Handle(new EditableMembersQuery(HttpContext.User.Identity.Name));
+        }
+        catch (Exception ex)
+        {
+            logger.Log(LogLevel.Debug, "Error retrieving member records", ex);
         }
 
         return null;

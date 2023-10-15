@@ -83,7 +83,5 @@ public class UpdateMemberCommandHandler : ICommandHandler<UpdateMemberCommand, M
         }
 
         throw new UserNotPermittedxception(editor.Id, $"edit member {member.Id}");
-
-
     }
 }
