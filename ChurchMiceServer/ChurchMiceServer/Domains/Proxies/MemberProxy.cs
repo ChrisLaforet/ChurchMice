@@ -13,7 +13,7 @@ public class MemberProxy : IMemberProxy
         this.context = context;
     }
     
-    public Member? GetMemberById(string id)
+    public Member? GetMember(int id)
     {
         return context.Members.FirstOrDefault(member => member.Id.Equals(id));
     }

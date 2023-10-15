@@ -33,7 +33,7 @@ public class MemberController : ControllerBase
 
     [HttpGet("getMember/{memberId}")]
     [Authorize]
-    public MemberResponse GetMemberById(string memberId)
+    public MemberResponse GetMemberById(int memberId)
     {
         try
         {

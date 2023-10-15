@@ -4,7 +4,7 @@ namespace ChurchMiceServer.Domains.Proxies;
 
 public interface IMemberProxy
 {
-    Member? GetMemberById(string id);
+    Member? GetMember(int id);
     IList<Member> FindMembersByName(string lastName, string? firstName = null);
     int CreateMember(Member member);
     void UpdateMember(Member member);
