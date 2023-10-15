@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService, IApiKeyReaderService } from '@service/index';
 import { environment } from '@environments/environment';
-import { AuthenticatedUser, MemberDto } from '@data/index';
+import { AuthenticatedUser, MemberDto, UserDataDto } from '@data/index';
 import { Observable } from 'rxjs';
 import { MessageResponseDto } from '@data/dto/message-response.dto';
 
@@ -14,6 +14,8 @@ export class MemberService {
   private readonly getMemberUrl: string;
   private readonly createUrl: string;
   private readonly updateUrl: string;
+  private readonly getMembersUrl: string;
+  private readonly getEditableMembersUrl: string;
 
   private readonly headers: HttpHeaders;
 
@@ -21,6 +23,8 @@ export class MemberService {
               private http: HttpClient) {
     this.baseUrl = environment.servicesUrl + '/api/member';
     this.getMemberUrl = this.baseUrl + '/getMember/';
+    this.getMembersUrl = this.baseUrl + '/getMembers';
+    this.getEditableMembersUrl = this.baseUrl + '/getEditableMembers';
     this.createUrl = this.baseUrl + '/create';
     this.updateUrl = this.baseUrl + '/update';
     this.headers = new HttpHeaders()
@@ -73,6 +77,14 @@ export class MemberService {
       "memberSince": member.memberSince
     };
     return this.http.put<MemberDto>(this.createUrl, userData, {'headers': this.prepareHeaders()});
+  }
+
+  public getAllMembers(): Observable<MemberDto[]> {
+    return this.http.get<MemberDto[]>(this.getMembersUrl, {'headers': this.prepareHeaders()});
+  }
+
+  public getAllEditableMembers(): Observable<MemberDto[]> {
+    return this.http.get<MemberDto[]>(this.getEditableMembersUrl, {'headers': this.prepareHeaders()});
   }
 
   private prepareHeaders(): HttpHeaders {
