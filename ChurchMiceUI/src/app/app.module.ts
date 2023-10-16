@@ -91,7 +91,7 @@ library.add(fas, far);
       {path: 'validateUserEmail', component: ValidateEmailComponent},
       {path: 'changePassword', component: ChangePasswordComponent},
 
-      {path: 'newMember', component: NewMemberComponent, canActivate: [AuthGuard]},
+      {path: 'newMember', component: NewMemberComponent, canActivate: [AuthGuard], data: { roles: [Roles.ATTENDER, Roles.MEMBER, Roles.ADMINISTRATOR]}},
 
       {path: 'about', component: UserContentComponent, data: {page: 'about'}},
       {path: 'main', component: UserContentComponent, data: {page: 'index'}},
