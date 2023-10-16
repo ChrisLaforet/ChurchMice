@@ -2,9 +2,9 @@
 
 public class MemberQuery : IQuery
 {
-    public string Id { get; private set; }
+    public int Id { get; private set; }
 
-    public MemberQuery(string id)
+    public MemberQuery(int id)
     {
         this.Id = id;
     }

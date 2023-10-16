@@ -17,7 +17,7 @@ public class MemberQueryHandler : IQueryHandler<MemberQuery, MemberResponse?>
     
     public MemberResponse? Handle(MemberQuery query)
     {
-        var member = memberProxy.GetMemberById(query.Id);
+        var member = memberProxy.GetMember(query.Id);
         if (member == null)
         {
             return null;

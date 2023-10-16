@@ -13,7 +13,7 @@ public class MemberProxy : IMemberProxy
         this.context = context;
     }
     
-    public Member? GetMemberById(string id)
+    public Member? GetMember(int id)
     {
         return context.Members.FirstOrDefault(member => member.Id.Equals(id));
     }
@@ -47,5 +47,46 @@ public class MemberProxy : IMemberProxy
     {
         context.Members.Remove(member);
         context.SaveChanges();
+    }
+
+    public IList<Member> GetMembers()
+    {
+        return context.Members.ToList();
+    }
+
+    public int ConnectEditorToMember(User editor, Member member)
+    {
+        var record = context.MemberEditors.FirstOrDefault(me => me.MemberId == member.Id && me.EditorId == editor.Id);
+        if (record != null)
+        {
+            return record.Id;
+        }
+
+        record = new MemberEditor() { MemberId = member.Id, EditorId = editor.Id };
+        context.MemberEditors.Add(record);
+        context.SaveChanges();
+        return record.Id;
+    }
+
+    public void RemoveEditorFromMember(MemberEditor memberEditor)
+    {
+        context.MemberEditors.Remove(memberEditor);
+        context.SaveChanges();
+    }
+
+    public IList<MemberEditor> GetEditorsForMember(Member member)
+    {
+        return context.MemberEditors.Where(me => me.MemberId == member.Id).ToList();
+    }
+
+    public IList<Member> GetMembersForEditor(User user)
+    {
+        var matches = context.MemberEditors.Where(me => me.EditorId == user.Id).ToList();
+        var list = new List<Member>();
+        foreach (var match in matches)
+        {
+            list.Add(GetMember(match.MemberId));
+        }
+        return list;
     }
 }

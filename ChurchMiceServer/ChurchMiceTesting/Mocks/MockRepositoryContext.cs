@@ -32,6 +32,9 @@ public class MockRepositoryContext : IRepositoryContext
 
 		MemberImages = new MockMemberImageRepository();
 		repositories.Add((IMockRepositoryMetrics)MemberImages);
+
+		MemberEditors = new MockMemberEditorRepository();
+		repositories.Add((IMockRepositoryMetrics)MemberEditors);
 	}
 	
 	public void Dispose()
@@ -48,6 +51,7 @@ public class MockRepositoryContext : IRepositoryContext
 	public IUserRoleRepository UserRoles { get; private set; }
 	public IUserTokenRepository UserTokens { get; private set; }
 	public IMemberImageRepository MemberImages { get; private set; }
+	public IMemberEditorRepository MemberEditors { get; private set; }
 	
 	public int SaveChanges()
 	{

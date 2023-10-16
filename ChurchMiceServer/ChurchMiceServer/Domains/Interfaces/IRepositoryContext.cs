@@ -11,6 +11,7 @@ public interface IRepositoryContext : IDisposable
         IUserRoleRepository UserRoles { get; }
         IUserTokenRepository UserTokens { get; }
         IMemberImageRepository MemberImages { get; }
+        IMemberEditorRepository MemberEditors { get; }
         int SaveChanges();
         void Remove(object toRemove);
 }
