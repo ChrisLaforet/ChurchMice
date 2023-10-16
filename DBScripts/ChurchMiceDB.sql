@@ -189,3 +189,34 @@ CREATE TABLE [dbo].[Configuration](
 ) ON [PRIMARY]
 GO
 
+/****** Object:  Table [dbo].[MemberEditor]    Script Date: 10/14/2023 8:06:31 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[MemberEditor](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[MemberID] [int] NOT NULL,
+	[EditorID] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_MemberEditor] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[MemberEditor]  WITH CHECK ADD  CONSTRAINT [FK_MemberEditor_Member] FOREIGN KEY([MemberID])
+REFERENCES [dbo].[Member] ([ID])
+GO
+
+ALTER TABLE [dbo].[MemberEditor] CHECK CONSTRAINT [FK_MemberEditor_Member]
+GO
+
+ALTER TABLE [dbo].[MemberEditor]  WITH CHECK ADD  CONSTRAINT [FK_MemberEditor_User] FOREIGN KEY([EditorID])
+REFERENCES [dbo].[User] ([ID])
+GO
+
+ALTER TABLE [dbo].[MemberEditor] CHECK CONSTRAINT [FK_MemberEditor_User]
+GO
