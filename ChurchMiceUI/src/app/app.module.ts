@@ -26,9 +26,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { LoginComponent } from '@app/login/login.component';
 import { LogoutComponent } from '@app/logout/logout.component';
 import { ForgottenPasswordComponent } from '@app/forgotten-password/forgotten-password.component';
-import { USCurrencyPipe } from '@app/pipes';
+import { USCurrencyPipe, USPhonePipe } from '@app/pipes';
 import { NewLoginComponent } from '@app/new-login/new-login.component';
-import { NewMemberComponent } from '@app/new-member/new-member.component';
+import { CreateMemberComponent } from '@app/create-member/create-member.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { UploadMemberImageComponent } from '@app/upload-member-image/upload-member-image.component';
 import { UserContentComponent } from '@app/user-content/user-content.component';
@@ -44,6 +44,7 @@ import { ConfirmationDialogComponent } from '@ui/confirmation-dialog/confirmatio
 import { ConfirmationDialogService } from '@ui/confirmation-dialog/confirmation-dialog.service';
 import { CreateUserComponent } from '@app/create-user/create-user.component';
 import { EditPasswordComponent } from '@app/edit-password/edit-password.component';
+import { ManageMembersComponent } from '@app/manage-members/manage-members.component';
 
 library.add(fas, far);
 
@@ -57,7 +58,7 @@ library.add(fas, far);
     LogoutComponent,
     ForgottenPasswordComponent,
     NewLoginComponent,
-    NewMemberComponent,
+    CreateMemberComponent,
     UploadMemberImageComponent,
     USCurrencyPipe,
     UserContentComponent,
@@ -68,7 +69,9 @@ library.add(fas, far);
     CreateUserComponent,
     EditUserComponent,
     EditPasswordComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    ManageMembersComponent,
+    USPhonePipe
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -91,7 +94,8 @@ library.add(fas, far);
       {path: 'validateUserEmail', component: ValidateEmailComponent},
       {path: 'changePassword', component: ChangePasswordComponent},
 
-      {path: 'newMember', component: NewMemberComponent, canActivate: [AuthGuard], data: { roles: [Roles.ATTENDER, Roles.MEMBER, Roles.ADMINISTRATOR]}},
+      {path: 'manageMembers', component: ManageMembersComponent, canActivate: [AuthGuard], data: { roles: [Roles.ATTENDER, Roles.MEMBER, Roles.ADMINISTRATOR]}},
+      {path: 'createMember', component: CreateMemberComponent, canActivate: [AuthGuard], data: { roles: [Roles.ATTENDER, Roles.MEMBER, Roles.ADMINISTRATOR]}},
 
       {path: 'about', component: UserContentComponent, data: {page: 'about'}},
       {path: 'main', component: UserContentComponent, data: {page: 'index'}},

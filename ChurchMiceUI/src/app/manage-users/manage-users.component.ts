@@ -6,8 +6,7 @@ import {
   faFilter,
   faXmark,
   faPlus,
-  faKey,
-  faFilterCircleXmark
+  faKey
 } from '@fortawesome/free-solid-svg-icons';
 import { RoleValidator } from '@app/helper';
 import { UserDataDto } from '@data/dto/user-data.dto';
@@ -32,7 +31,6 @@ export class ManageUsersComponent implements OnInit, HeaderSortable, HeaderFilte
   faPlus = faPlus;
   faKey = faKey;
   faXmark = faXmark;
-  faFilterCircleXmark = faFilterCircleXmark;
 
   authenticatedUser: AuthenticatedUser | null = null;
   public users = new Array<UserDataDto>();

@@ -5,6 +5,8 @@ import {
   faCircleQuestion,
   faClock,
   faGear,
+  faPeopleRoof,
+  faPersonCircleQuestion,
   faRightToBracket,
   faRightFromBracket,
   faScaleBalanced,
@@ -38,6 +40,8 @@ export class NavMenuComponent implements OnDestroy {
   faCircleCheck = faCircleCheck;
   faGear = faGear;
   faUsers = faUsers;
+  faPeopleRoof = faPeopleRoof;
+  faPersonCircleQuestion = faPersonCircleQuestion;
 
   subscription: Subscription;
   user: AuthenticatedUser | null;
@@ -125,6 +129,13 @@ export class NavMenuComponent implements OnDestroy {
 
   isLoggedIn(): boolean {
     return this.user !== null;
+  }
+
+  isPermittedToViewMembers(): boolean {
+    if (this.user === null || this.user.token === null) {
+      return false;
+    }
+    return JwtRoleExtractor.isUserPermittedToViewMembers(this.user.token);
   }
 
   isAdministrator(): boolean {

@@ -24,19 +24,38 @@ export class JwtRoleExtractor {
     return [];
   }
 
-  public static isUserAnAdministrator(token: string): boolean {
+  private static validateTokenAndExtractRoles(token: string): string [] {
+    const tokenPayload: object = jwt_decode(token);
+    // @ts-ignore
+    const expiration = parseInt(tokenPayload.exp, 10);
+    const now = new Date();
+    // @ts-ignore
+    if (now.getTime() / 1000 > expiration) {
+      console.log('User token is expired');
+      throw new Error('Token is expired');;
+    }
+    // @ts-ignore
+   return tokenPayload['roles'];
+  }
+
+  public static isUserPermittedToViewMembers(token: string): boolean {
     try {
-      const tokenPayload: object = jwt_decode(token);
-      // @ts-ignore
-      const expiration = parseInt(tokenPayload.exp, 10);
-      const now = new Date();
-      // @ts-ignore
-      if (now.getTime() / 1000 > expiration) {
-        console.log('User token is expired');
+      const roles = JwtRoleExtractor.validateTokenAndExtractRoles(token);
+      if (roles === undefined) {
         return false;
       }
-      // @ts-ignore
-      const roles: string[] = tokenPayload['roles'];
+
+      return roles.includes('Administrator') || roles.includes('Member') || roles.includes('Attender');
+
+    } catch (e) {
+      console.error('isUserPermittedToViewMembers - Invalid token format being validated: ' + e);
+      return false;
+    }
+  }
+
+  public static isUserAnAdministrator(token: string): boolean {
+    try {
+      const roles = JwtRoleExtractor.validateTokenAndExtractRoles(token);
       if (roles === undefined) {
         return false;
       }

@@ -46,6 +46,25 @@
     </ul>
   </div>
 
+  <div *ngIf="isPermittedToViewMembers()">
+    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+      <div class="sidebar-heading ms-1 d-none d-sm-inline">Membership</div>
+
+      <li class="nav-item active">
+        <a class="nav-link" href="/members">
+          <fa-icon [icon]="faPersonCircleQuestion" class="fa-fw sidebar-icon fa-lg"></fa-icon>
+          <span class="d-none d-sm-inline">Search member entries</span>
+        </a>
+
+        <a class="nav-link" href="/manageMembers">
+          <fa-icon [icon]="faPeopleRoof" class="fa-fw sidebar-icon fa-lg"></fa-icon>
+          <span class="d-none d-sm-inline">Edit member entries</span>
+        </a>
+      </li>
+
+    </ul>
+  </div>
+
   <div *ngIf="isAdministrator()">
     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
       <div class="sidebar-heading ms-1 d-none d-sm-inline">Administration</div>

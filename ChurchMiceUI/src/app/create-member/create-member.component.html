@@ -1,6 +1,161 @@
 <div class="display-page-header">
-  <span id="ScreenTitle" class="display-page-title">Add New Member to Directory</span>
+  <span id="ScreenTitle" class="display-page-title">Create a New Member Entry</span>
 </div>
 <div>
   <p></p>
+</div>
+<div>
+  <div *ngIf="!this.submitted">
+    <form #newMemberForm="ngForm" name="newMemberForm"
+          (ngSubmit)="newMemberForm.form.valid && onSubmit()" novalidate>
+
+      <div class="row display-page-edit-row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="firstName">First name</label>
+          <input type="text" class="form-control" id="firstName" name="firstName" #firstName="ngModel"
+                 [(ngModel)]="newFirstName" required minlength="2">
+          <div class="text-danger" *ngIf="(firstName.errors?.required || firstName.errors?.minlength)">
+            A first name must be provided.
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="lastName">Last name</label>
+          <input type="text" class="form-control" id="lastName" name="lastName" #lastName="ngModel"
+                 [(ngModel)]="newLastName" required minlength="2">
+          <div class="text-danger" *ngIf="(lastName.errors?.required || lastName.errors?.minlength)">
+            A last name must be provided.
+          </div>
+        </div>
+      </div>
+
+      <div class="row display-page-edit-row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="mobilePhone">Mobile phone</label>
+          <input type="text" class="form-control" id="mobilePhone" name="mobilePhone" #mobilePhone="ngModel"
+                 [ngModel]="this.newMobilePhone | usPhonePipe"  (ngModelChange)="this.newMobilePhone=$event"
+                 minlength="14" maxlength="14">
+          <div class="text-danger" *ngIf="(mobilePhone.errors?.minlength || mobilePhone.errors?.maxlength)">
+            A phone number must be 10 digits (area code + number)
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="homePhone">Home phone</label>
+          <input type="text" class="form-control" id="homePhone" name="homePhone" #homePhone="ngModel"
+                 [ngModel]="this.newHomePhone | usPhonePipe"  (ngModelChange)="this.newHomePhone=$event"
+                 minlength="14" maxlength="14">
+          <div class="text-danger" *ngIf="(homePhone.errors?.minlength || homePhone.errors?.maxlength)">
+            A phone number must be 10 digits (area code + number)
+          </div>
+        </div>
+      </div>
+
+      <div class="row display-page-edit-row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="email">Email</label>
+          <input type="text" class="form-control" id="email" name="email" #email="ngModel"
+                 [(ngModel)]="newEmail" minlength="6">
+          <div class="text-danger" *ngIf="email.errors?.minlength">
+            A valid email address must be provided.
+          </div>
+        </div>
+      </div>
+
+      <div class="row display-page-edit-row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="address1">Address Line 1</label>
+          <input type="text" class="form-control" id="address1" name="address1" #address1="ngModel"
+                 [(ngModel)]="newAddress1" minlength="6">
+          <div class="text-danger" *ngIf="address1.errors?.minlength">
+            A valid address line must be provided.
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="address2">Address Line 2</label>
+          <input type="text" class="form-control" id="address2" name="address2" #address2="ngModel"
+                 [(ngModel)]="newAddress2" minlength="3">
+          <div class="text-danger" *ngIf="address2.errors?.minlength">
+            A valid address line must be provided.
+          </div>
+        </div>
+      </div>
+
+      <div class="row display-page-edit-row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="city">City</label>
+          <input type="text" class="form-control" id="city" name="city" #city="ngModel"
+                 [(ngModel)]="newCity" minlength="2">
+          <div class="text-danger" *ngIf="city.errors?.minlength">
+            A valid city name must be provided.
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="state">State/Prov</label>
+          <input type="text" class="form-control" id="state" name="state" #state="ngModel"
+                 [(ngModel)]="newState" minlength="2" maxlength="2">
+          <div class="text-danger" *ngIf="(state.errors?.minlength || state.errors?.maxlength)">
+            A state/prov code must be 2 characters
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-12">
+          <label for="zip">Zip/Postal code</label>
+          <input type="text" class="form-control" id="zip" name="zip" #zip="ngModel"
+                 [(ngModel)]="newZip" minlength="5" maxlength="10">
+          <div class="text-danger" *ngIf="(zip.errors?.minlength || zip.errors?.maxlength)">
+            A valid zip/postal code must be provided.
+          </div>
+        </div>
+      </div>
+
+      <div class="row display-page-edit-row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="birthdate">Birthday</label>
+          <div class="input-group date" id="birthdate">
+            <input class="form-control" placeholder="mm/dd/yyyy" name="dp" [(ngModel)]="this.newBirthDate" [ngModelOptions]="{standalone: true}"
+                   [maxDate]="this.today" [minDate]="this.minDate" ngbDatepicker #dobPicker="ngbDatepicker">
+            <div class="input-group-append">
+                <span class="input-group-text bg-light d-block" (click)="dobPicker.toggle()">
+                <fa-icon [icon]="faCalendarDays" class="fa-md"></fa-icon>
+                </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label for="anniversary">Anniversary</label>
+          <div class="input-group date" id="anniversary">
+            <input class="form-control" placeholder="mm/dd/yyyy" name="dp" [(ngModel)]="this.newAnniversary" [ngModelOptions]="{standalone: true}"
+                   [maxDate]="this.today" [minDate]="this.minDate" ngbDatepicker #anniversaryPicker="ngbDatepicker">
+            <div class="input-group-append">
+                <span class="input-group-text bg-light d-block" (click)="anniversaryPicker.toggle()">
+                <fa-icon [icon]="faCalendarDays" class="fa-md"></fa-icon>
+                </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div>&nbsp;</div>
+
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <button class="btn btn-outline-secondary" [disabled]="!newMemberForm.form.valid" type="submit">
+            Create a new member...
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <div *ngIf="this.submitted">
+    <em>Requesting creation of new member entry...</em>
+  </div>
+
+  <div>&nbsp;</div>
 </div>

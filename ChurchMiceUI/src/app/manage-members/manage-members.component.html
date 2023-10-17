@@ -1,0 +1,90 @@
+<div class="display-page-header">
+  <span id="ScreenTitle" class="display-page-title">Manage Member Entries</span>
+</div>
+<p *ngIf="!members"><em>Loading...</em></p>
+
+<div *ngIf="members" class="container-fluid" >
+
+  <div class="hide-content-controls">
+
+    <span class="hide-content-controls filter-text">
+      <input type="text" class="form-control" id="filterText" #filterText placeholder="Filter names" maxlength="20" (input)="filter(filterText.value)">
+    </span>
+  </div>
+</div>
+
+<span>
+    <a class="add-item" href="/createMember">
+      <fa-icon [icon]="faPlus" class="fa-fw sidebar-icon fa-lg"></fa-icon>
+      <span class="d-none d-sm-inline">&nbsp;Add new member entry</span>
+    </a>
+  </span>
+
+<table class="table table-striped text-gray-800" aria-labelledby="tableLabel" *ngIf="members">
+  <thead>
+  <tr>
+    <th>Action</th>
+    <th class="d-none d-md-table-cell">
+      <span>
+        <fa-icon [icon]="headerSorter.getSortIcon(LASTNAME_HEADER)" class="fa-fw sidebar-icon fa-sm"></fa-icon>&nbsp;
+        <span (click)="headerClicked(LASTNAME_HEADER)">{{ LASTNAME_HEADER }}</span>
+      </span>
+    </th>
+    <th>
+      <span>
+        <fa-icon [icon]="headerSorter.getSortIcon(FIRSTNAME_HEADER)" class="fa-fw sidebar-icon fa-sm"></fa-icon>&nbsp;
+        <span (click)="headerClicked(FIRSTNAME_HEADER)">{{ FIRSTNAME_HEADER }}</span>
+      </span>
+    </th>
+    <th class="d-none d-md-table-cell">
+      <span>
+        <fa-icon [icon]="headerSorter.getSortIcon(HOMEPHONE_HEADER)" class="fa-fw sidebar-icon fa-sm"></fa-icon>&nbsp;
+        <span (click)="headerClicked(HOMEPHONE_HEADER)">{{ HOMEPHONE_HEADER }}</span>
+      </span>
+    </th>
+    <th class="d-none d-md-table-cell">
+      <span>
+        <fa-icon [icon]="headerSorter.getSortIcon(MOBILEPHONE_HEADER)" class="fa-fw sidebar-icon fa-sm"></fa-icon>&nbsp;
+        <span (click)="headerClicked(MOBILEPHONE_HEADER)">{{ MOBILEPHONE_HEADER }}</span>
+      </span>
+    </th>
+    <th class="d-none d-lg-table-cell">
+      <span>
+        <fa-icon [icon]="headerSorter.getSortIcon(EMAIL_HEADER)" class="fa-fw sidebar-icon fa-sm"></fa-icon>&nbsp;
+        <span (click)="headerClicked(EMAIL_HEADER)">{{ EMAIL_HEADER }}</span>
+      </span>
+    </th>
+    <th class="d-none d-lg-table-cell">
+      <span>
+        <fa-icon [icon]="headerSorter.getSortIcon(CITY_HEADER)" class="fa-fw sidebar-icon fa-sm"></fa-icon>&nbsp;
+        <span (click)="headerClicked(CITY_HEADER)">{{ CITY_HEADER }}</span>
+      </span>
+    </th>
+    <th class="d-none d-lg-table-cell">
+      <span>
+        <fa-icon [icon]="headerSorter.getSortIcon(MEMBERSINCE_HEADER)" class="fa-fw sidebar-icon fa-sm"></fa-icon>&nbsp;
+        <span (click)="headerClicked(MEMBERSINCE_HEADER)">{{ MEMBERSINCE_HEADER }}</span>
+      </span>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let member of showMembers()">
+    <td>
+      <a href="/editMember/{{ member.id }}" title="Edit member" class="action-icon">
+        <fa-icon [icon]="faFilePen" class="fa-fw sidebar-icon fa-sm"></fa-icon>
+      </a>
+      <a (click)="this.removeMember(member)" title="Remove member record" class="action-icon">
+        <fa-icon [icon]="faXmark" class="fa-fw sidebar-icon fa-sm"></fa-icon>
+      </a>
+    </td>
+    <td class="d-none d-md-table-cell">{{ member.lastName }}</td>
+    <td class="d-none d-md-table-cell">{{ member.firstName }}</td>
+    <td class="d-none d-md-table-cell">{{ member.homePhone }}</td>
+    <td class="d-none d-md-table-cell">{{ member.mobilePhone }}</td>
+    <td class="d-none d-md-table-cell">{{ member.email }}</td>
+    <td class="d-none d-lg-table-cell">{{ member.city }}</td>
+    <td class="d-none d-lg-table-cell">{{ member.memberSince }}</td>
+  </tr>
+  </tbody>
+</table>
