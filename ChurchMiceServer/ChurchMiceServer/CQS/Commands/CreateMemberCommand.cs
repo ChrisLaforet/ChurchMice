@@ -17,6 +17,7 @@ public class CreateMemberCommand : ICommand
     public string? Birthday { get; private set; }
     public string? Anniversary { get; private set; }
     public DateTime? MemberSince { get; private set; }
+    public string? UserId { get; private set; }
     
     public string CreatorUsername { get; private set; }
 
@@ -35,6 +36,7 @@ public class CreateMemberCommand : ICommand
         this.Birthday = request.Birthday;
         this.Anniversary = request.Anniversary;
         this.MemberSince = request.MemberSince;
+        this.UserId = request.UserId;
 
         this.CreatorUsername = creatorUsername;
     }

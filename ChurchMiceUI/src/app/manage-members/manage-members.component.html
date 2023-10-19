@@ -16,7 +16,7 @@
 <span>
     <a class="add-item" href="/createMember">
       <fa-icon [icon]="faPlus" class="fa-fw sidebar-icon fa-lg"></fa-icon>
-      <span class="d-none d-sm-inline">&nbsp;Add new member entry</span>
+      <span class="d-none d-sm-inline"> {{ this.isFirstMemberForUser() ? "Add your member entry" : "Add new member entry" }}</span>
     </a>
   </span>
 

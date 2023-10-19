@@ -8,7 +8,6 @@ import {
   faPlus
 } from '@fortawesome/free-solid-svg-icons';
 import { RoleValidator } from '@app/helper';
-import { AuthenticatedUser } from '@data/auth/authenticated-user';
 import { MemberService } from '@service/member/member.service';
 import { MemberDto } from '@data/index';
 
@@ -32,7 +31,6 @@ export class ManageMembersComponent implements OnInit, HeaderSortable, HeaderFil
   faPlus = faPlus;
   faXmark = faXmark;
 
-  authenticatedUser: AuthenticatedUser | null = null;
   public members = new Array<MemberDto>();
 
   filterText: string | null = null;
@@ -45,7 +43,6 @@ export class ManageMembersComponent implements OnInit, HeaderSortable, HeaderFil
               private roleValidator: RoleValidator,
               private notifyService: NotificationService,
               private confirmationDialogService: ConfirmationDialogService) {
-
     this.memberService.getAllEditableMembers().subscribe(data => {
       this.members = data;
     });
@@ -53,6 +50,11 @@ export class ManageMembersComponent implements OnInit, HeaderSortable, HeaderFil
 
   ngOnInit(): void {
     this.roleValidator.validateUserAuthorizedFor([Roles.ADMINISTRATOR, Roles.MEMBER, Roles.ATTENDER]);
+  }
+
+  isFirstMemberForUser(): boolean {
+    return this.members.length === 0 &&
+      this.roleValidator.isUserAuthorizedFor([Roles.ADMINISTRATOR]) !== true;
   }
 
   showMembers(): MemberDto[] {

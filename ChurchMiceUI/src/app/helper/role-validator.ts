@@ -15,4 +15,13 @@ export class RoleValidator {
       this.router.navigate(['']);
     }
   }
+
+  public isUserAuthorizedFor(roles: string[]): boolean {
+    const user = this.authService.getAuthenticatedUser();
+    if (user === null ||
+      !JwtHelper.isUserAuthorizedFor(roles, user)) {
+      return false;
+    }
+    return true;
+  }
 }

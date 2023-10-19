@@ -40,7 +40,8 @@ export class MemberService {
   public createMember(firstName: string, lastName: string, email?: string,
                       homePhone?: string, mobilePhone?: string, mailingAddress1?: string,
                       mailingAddress2?: string, city?: string, state?: string, zip?: string,
-                      birthday?: string, anniversary?: string, memberSince?: string): Observable<MemberDto> {
+                      birthday?: string, anniversary?: string, memberSince?: string,
+                      userId?: string): Observable<MemberDto> {
     const userData = {
       "firstName": firstName,
       "lastName": lastName,
@@ -54,6 +55,7 @@ export class MemberService {
       "zip": zip,
       "birthday": birthday,
       "anniversary": anniversary,
+      "userId": userId,
       "memberSince": memberSince
     };
     return this.http.post<MemberDto>(this.createUrl, userData, {'headers': this.prepareHeaders()});

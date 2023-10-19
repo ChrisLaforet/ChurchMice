@@ -13,11 +13,12 @@ export class MemberDto {
   birthday?: string;
   anniversary?: string;
   memberSince?: string;
+  userId?: string;
 
   constructor(id: number, firstName: string, lastName: string, email?: string,
               homePhone?: string, mobilePhone?: string, mailingAddress1?: string,
               mailingAddress2?: string, city?: string, state?: string, zip?: string,
-              birthday?: string, anniversary?: string, memberSince?: string) {
+              birthday?: string, anniversary?: string, memberSince?: string, userId?: string) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -32,6 +33,7 @@ export class MemberDto {
     this.birthday = birthday;
     this.anniversary = anniversary;
     this.memberSince = memberSince;
+    this.userId = userId;
   }
 }
 

@@ -21,7 +21,7 @@ public class MemberMappers
         member.Zip = command.Zip;
         member.Anniversary = command.Anniversary;
         member.Birthday = command.Birthday;
-        //member.UserId
+        member.UserId = command.UserId;
         member.Created = DateTime.Now;
         return member;
     }
