@@ -30,6 +30,9 @@ public class LocalConfigurationQueryHandler : IQueryHandler<LocalConfigurationQu
 			{
 				response.Add(new Tuple<string, string>(IConfigurationProxy.BASE_URL_KEYWORD, baseUrl));
 			}
+			
+			
+			
 		}
 		catch (Exception e)
 		{
