@@ -8,12 +8,17 @@ import { parsePhoneNumber } from 'libphonenumber-js';
 })
 export class USPhonePipe implements PipeTransform {
   transform(valueToTransform: any) : string {
-    const stringPhone = valueToTransform + '';
-    if (stringPhone.trim().length === 0) {
-      return '';
+    let stringPhone = USPhonePipe.unformatPhoneNumber(valueToTransform + '');
+    if (stringPhone.length < 2) {
+      return stringPhone;
     }
+
     const phoneNumber = parsePhoneNumber(stringPhone, 'US');
     const formatted = phoneNumber.formatNational();
     return formatted;
+  }
+
+  private static unformatPhoneNumber(phoneNumber: string): string {
+    return phoneNumber.replace(/^\D+/g, '');
   }
 }

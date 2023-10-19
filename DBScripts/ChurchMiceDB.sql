@@ -116,7 +116,7 @@ CREATE TABLE [dbo].[Member](
 	[Zip] [varchar](10) NULL,
 	[Birthday] [varchar](20) NULL,
 	[Anniversary] [varchar](20) NULL,
-	[MemberSince] [date] NULL,
+	[MemberSince] [varchar](4) NULL,
 	[Created] [datetime2](7) NOT NULL,
 	[UserID] [varchar](50) NULL,
  CONSTRAINT [PK_Member] PRIMARY KEY CLUSTERED 

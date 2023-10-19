@@ -15,6 +15,6 @@ public class MemberRequest
     public string? Zip { get; set; }
     public string? Birthday { get; set; }
     public string? Anniversary { get; set; }
-    public DateTime? MemberSince { get; set; }
+    public string? MemberSince { get; set; }
     public string? UserId { get; set; }
 }

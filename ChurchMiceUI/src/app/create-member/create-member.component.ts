@@ -4,9 +4,10 @@ import { UntypedFormBuilder } from '@angular/forms';
 import { AuthService, Roles, DatepickerUtilities, MemberService, NotificationService } from '@service/index';
 import { first } from 'rxjs/operators';
 import { MemberDto } from '@data/dto/member.dto';
-import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarDays, faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { RoleValidator } from '@app/helper';
+import { SelectOption } from '@ui/container/select-option';
 
 
 @Component({
@@ -16,6 +17,7 @@ import { RoleValidator } from '@app/helper';
 })
 export class CreateMemberComponent {
 
+  faArrowRotateLeft = faArrowRotateLeft;
   faCalendarDays = faCalendarDays;
 
   submitted = false;
@@ -25,19 +27,23 @@ export class CreateMemberComponent {
 
   newFirstName = '';
   newLastName = '';
-  newEmail = '';
-  newHomePhone = '';
-  newMobilePhone = '';
-  newAddress1 = '';
-  newAddress2 = '';
-  newCity = '';
-  newState = '';
-  newZip = '';
+  newEmail: string | undefined = undefined;
+  newHomePhone: string | undefined = undefined;
+  newMobilePhone: string | undefined = undefined;
+  newAddress1: string | undefined = undefined;
+  newAddress2: string | undefined = undefined;
+  newCity: string | undefined = undefined;
+  newState: string | undefined = undefined;
+  newZip: string | undefined = undefined;
   newBirthDate: NgbDate | null = null;
   newAnniversary: NgbDate | null = null;
+  newMemberSince: string | undefined = undefined;
   newUserId: string | undefined = undefined;
 
   members = new Array<MemberDto>();
+  years: SelectOption[] = [];
+
+  userId: string | undefined = undefined;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -58,25 +64,38 @@ export class CreateMemberComponent {
     } else {
       this.minDate = min;
     }
+
+    for (var year = this.today.year; year > (this.today.year - 100); year--) {
+      this.years.push(new SelectOption(year.toString(), year.toString()));
+    }
   }
 
   isFirstMemberForUser(): boolean {
-    if (this.members.length === 0 &&
-      this.roleValidator.isUserAuthorizedFor([Roles.ADMINISTRATOR]) !== true) {
+    if (this.userId === undefined) {
       const user = this.authService.getAuthenticatedUser();
       if (user !== null) {
-        this.newUserId = user.id;
+        this.userId = user.id;
       }
+    }
+    if (this.members.length === 0 &&
+      this.roleValidator.isUserAuthorizedFor([Roles.ADMINISTRATOR]) !== true) {
+      this.newUserId = this.userId;
       return true;
     }
     return false;
   }
 
+  navigateBack(): void {
+    this.router.navigate(['manageMembers']);
+  }
+
+  isUserOrAdministrator(): boolean {
+    return this.newUserId === this.userId || this.roleValidator.isUserAuthorizedFor([Roles.ADMINISTRATOR]);
+  }
+
   onSubmit(): void {
     this.submitted = true;
     this.notifyService.showInfo('Requesting to create a new member', 'Create new member')
-
-// TODO: Administrator set/clear MemberSince
 
     this.memberService.createMember(this.newFirstName, this.newLastName,
                                     this.newEmail, this.newHomePhone,
@@ -84,7 +103,7 @@ export class CreateMemberComponent {
                                     this.newAddress2, this.newCity, this.newState,
                                     this.newZip, DatepickerUtilities.createUSDateStringFromNgbDate(this.newBirthDate),
                                     DatepickerUtilities.createUSDateStringFromNgbDate(this.newAnniversary),
-                                    undefined, this.newUserId)
+                                    this.newMemberSince, this.newUserId)
       .pipe(first())
       .subscribe({
         next: (member: MemberDto) => {

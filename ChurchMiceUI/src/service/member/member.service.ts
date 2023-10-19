@@ -76,9 +76,10 @@ export class MemberService {
       "zip": member.zip,
       "birthday": member.birthday,
       "anniversary": member.anniversary,
+      "userId": member.userId,
       "memberSince": member.memberSince
     };
-    return this.http.put<MemberDto>(this.createUrl, userData, {'headers': this.prepareHeaders()});
+    return this.http.put<MemberDto>(this.updateUrl, userData, {'headers': this.prepareHeaders()});
   }
 
   public getAllMembers(): Observable<MemberDto[]> {

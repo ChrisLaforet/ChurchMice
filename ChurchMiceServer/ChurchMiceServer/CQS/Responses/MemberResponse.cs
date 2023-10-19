@@ -7,17 +7,18 @@ public class MemberResponse
     public int Id { get; private set; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
-    public string Email { get; private set; }
-    public string HomePhone { get; private set; }
-    public string MobilePhone { get; private set; }
-    public string MailingAddress1 { get; private set; }
-    public string MailingAddress2 { get; private set; }
-    public string City { get; private set; }
-    public string State { get; private set; }
-    public string Zip { get; private set; }
-    public string Birthday { get; private set; }
-    public string Anniversary { get; private set; }
-    public DateTime? MemberSince { get; private set; }
+    public string? Email { get; private set; }
+    public string? HomePhone { get; private set; }
+    public string? MobilePhone { get; private set; }
+    public string? MailingAddress1 { get; private set; }
+    public string? MailingAddress2 { get; private set; }
+    public string? City { get; private set; }
+    public string? State { get; private set; }
+    public string? Zip { get; private set; }
+    public string? Birthday { get; private set; }
+    public string? Anniversary { get; private set; }
+    public string? MemberSince { get; private set; }
+    public string? UserId { get; private set; }
     public DateTime Created { get; private set; }
     
     public MemberResponse(Member member)
@@ -36,6 +37,7 @@ public class MemberResponse
         this.Birthday = member.Birthday;
         this.Anniversary = member.Anniversary;
         this.MemberSince = member.MemberSince;
+        this.UserId = member.UserId;
         this.Created = member.Created;
     }
 }

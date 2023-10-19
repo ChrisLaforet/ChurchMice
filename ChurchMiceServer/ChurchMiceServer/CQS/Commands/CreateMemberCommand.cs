@@ -16,7 +16,7 @@ public class CreateMemberCommand : ICommand
     public string? Zip { get; private set; }
     public string? Birthday { get; private set; }
     public string? Anniversary { get; private set; }
-    public DateTime? MemberSince { get; private set; }
+    public string? MemberSince { get; private set; }
     public string? UserId { get; private set; }
     
     public string CreatorUsername { get; private set; }

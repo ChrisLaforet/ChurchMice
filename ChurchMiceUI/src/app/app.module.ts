@@ -45,6 +45,7 @@ import { ConfirmationDialogService } from '@ui/confirmation-dialog/confirmation-
 import { CreateUserComponent } from '@app/create-user/create-user.component';
 import { EditPasswordComponent } from '@app/edit-password/edit-password.component';
 import { ManageMembersComponent } from '@app/manage-members/manage-members.component';
+import { EditMemberComponent } from '@app/edit-member/edit-member.component';
 
 library.add(fas, far);
 
@@ -59,6 +60,7 @@ library.add(fas, far);
     ForgottenPasswordComponent,
     NewLoginComponent,
     CreateMemberComponent,
+    EditMemberComponent,
     UploadMemberImageComponent,
     USCurrencyPipe,
     UserContentComponent,
@@ -96,6 +98,7 @@ library.add(fas, far);
 
       {path: 'manageMembers', component: ManageMembersComponent, canActivate: [AuthGuard], data: { roles: [Roles.ATTENDER, Roles.MEMBER, Roles.ADMINISTRATOR]}},
       {path: 'createMember', component: CreateMemberComponent, canActivate: [AuthGuard], data: { roles: [Roles.ATTENDER, Roles.MEMBER, Roles.ADMINISTRATOR]}},
+      {path: 'editMember/:memberId', component: EditMemberComponent, canActivate: [AuthGuard], data: { roles: [Roles.ATTENDER, Roles.MEMBER, Roles.ADMINISTRATOR]}},
 
       {path: 'about', component: UserContentComponent, data: {page: 'about'}},
       {path: 'main', component: UserContentComponent, data: {page: 'index'}},
@@ -103,7 +106,7 @@ library.add(fas, far);
       {path: 'beliefs', component: UserContentComponent, data: {page: 'beliefs'}},
 
       {path: 'admin/configure', component: ConfigureComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
-      {path: 'admin/users', component: ManageUsersComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
+      {path: 'admin/manageUsers', component: ManageUsersComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
       {path: 'admin/createUser', component: CreateUserComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
       {path: 'admin/editUser/:userId', component: EditUserComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
       {path: 'admin/editUserPassword/:userId', component: EditPasswordComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},

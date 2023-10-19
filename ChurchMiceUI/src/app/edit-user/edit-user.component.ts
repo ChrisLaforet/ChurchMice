@@ -10,6 +10,7 @@ import { UserDataDto } from '@data/dto/user-data.dto';
 import { first } from 'rxjs/operators';
 import { SelectOption } from '@ui/container/select-option';
 import { forkJoin, ReplaySubject } from 'rxjs';
+import { faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -18,6 +19,8 @@ import { forkJoin, ReplaySubject } from 'rxjs';
   styleUrls: ['./edit-user.component.css']
 })
 export class EditUserComponent implements OnInit {
+
+  faArrowRotateLeft = faArrowRotateLeft;
 
   submitted = false;
   roleLevels: SelectOption[] = [];
@@ -54,6 +57,10 @@ export class EditUserComponent implements OnInit {
       const userId = params['userId'];
       this.loadUserFor(userId);
     });
+  }
+
+  navigateBack(): void {
+    this.router.navigate(['admin/manageUsers']);
   }
 
   private loadUserFor(userId: string) {

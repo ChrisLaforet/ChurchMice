@@ -255,7 +255,7 @@ public partial class ChurchMiceContext : Microsoft.EntityFrameworkCore.DbContext
 
             entity.Property(e => e.MemberSince)
                 .HasColumnName("MemberSince")
-                .HasColumnType("datetime");
+                .HasMaxLength(4);
             
             entity.Property(e => e.Created)
                 .HasColumnName("Created")

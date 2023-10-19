@@ -2,15 +2,18 @@
   <span (click)="this.navigateBack()">
     <fa-icon [icon]="faArrowRotateLeft" class="fa-sm display-page-return-arrow" title="Return to manage members"></fa-icon>
   </span>
-  <span id="ScreenTitle" class="display-page-title">Create {{ this.isFirstMemberForUser() ? "Your" : "a New" }} Member Entry</span>
+  <span id="ScreenTitle" class="display-page-title">Edit {{ this.isMemberForCurrentUser() ? "Your" : "a " }} Member Details</span>
 </div>
 <div>
   <p></p>
 </div>
-<div>
+<div *ngIf="this.member === undefined">
+  <em>Loading member details...</em>
+</div>
+<div *ngIf="this.member !== undefined">
   <div *ngIf="!this.submitted">
-    <form #newMemberForm="ngForm" name="newMemberForm"
-          (ngSubmit)="newMemberForm.form.valid && onSubmit()" novalidate>
+    <form #updateMemberForm="ngForm" name="updateMemberForm"
+          (ngSubmit)="updateMemberForm.form.valid && onSubmit()" novalidate>
 
       <div class="row display-page-edit-row">
         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -141,10 +144,10 @@
           </div>
         </div>
 
-        <div class="col-lg-4 col-sm-12" *ngIf="isFirstMemberForUser()">
+        <div class="col-lg-4 col-sm-12">
           <label for="memberSince">Member since</label>
           <select id="memberSince" #memberSince class="form-select" [(ngModel)]="newMemberSince"
-                  [ngModelOptions]="{standalone: true}" [attr.disabled]="!isUserOrAdministrator() ? 'disabled' : null">
+                  [ngModelOptions]="{standalone: true}" [disabled]="!isMemberUserIdOrAdministrator()">
             <option [ngValue]="null">Choose year</option>
             <option *ngFor="let year of years" [ngValue]="year.code">
               {{ year.displayValue }}
@@ -158,8 +161,8 @@
 
       <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-12">
-          <button class="btn btn-outline-secondary" [disabled]="!newMemberForm.form.valid" type="submit">
-            Create a new member...
+          <button class="btn btn-outline-secondary" [disabled]="!updateMemberForm.form.valid" type="submit">
+            Update member details...
           </button>
         </div>
       </div>

@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntypedFormBuilder } from '@angular/forms';
 import {
-  AuthService,
   NotificationService, Roles,
   UserManagementService, UserService
 } from '@service/index';
 import { RoleValidator } from '@app/helper';
 import { MessageResponseDto } from '@data/dto/message-response.dto';
 import { first } from 'rxjs/operators';
+import { faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -39,6 +39,10 @@ export class CreateUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.roleValidator.validateUserAuthorizedFor([Roles.ADMINISTRATOR]);
+  }
+
+  navigateBack(): void {
+    this.router.navigate(['admin/manageUsers']);
   }
 
   isUserNameNotAvailable(): boolean {
@@ -84,4 +88,5 @@ export class CreateUserComponent implements OnInit {
       });
   }
 
+  protected readonly faArrowRotateLeft = faArrowRotateLeft;
 }
