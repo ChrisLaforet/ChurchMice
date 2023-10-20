@@ -40,3 +40,26 @@
 .router-outlet-background {
   background: white;
 }
+
+#copyrightFooter {
+}
+
+#copyrightFooter a:link {
+  color: #EBC39C;
+  text-decoration: none;
+}
+
+#copyrightFooter a:visited {
+  color: #EBC39C;
+  text-decoration: none;
+}
+
+#copyrightFooter a:active {
+  color: #EBC39C;
+  text-decoration: none;
+}
+
+#copyrightFooter a:hover {
+  color: #EBC39C;
+  text-decoration: underline;
+}

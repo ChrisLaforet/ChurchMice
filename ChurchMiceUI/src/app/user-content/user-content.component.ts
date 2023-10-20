@@ -67,5 +67,8 @@ export class UserContentComponent {
     }
     target.contentDocument.open();
     target.contentDocument.write(this.getConfiguredContent());
+
+    // @ts-ignore
+    target.height = String(target.contentWindow.document.body.scrollHeight + 150);
   }
 }
