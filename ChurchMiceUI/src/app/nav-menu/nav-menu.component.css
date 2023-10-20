@@ -14,6 +14,21 @@
   font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+.nav-address {
+  display: block;
+  text-align: left;
+  padding: 0.5rem 1.5rem;
+  color: lightgray;
+  font-size: 0.8rem;
+  font-weight: bolder;
+}
+
+.nav-address-line {
+  white-space: nowrap;
+  text-overflow: fade;
+
+}
+
 .nav-item .nav-link {
   display: block;
   text-align: left;
@@ -32,6 +47,10 @@
 
 .nav-item .sidebar-icon {
   padding-right: 0.5rem;
+}
+
+img {
+  max-width: 220px;
 }
 
 .nav .sidebar-heading {

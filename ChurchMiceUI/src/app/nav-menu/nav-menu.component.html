@@ -54,6 +54,40 @@
     </ul>
   </div>
 
+  <div *ngIf="hasSocialMedia()">
+    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="socialMenu">
+      <div class="sidebar-heading ms-1 d-none d-sm-inline">Social media</div>
+
+      <li *ngIf="isUrlValid(this.configFacebookUrl)" class="nav-item active">
+        <a class="nav-link" href="" (click)="this.openTab(this.configFacebookUrl)" target="_blank">
+          <fa-icon [icon]="faFacebook" class="fa-fw sidebar-icon fa-lg"></fa-icon>
+          <span class="d-none d-sm-inline">Facebook</span>
+        </a>
+      </li>
+
+      <li *ngIf="isUrlValid(this.configYouTubeUrl)" class="nav-item active">
+        <a class="nav-link" href="" (click)="this.openTab(this.configYouTubeUrl)" target="_blank">
+          <fa-icon [icon]="faYoutube" class="fa-fw sidebar-icon fa-lg"></fa-icon>
+          <span class="d-none d-sm-inline">Youtube</span>
+        </a>
+      </li>
+
+      <li *ngIf="isUrlValid(this.configInstagramUrl)" class="nav-item active">
+        <a class="nav-link" href="" (click)="this.openTab(this.configInstagramUrl)" target="_blank">
+          <fa-icon [icon]="faInstagram" class="fa-fw sidebar-icon fa-lg"></fa-icon>
+          <span class="d-none d-sm-inline">Instagram</span>
+        </a>
+      </li>
+
+      <li *ngIf="isUrlValid(this.configVimeoUrl)" class="nav-item active">
+        <a class="nav-link" href="" (click)="this.openTab(this.configVimeoUrl)" target="_blank">
+          <fa-icon [icon]="faVimeo" class="fa-fw sidebar-icon fa-lg"></fa-icon>
+          <span class="d-none d-sm-inline">Facebook</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
   <div *ngIf="isPermittedToViewMembers()">
     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="memberMenu">
       <div class="sidebar-heading ms-1 d-none d-sm-inline">Membership</div>
@@ -124,38 +158,6 @@
       <a class="nav-link" href="/validateUserEmail">
         <fa-icon [icon]="faCircleCheck" class="fa-fw sidebar-icon fa-lg"></fa-icon>
         <span class="d-none d-sm-inline">Validate email</span>
-      </a>
-    </li>
-  </ul>
-
-  <ul *ngIf="hasSocialMedia()" class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="socialMenu">
-    <div class="sidebar-heading ms-1 d-none d-sm-inline">Social media</div>
-
-    <li *ngIf="isUrlValid(this.configFacebookUrl)" class="nav-item active">
-      <a class="nav-link" href="" (click)="this.openTab(this.configFacebookUrl)" target="_blank">
-        <fa-icon [icon]="faFacebook" class="fa-fw sidebar-icon fa-lg"></fa-icon>
-        <span class="d-none d-sm-inline">Facebook</span>
-      </a>
-    </li>
-
-    <li *ngIf="isUrlValid(this.configYouTubeUrl)" class="nav-item active">
-      <a class="nav-link" href="" (click)="this.openTab(this.configYouTubeUrl)" target="_blank">
-        <fa-icon [icon]="faYoutube" class="fa-fw sidebar-icon fa-lg"></fa-icon>
-        <span class="d-none d-sm-inline">Youtube</span>
-      </a>
-    </li>
-
-    <li *ngIf="isUrlValid(this.configInstagramUrl)" class="nav-item active">
-      <a class="nav-link" href="" (click)="this.openTab(this.configInstagramUrl)" target="_blank">
-        <fa-icon [icon]="faInstagram" class="fa-fw sidebar-icon fa-lg"></fa-icon>
-        <span class="d-none d-sm-inline">Instagram</span>
-      </a>
-    </li>
-
-    <li *ngIf="isUrlValid(this.configVimeoUrl)" class="nav-item active">
-      <a class="nav-link" href="" (click)="this.openTab(this.configVimeoUrl)" target="_blank">
-        <fa-icon [icon]="faVimeo" class="fa-fw sidebar-icon fa-lg"></fa-icon>
-        <span class="d-none d-sm-inline">Facebook</span>
       </a>
     </li>
   </ul>
