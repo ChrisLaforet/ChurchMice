@@ -1,7 +1,7 @@
 <div class="nav-section d-flex flex-column align-items-center align-items-sm-start pt-2 min-vh-100 bg-gradient-primary" id="sideMenu">
 
   <!-- Sidebar - Brand -->
-  <a class="d-flex align-items-center justify-content-center ms-1 d-none d-sm-inline" href="https://www.amgr.org/index.cfm">
+  <a class="d-flex align-items-center justify-content-center ms-1 d-none d-sm-inline" href="#">
     <div class="sidebar-brand-text mx-3">
       <a class="navbar-brand js-scroll-trigger" href="#">
         <img src="assets/images/ChurchMiceLogo.png" class="align-content-center align-middle" width="100%" alt="Church Mice Software logo" *ngIf="!hasConfiguredImage()">
@@ -10,8 +10,16 @@
     </div>
   </a>
 
+  <div *ngIf="hasNameOrAddress()" class="nav-address">
+    <div *ngIf="hasText(configMinistryName)" class="nav-address-line">{{ configMinistryName }}</div>
+    <div *ngIf="hasText(configMinistryAddress1)">{{ configMinistryAddress1 }}</div>
+    <div *ngIf="hasText(configMinistryAddress2)">{{ configMinistryAddress2 }}</div>
+    <div *ngIf="hasText(configMinistryAddress3)">{{ configMinistryAddress3 }}</div>
+    <div *ngIf="hasText(configMinistryPhone)">{{ configMinistryPhone }}</div>
+  </div>
+
   <div *ngIf="hasConfiguredPages()">
-    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="pageMenu">
       <div class="sidebar-heading ms-1 d-none d-sm-inline">Our Ministry</div>
       <!-- needs icon -->
 
@@ -47,18 +55,18 @@
   </div>
 
   <div *ngIf="isPermittedToViewMembers()">
-    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="memberMenu">
       <div class="sidebar-heading ms-1 d-none d-sm-inline">Membership</div>
 
       <li class="nav-item active">
         <a class="nav-link" href="/members">
           <fa-icon [icon]="faPersonCircleQuestion" class="fa-fw sidebar-icon fa-lg"></fa-icon>
-          <span class="d-none d-sm-inline">Search member entries</span>
+          <span class="d-none d-sm-inline">Find a member</span>
         </a>
 
         <a class="nav-link" href="/manageMembers">
           <fa-icon [icon]="faPeopleRoof" class="fa-fw sidebar-icon fa-lg"></fa-icon>
-          <span class="d-none d-sm-inline">Manage member entries</span>
+          <span class="d-none d-sm-inline">Manage membership</span>
         </a>
       </li>
 
@@ -66,7 +74,7 @@
   </div>
 
   <div *ngIf="isAdministrator()">
-    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="adminMenu">
       <div class="sidebar-heading ms-1 d-none d-sm-inline">Administration</div>
       <!-- needs icon -->
 
@@ -87,7 +95,7 @@
   </div>
 
 
-  <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+  <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="authMenu">
     <div class="sidebar-heading ms-1 d-none d-sm-inline">Authorization</div>
     <!-- needs icon -->
 
@@ -118,7 +126,37 @@
         <span class="d-none d-sm-inline">Validate email</span>
       </a>
     </li>
-
   </ul>
 
+  <ul *ngIf="hasSocialMedia()" class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="socialMenu">
+    <div class="sidebar-heading ms-1 d-none d-sm-inline">Social media</div>
+
+    <li *ngIf="isUrlValid(this.configFacebookUrl)" class="nav-item active">
+      <a class="nav-link" href="" (click)="this.openTab(this.configFacebookUrl)" target="_blank">
+        <fa-icon [icon]="faFacebook" class="fa-fw sidebar-icon fa-lg"></fa-icon>
+        <span class="d-none d-sm-inline">Facebook</span>
+      </a>
+    </li>
+
+    <li *ngIf="isUrlValid(this.configYouTubeUrl)" class="nav-item active">
+      <a class="nav-link" href="" (click)="this.openTab(this.configYouTubeUrl)" target="_blank">
+        <fa-icon [icon]="faYoutube" class="fa-fw sidebar-icon fa-lg"></fa-icon>
+        <span class="d-none d-sm-inline">Youtube</span>
+      </a>
+    </li>
+
+    <li *ngIf="isUrlValid(this.configInstagramUrl)" class="nav-item active">
+      <a class="nav-link" href="" (click)="this.openTab(this.configInstagramUrl)" target="_blank">
+        <fa-icon [icon]="faInstagram" class="fa-fw sidebar-icon fa-lg"></fa-icon>
+        <span class="d-none d-sm-inline">Instagram</span>
+      </a>
+    </li>
+
+    <li *ngIf="isUrlValid(this.configVimeoUrl)" class="nav-item active">
+      <a class="nav-link" href="" (click)="this.openTab(this.configVimeoUrl)" target="_blank">
+        <fa-icon [icon]="faVimeo" class="fa-fw sidebar-icon fa-lg"></fa-icon>
+        <span class="d-none d-sm-inline">Facebook</span>
+      </a>
+    </li>
+  </ul>
 </div>

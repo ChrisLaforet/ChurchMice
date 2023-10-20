@@ -8,7 +8,6 @@ import { first } from 'rxjs/operators';
 import { RoleValidator } from '@app/helper';
 import { Roles } from '@service/user/roles';
 import { faFacebook, faYoutube, faInstagram, faVimeo } from '@fortawesome/free-brands-svg-icons';
-import { faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-configure',
@@ -17,12 +16,10 @@ import { faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 })
 export class ConfigureComponent implements OnInit {
 
-  protected readonly faArrowRotateLeft = faArrowRotateLeft;
-
-  protected readonly faFacebook = faFacebook;
-  protected readonly faYoutube = faYoutube;
-  protected readonly faInstagram = faInstagram;
-  protected readonly faVimeo = faVimeo;
+  faFacebook = faFacebook;
+  faYoutube = faYoutube;
+  faInstagram = faInstagram;
+  faVimeo = faVimeo;
 
   submitted = false;
 

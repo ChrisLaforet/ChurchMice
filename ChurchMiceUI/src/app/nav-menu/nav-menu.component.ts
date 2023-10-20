@@ -13,12 +13,22 @@ import {
   faUserPlus,
   faUsers
 } from '@fortawesome/free-solid-svg-icons';
+import {
+  faFacebook,
+  faYoutube,
+  faInstagram,
+  faVimeo
+} from '@fortawesome/free-brands-svg-icons';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { ConfigurationLoader } from '../../operation';
 import { AuthService } from '@service/auth/auth.service';
 import { AuthenticatedUser } from '@data/auth/authenticated-user';
 import { Subscription } from 'rxjs';
 import { JwtRoleExtractor } from '@app/helper';
+import { Configuration } from '@data/configuration/configuration';
+import { first } from 'rxjs/operators';
+import { LocalConfigurationDto } from '@data/configuration/local-configuration.dto';
+import { ConfigurationService } from '@service/configuration/configuration.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -43,12 +53,49 @@ export class NavMenuComponent implements OnDestroy {
   faPeopleRoof = faPeopleRoof;
   faPersonCircleQuestion = faPersonCircleQuestion;
 
+  faFacebook = faFacebook;
+  faYoutube = faYoutube;
+  faInstagram = faInstagram;
+  faVimeo = faVimeo;
+
+  configMinistryName = '';
+  configMinistryAddress1 = '';
+  configMinistryAddress2 = '';
+  configMinistryAddress3 = '';
+  configMinistryPhone = '';
+  configFacebookUrl = '';
+  configYouTubeUrl = '';
+  configVimeoUrl = '';
+  configInstagramUrl = '';
+
   subscription: Subscription;
   user: AuthenticatedUser | null;
 
   constructor(private configurationLoader: ConfigurationLoader,
+              private configurationService: ConfigurationService,
               private authService: AuthService,
               private sanitizer: DomSanitizer) {
+    configurationService.getConfiguration()
+      .pipe(first())
+      .subscribe({
+        next: (config: LocalConfigurationDto) => {
+          this.configMinistryName = config.ministryName;
+          this.configMinistryAddress1 = config.ministryAddress1;
+          this.configMinistryAddress2 = config.ministryAddress2;
+          this.configMinistryAddress3 = config.ministryAddress3;
+          this.configMinistryPhone = config.ministryPhone;
+          this.configFacebookUrl = config.facebookUrl;
+          this.configYouTubeUrl = config.youTubeUrl;
+          this.configVimeoUrl = config.vimeoUrl;
+          this.configInstagramUrl = config.instagramUrl;
+        },
+        error: (err) => {
+          console.error(`Error loading local configuration for menuing {err}`);
+        },
+        complete:() => {
+        }
+      })
+
     this.user = null;
     this.subscription = this.authService.currentAuthenticationState.subscribe(user => this.user = user);
   }
@@ -144,4 +191,32 @@ export class NavMenuComponent implements OnDestroy {
     }
     return JwtRoleExtractor.isUserAnAdministrator(this.user.token);
   }
+
+  hasNameOrAddress(): boolean {
+    return (this.configMinistryName != null && this.configMinistryName !== '') ||
+      (this.configMinistryAddress1 != null && this.configMinistryAddress1 !== '') ||
+      (this.configMinistryAddress2 != null && this.configMinistryAddress2 !== '') ||
+      (this.configMinistryAddress3 != null && this.configMinistryAddress3 !== '') ||
+      (this.configMinistryPhone != null && this.configMinistryPhone !== '');
+  }
+
+  hasText(text: string): boolean {
+    return text != null && text.trim().length !== 0;
+  }
+
+  hasSocialMedia(): boolean {
+    return (this.configFacebookUrl != null && this.configFacebookUrl !== '') ||
+      (this.configYouTubeUrl != null && this.configYouTubeUrl !== '') ||
+      (this.configVimeoUrl != null && this.configVimeoUrl !== '') ||
+      (this.configInstagramUrl != null && this.configInstagramUrl !== '');
+  }
+
+  isUrlValid(url: string): boolean {
+    return url != null && url.startsWith('http');
+  }
+
+  openTab(url: string): void {
+    window.open(url, '_blank');
+  }
+
 }
