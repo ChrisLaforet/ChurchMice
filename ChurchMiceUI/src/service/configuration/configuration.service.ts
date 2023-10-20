@@ -54,10 +54,20 @@ export class ConfigurationService {
     return this.http.get(this.getContentUrl + key, {'headers': this.headers, responseType : 'blob', observe: 'events'});
   }
 
-  public saveConfiguration(ministryName: string, baseUrl: string): Observable<MessageResponseDto> {
+  public saveConfiguration(ministryName: string, baseUrl: string, ministryAddress1: string, ministryAddress2: string,
+        ministryAddress3: string, ministryPhone: string, facebookUrl: string, youTubeUrl: string,
+        vimeoUrl: string, instagramUrl: string): Observable<MessageResponseDto> {
     const configData = {
       "ministryName": ministryName,
-      "baseUrl": baseUrl
+      "baseUrl": baseUrl,
+      "ministryAddress1": ministryAddress1,
+      "ministryAddress2": ministryAddress2,
+      "ministryAddress3": ministryAddress3,
+      "ministryPhone": ministryPhone,
+      "facebookUrl": facebookUrl,
+      "youTubeUrl": youTubeUrl,
+      "vimeoUrl": vimeoUrl,
+      "instagramUrl": instagramUrl,
     };
     return this.http.put<MessageResponseDto>(this.setConfigurationUrl, configData, {'headers': this.prepareHeaders()});
   }

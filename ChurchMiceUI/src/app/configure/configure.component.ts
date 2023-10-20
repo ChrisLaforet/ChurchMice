@@ -7,7 +7,8 @@ import { LocalConfigurationDto } from '@data/configuration/local-configuration.d
 import { first } from 'rxjs/operators';
 import { RoleValidator } from '@app/helper';
 import { Roles } from '@service/user/roles';
-
+import { faFacebook, faYoutube, faInstagram, faVimeo } from '@fortawesome/free-brands-svg-icons';
+import { faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-configure',
@@ -15,9 +16,26 @@ import { Roles } from '@service/user/roles';
   styleUrls: ['./configure.component.css']
 })
 export class ConfigureComponent implements OnInit {
+
+  protected readonly faArrowRotateLeft = faArrowRotateLeft;
+
+  protected readonly faFacebook = faFacebook;
+  protected readonly faYoutube = faYoutube;
+  protected readonly faInstagram = faInstagram;
+  protected readonly faVimeo = faVimeo;
+
   submitted = false;
+
   configMinistryName = '';
   configBaseUrl = '';
+  configMinistryAddress1 = '';
+  configMinistryAddress2 = '';
+  configMinistryAddress3 = '';
+  configMinistryPhone = '';
+  configFacebookUrl = '';
+  configYouTubeUrl = '';
+  configVimeoUrl = '';
+  configInstagramUrl = '';
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -33,6 +51,14 @@ export class ConfigureComponent implements OnInit {
         next: (config: LocalConfigurationDto) => {
           this.configBaseUrl = config.baseUrl;
           this.configMinistryName = config.ministryName;
+          this.configMinistryAddress1 = config.ministryAddress1;
+          this.configMinistryAddress2 = config.ministryAddress2;
+          this.configMinistryAddress3 = config.ministryAddress3;
+          this.configMinistryPhone = config.ministryPhone;
+          this.configFacebookUrl = config.facebookUrl;
+          this.configYouTubeUrl = config.youTubeUrl;
+          this.configVimeoUrl = config.vimeoUrl;
+          this.configInstagramUrl = config.instagramUrl;
         },
         error: (err) => {
           console.error(`Error loading local configuration for editing {err}`);
@@ -46,12 +72,13 @@ export class ConfigureComponent implements OnInit {
       this.roleValidator.validateUserAuthorizedFor([Roles.ADMINISTRATOR]);
   }
 
-
   onSubmit(): void {
     this.submitted = true;
     this.notifyService.showInfo('Attempting to save configuration', 'Configuration')
 
-    this.configurationService.saveConfiguration(this.configMinistryName, this.configBaseUrl)
+    this.configurationService.saveConfiguration(this.configMinistryName, this.configBaseUrl, this.configMinistryAddress1,
+              this.configMinistryAddress2, this.configMinistryAddress3, this.configMinistryPhone, this.configFacebookUrl,
+              this.configYouTubeUrl, this.configVimeoUrl, this.configInstagramUrl)
       .pipe()
       .subscribe({
         error: (err: any) => {
