@@ -56,10 +56,12 @@ public class AdminController : ControllerBase
 	{
 		try
 		{
-			SetLocalConfigurationCommandHandler.Handle(new SetLocalConfigurationCommand(request.MinistryName, request.BaseUrl));
+			SetLocalConfigurationCommandHandler.Handle(new SetLocalConfigurationCommand(request.MinistryName, request.BaseUrl, request.MinistryAddress1,
+																request.MinistryAddress2, request.MinistryAddress3, request.MinistryPhone,
+																request.FacebookUrl, request.YouTubeUrl, request.VimeoUrl, request.InstagramUrl));
 			return Ok(new {message = "Changes completed successfully"});
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
 			return BadRequest(new {message = "Error changing one or more configuration items"});
 		}
