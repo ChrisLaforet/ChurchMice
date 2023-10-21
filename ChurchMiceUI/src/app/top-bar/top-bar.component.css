@@ -67,9 +67,15 @@ html {
   text-overflow: clip;
 }
 
+.med-title {
+  margin-left: 1rem;
+  font-size: 1.25rem;
+  text-shadow: 1px 1px #bbbbbb;
+  text-overflow: clip;
+}
+
 .small-title {
   margin-left: 1rem;
-  font-size: 1rem;
-  text-shadow: 1px 1px #bbbbbb;
+  font-size: 0.75rem;
   text-overflow: clip;
 }
