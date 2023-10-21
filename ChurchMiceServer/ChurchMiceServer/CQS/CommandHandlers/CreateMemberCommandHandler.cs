@@ -28,7 +28,7 @@ public class CreateMemberCommandHandler : ICommandHandler<CreateMemberCommand, M
             var member = MemberMappers.MapCommandToMember(command); 
             memberProxy.CreateMember(member);
             ConnectCreatorToMember(creator, member);
-            logger.LogInformation(string.Format("Created member for {0} {1} by {2}", member.FirstName, member.LastName, command.CreatorUsername));
+            logger.LogInformation($"Created member for {member.FirstName} {member.LastName} by {command.CreatorUsername}");
             return new MemberResponse(member);
         }
         catch (Exception ex)

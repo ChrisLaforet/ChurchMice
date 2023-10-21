@@ -45,6 +45,8 @@ public class MemberProxy : IMemberProxy
 
     public void RemoveMember(Member member)
     {
+        RemoveEditorFromMember(member);
+        RemoveMemberImagesFor(member);
         context.Members.Remove(member);
         context.SaveChanges();
     }
@@ -52,6 +54,16 @@ public class MemberProxy : IMemberProxy
     public IList<Member> GetMembers()
     {
         return context.Members.ToList();
+    }
+
+    public void RemoveMemberImagesFor(Member member)
+    {
+        foreach (var memberImage in context.MemberImages.Where(record => record.MemberId == member.Id))
+        {
+            context.MemberImages.Remove(memberImage);
+        }
+
+        context.SaveChanges();
     }
 
     public int ConnectEditorToMember(User editor, Member member)
@@ -71,6 +83,16 @@ public class MemberProxy : IMemberProxy
     public void RemoveEditorFromMember(MemberEditor memberEditor)
     {
         context.MemberEditors.Remove(memberEditor);
+        context.SaveChanges();
+    }
+
+    public void RemoveEditorFromMember(Member member)
+    {
+        foreach (var memberEditor in context.MemberEditors.Where(record => record.MemberId == member.Id))
+        {
+            context.MemberEditors.Remove(memberEditor);
+        }
+
         context.SaveChanges();
     }
 

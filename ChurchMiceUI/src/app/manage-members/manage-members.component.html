@@ -74,7 +74,7 @@
       <a href="/editMember/{{ member.id }}" title="Edit member" class="action-icon">
         <fa-icon [icon]="faFilePen" class="fa-fw sidebar-icon fa-sm"></fa-icon>
       </a>
-      <a (click)="this.removeMember(member)" title="Remove member record" class="action-icon">
+      <a *ngIf="isAdministrator()" (click)="this.removeMember(member)" title="Remove member record" class="action-icon">
         <fa-icon [icon]="faXmark" class="fa-fw sidebar-icon fa-sm"></fa-icon>
       </a>
     </td>

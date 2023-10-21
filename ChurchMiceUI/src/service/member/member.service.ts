@@ -14,6 +14,7 @@ export class MemberService {
   private readonly getMemberUrl: string;
   private readonly createUrl: string;
   private readonly updateUrl: string;
+  private readonly deleteUrl: string;
   private readonly getMembersUrl: string;
   private readonly getEditableMembersUrl: string;
 
@@ -27,6 +28,7 @@ export class MemberService {
     this.getEditableMembersUrl = this.baseUrl + '/getEditableMembers';
     this.createUrl = this.baseUrl + '/create';
     this.updateUrl = this.baseUrl + '/update';
+    this.deleteUrl = this.baseUrl + '/delete/';
     this.headers = new HttpHeaders()
       .set('content-type', 'application/json')
       .set('Access-Control-Allow-Origin', '*')
@@ -88,6 +90,10 @@ export class MemberService {
 
   public getAllEditableMembers(): Observable<MemberDto[]> {
     return this.http.get<MemberDto[]>(this.getEditableMembersUrl, {'headers': this.prepareHeaders()});
+  }
+
+  public deleteMember(memberId: number): Observable<MessageResponseDto> {
+    return this.http.delete<MessageResponseDto>(this.deleteUrl + memberId, {'headers': this.prepareHeaders()});
   }
 
   private prepareHeaders(): HttpHeaders {

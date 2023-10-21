@@ -20,6 +20,7 @@ public class MemberController : ControllerBase
     public UpdateMemberCommandHandler UpdateMemberCommandHandler { get; set; }
     public EditableMembersQueryHandler EditableMembersQueryHandler { get; set; }
     public GetMembersQueryHandler GetMembersQueryHandler { get; set; }
+    public DeleteMemberCommandHandler DeleteMemberCommandHandler { get; set; }
 
     public MemberController(IServiceProvider serviceProvider, ILogger<MemberController> logger)
     {
@@ -32,6 +33,7 @@ public class MemberController : ControllerBase
             this.UpdateMemberCommandHandler = ActivatorUtilities.CreateInstance<UpdateMemberCommandHandler>(serviceProvider);
             this.EditableMembersQueryHandler = ActivatorUtilities.CreateInstance<EditableMembersQueryHandler>(serviceProvider);
             this.GetMembersQueryHandler = ActivatorUtilities.CreateInstance<GetMembersQueryHandler>(serviceProvider);
+            this.DeleteMemberCommandHandler = ActivatorUtilities.CreateInstance<DeleteMemberCommandHandler>(serviceProvider);
         }
     }
 
@@ -95,6 +97,21 @@ public class MemberController : ControllerBase
     public MemberResponse UpdateMember(MemberRequest request)
     {
         return UpdateMemberCommandHandler.Handle(new UpdateMemberCommand(request,  HttpContext.User.Identity.Name));
+    }
+    
+    [HttpDelete("delete/{memberId}")]
+    [Authorize(Roles = "Administrator")]
+    public IActionResult DeleteMember(int memberId)
+    {
+        try 
+        {
+            DeleteMemberCommandHandler.Handle(new DeleteMemberCommand(memberId,  HttpContext.User.Identity.Name));
+            return Ok(new {message = "Deleted member successfully"});
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new {message = "Error deleting member"});
+        }
     }
 
 	[HttpPost("uploadImage")]

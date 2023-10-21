@@ -10,11 +10,12 @@ public interface IMemberProxy
     void UpdateMember(Member member);
     void RemoveMember(Member member);
     IList<Member> GetMembers();
-
+    void RemoveMemberImagesFor(Member member);
     
     // TODO: Add memberEditor and memberImage lookups and creation here
     int ConnectEditorToMember(User editor, Member member);
     void RemoveEditorFromMember(MemberEditor memberEditor);
+    void RemoveEditorFromMember(Member member);
     IList<MemberEditor> GetEditorsForMember(Member member);
     IList<Member> GetMembersForEditor(User user);
 }

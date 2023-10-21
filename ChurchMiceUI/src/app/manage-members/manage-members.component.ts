@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NotificationService, Roles, UserManagementService } from '@service/index';
+import { DatepickerUtilities, NotificationService, Roles, UserManagementService } from '@service/index';
 import { HeaderSorterDriver, HeaderSortable, HeaderFilterable, ConfirmationDialogService } from '@ui/index';
 import {
   faFilePen,
@@ -10,6 +10,7 @@ import {
 import { RoleValidator } from '@app/helper';
 import { MemberService } from '@service/member/member.service';
 import { MemberDto } from '@data/index';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-manage-members',
@@ -55,6 +56,10 @@ export class ManageMembersComponent implements OnInit, HeaderSortable, HeaderFil
   isFirstMemberForUser(): boolean {
     return this.members.length === 0 &&
       this.roleValidator.isUserAuthorizedFor([Roles.ADMINISTRATOR]) !== true;
+  }
+
+  isAdministrator(): boolean {
+    return this.roleValidator.isUserAuthorizedFor([Roles.ADMINISTRATOR]);
   }
 
   showMembers(): MemberDto[] {
@@ -128,6 +133,24 @@ export class ManageMembersComponent implements OnInit, HeaderSortable, HeaderFil
   }
 
   removeMember(member: MemberDto) {
-    // TODO: finalize this - ask if ok, then make it happen
+    this.confirmationDialogService.askYesNo('Confirm permanent member delete', `Do you really want to delete member ${member.firstName} ${member.lastName}?`)
+      .then((confirmed) => {
+        if (confirmed) {
+          this.memberService.deleteMember(member.id)
+            .pipe(first())
+            .subscribe({
+              error: (err: any) => {
+                this.notifyService.showError(`An error has occurred while removing member record for ${member.firstName} ${member.lastName}`, 'Error');
+              },
+              complete: () => {
+                this.notifyService.showSuccess(`Successfully removed member removing member record for ${member.firstName} ${member.lastName}`, 'Success');
+                let index = this.members.indexOf(member);
+                if (index >= 0) {
+                  this.members.splice(index, 1);
+                }
+              }
+            });
+        }
+      });
   }
 }
