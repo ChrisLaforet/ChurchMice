@@ -25,7 +25,7 @@
 
 .nav-address-line {
   white-space: nowrap;
-  text-overflow: fade;
+  text-overflow: clip;
 
 }
 

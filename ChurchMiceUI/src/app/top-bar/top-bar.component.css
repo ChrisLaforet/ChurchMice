@@ -64,5 +64,12 @@ html {
   margin-left: 1rem;
   font-size: 1.75rem;
   text-shadow: 1px 1px #bbbbbb;
-  text-overflow: fade;
+  text-overflow: clip;
+}
+
+.small-title {
+  margin-left: 1rem;
+  font-size: 1rem;
+  text-shadow: 1px 1px #bbbbbb;
+  text-overflow: clip;
 }
