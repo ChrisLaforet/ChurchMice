@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatepickerUtilities, NotificationService, Roles, UserManagementService } from '@service/index';
 import { HeaderSorterDriver, HeaderSortable, HeaderFilterable, ConfirmationDialogService } from '@ui/index';
 import {
+  faCamera,
   faFilePen,
   faFilter,
   faXmark,
@@ -27,6 +28,7 @@ export class ManageMembersComponent implements OnInit, HeaderSortable, HeaderFil
   CITY_HEADER = 'City';
   MEMBERSINCE_HEADER = 'Member since';
 
+  faCamera = faCamera;
   faFilePen = faFilePen;
   faFilter = faFilter;
   faPlus = faPlus;
