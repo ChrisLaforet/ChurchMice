@@ -2,10 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntypedFormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { AuthService, NotificationService, UploadService } from '@service/index';
-import { AuthenticatedUser } from '@data/index';
-import { TopBarComponent } from '@app/top-bar/top-bar.component';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
+import {
+  AuthService,
+  MemberService,
+  NotificationService,
+  PhotoUploadService,
+  Roles,
+  UploadService
+} from '@service/index';
+import { MemberDto } from '@data/index';
+import { RoleValidator } from '@app/helper';
 
 @Component({
   selector: 'app-upload-member-image',
@@ -13,21 +19,63 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
   styleUrls: ['./upload-member-image.component.css']
 })
 export class UploadMemberImageComponent implements OnInit {
-  submitted = false;
-  loginName = '';
 
-  constructor(
-    private formBuilder: UntypedFormBuilder,
-    private uploadService: UploadService
- ) {
+  userId: string | undefined;
+  memberId: string = '';
+  member?: MemberDto;
+
+  constructor(private formBuilder: UntypedFormBuilder,
+              private route: ActivatedRoute,
+              private router: Router,
+              private memberService: MemberService,
+              private authService: AuthService,
+              private roleValidator: RoleValidator,
+              private notifyService: NotificationService,
+              private photoUploadService: PhotoUploadService) {
+  }
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      // https://indepth.dev/tutorials/angular/indepth-guide-to-passing-parameters-via-routing
+      const memberId = params['memberId'];
+      this.loadMemberFor(memberId);
+    });
   }
 
-  ngOnInit(): void {
-    // fill this in
+  private loadMemberFor(memberId: string) {
+    this.memberId = memberId;
+    this.memberService.getMember(memberId)
+      .pipe(first())
+      .subscribe({
+        next: (member: MemberDto | null) => {
+          if (member === null) {
+            this.notifyService.showError('Empty record while loading member record by member\'s Id', 'Error loading member record');
+          } else {
+            this.member = member;
+          }
+        },
+        error: (err: any) => {
+          this.notifyService.showError('Error while attempting to load user record by user\'s Id', 'Error loading user record');
+        },
+        complete: () => {}
+      });
+  }
+
+  isMemberUserIdOrAdministrator(): boolean {
+    if (this.userId === undefined) {
+      const user = this.authService.getAuthenticatedUser();
+      if (user !== null) {
+        this.userId = user.id;
+      }
+    }
+
+    return (this.member?.userId !== undefined && this.member?.userId === this.userId) ||
+      this.roleValidator.isUserAuthorizedFor([Roles.ADMINISTRATOR]);
   }
 
   onSubmit(): void {
- }
+    this.fileUploader.setUploadService(this.photoUploadService);
+
+  }
 
  // Based upon https://stackoverflow.com/questions/40214772/file-upload-in-angular
 
@@ -76,5 +124,7 @@ export class UploadMemberImageComponent implements OnInit {
   //       }
   //     )
    }
+
+    protected readonly undefined = undefined;
 }
 

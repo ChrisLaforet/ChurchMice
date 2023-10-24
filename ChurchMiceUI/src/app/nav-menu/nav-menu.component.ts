@@ -1,7 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
 import {
+  faBookOpenReader,
   faChurch,
   faCircleCheck,
+  faCircleInfo,
   faCircleQuestion,
   faClock,
   faGear,
@@ -52,6 +54,8 @@ export class NavMenuComponent implements OnDestroy {
   faUsers = faUsers;
   faPeopleRoof = faPeopleRoof;
   faPersonCircleQuestion = faPersonCircleQuestion;
+  faBookOpenReader = faBookOpenReader;
+  faCircleInfo = faCircleInfo;
 
   faFacebook = faFacebook;
   faYoutube = faYoutube;

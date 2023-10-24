@@ -46,6 +46,8 @@ import { CreateUserComponent } from '@app/create-user/create-user.component';
 import { EditPasswordComponent } from '@app/edit-password/edit-password.component';
 import { ManageMembersComponent } from '@app/manage-members/manage-members.component';
 import { EditMemberComponent } from '@app/edit-member/edit-member.component';
+import { SingleFileUploadComponent } from '@app/single-file-upload/single-file-upload.component';
+import { UploadService } from '@service/utility/upload.service';
 
 library.add(fas, far);
 
@@ -73,7 +75,8 @@ library.add(fas, far);
     EditPasswordComponent,
     ConfirmationDialogComponent,
     ManageMembersComponent,
-    USPhonePipe
+    USPhonePipe,
+    SingleFileUploadComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -99,6 +102,7 @@ library.add(fas, far);
       {path: 'manageMembers', component: ManageMembersComponent, canActivate: [AuthGuard], data: { roles: [Roles.ATTENDER, Roles.MEMBER, Roles.ADMINISTRATOR]}},
       {path: 'createMember', component: CreateMemberComponent, canActivate: [AuthGuard], data: { roles: [Roles.ATTENDER, Roles.MEMBER, Roles.ADMINISTRATOR]}},
       {path: 'editMember/:memberId', component: EditMemberComponent, canActivate: [AuthGuard], data: { roles: [Roles.ATTENDER, Roles.MEMBER, Roles.ADMINISTRATOR]}},
+      {path: 'memberImage/:memberId', component: UploadMemberImageComponent, canActivate: [AuthGuard], data: { roles: [Roles.ATTENDER, Roles.MEMBER, Roles.ADMINISTRATOR]}},
 
       {path: 'about', component: UserContentComponent, data: {page: 'about'}},
       {path: 'main', component: UserContentComponent, data: {page: 'index'}},

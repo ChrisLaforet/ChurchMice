@@ -56,7 +56,6 @@ export class EditMemberComponent implements OnInit {
     private roleValidator: RoleValidator,
     private notifyService: NotificationService) {
 
-
     let min= DatepickerUtilities.createNgbDateFromUSDateString("1/1/1900");
     if (min == null) {
       this.minDate = this.today;

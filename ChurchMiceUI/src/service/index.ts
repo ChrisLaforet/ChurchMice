@@ -23,5 +23,7 @@ export * from './utility/date-operations';
 export * from './utility/datepicker-utilities';
 export * from './utility/us-currency-operations';
 export * from './utility/upload.service';
+export * from './utility/upload-service.interface';
+export * from './utility/photo-upload.service';
 
 export * from './member/member.service';
