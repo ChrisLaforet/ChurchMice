@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UntypedFormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import {
-  AuthService,
+  AuthService, IUploadService,
   MemberService,
   NotificationService,
   PhotoUploadService,
@@ -41,6 +41,10 @@ export class UploadMemberImageComponent implements OnInit {
     });
   }
 
+  getUploadService(): IUploadService {
+    return this.photoUploadService;
+  }
+
   private loadMemberFor(memberId: string) {
     this.memberId = memberId;
     this.memberService.getMember(memberId)
@@ -73,7 +77,6 @@ export class UploadMemberImageComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.fileUploader.setUploadService(this.photoUploadService);
 
   }
 

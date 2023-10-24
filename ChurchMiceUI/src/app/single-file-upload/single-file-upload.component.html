@@ -12,7 +12,7 @@
     </ul>
   </section>
 
-  <button (click)="onUpload(this.uploadService)" class="upload-button">Upload the file</button>
+  <button (click)="onUpload()" class="upload-button">Upload the file</button>
 
   <section [ngSwitch]="status">
     <p *ngSwitchCase="'uploading'">⏳ Uploading...</p>
