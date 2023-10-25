@@ -15,6 +15,7 @@ import { IUploadService } from '@service/utility/upload-service.interface';
 export class SingleFileUploadComponent {
 
   @Input() uploadService: IUploadService | undefined;
+  @Input() memberId: number | undefined;
 
   status: 'initial' | 'uploading' | 'success' | 'fail' = 'initial';
   file: File | null = null;
@@ -37,13 +38,13 @@ export class SingleFileUploadComponent {
   }
 
   onUpload() {
-    if (this.file && this.uploadService) {
+    if (this.file && this.uploadService && this.memberId) {
       // const formData = new FormData();
       // formData.append('file', this.file, this.file.name);
       //
       // const upload$= this.http.post('https://httpbin.org/post', formData);
 
-      const upload$ = this.uploadService.uploadFile(this.file);
+      const upload$ = this.uploadService.uploadFile(this.file, this.memberId);
 
       this.status = 'uploading';
 

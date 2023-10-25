@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams, HttpRequest, HttpEvent} from '@angular/common/http';
+import {HttpEvent} from '@angular/common/http';
 import {Observable} from "rxjs";
-import { IUploadService } from '@service/utility/upload-service.interface';
+import {IUploadService} from '@service/utility/upload-service.interface';
 
 export abstract class UploadService implements IUploadService {
 
@@ -11,10 +10,29 @@ export abstract class UploadService implements IUploadService {
   }
 
   // file from event.target.files[0]
-  uploadFile(file: File): Observable<HttpEvent<any>> {
-
-    return this.performUpload(file);
+  uploadFile(file: File, id: number): Observable<HttpEvent<any>> {
+    return this.performUpload(file, id);
   }
 
-  abstract performUpload(file: File): Observable<HttpEvent<any>>;
+  private readFileContents(file: File): Promise<ArrayBuffer> {
+    return new Promise<ArrayBuffer>((resolve, reject) => {
+      if (!file) {
+        resolve(new ArrayBuffer(0));
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        var result: ArrayBuffer = reader.result as ArrayBuffer;
+        resolve(result);
+      };
+
+      reader.readAsArrayBuffer(file);
+    });
+  }
+
+  async getFileContents(file: File) {
+    return await this.readFileContents(file);
+  }
+
+  abstract performUpload(file: File, id: number): Observable<HttpEvent<any>>;
 }

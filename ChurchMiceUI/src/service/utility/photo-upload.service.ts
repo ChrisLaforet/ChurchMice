@@ -26,20 +26,43 @@ export class PhotoUploadService extends UploadService implements IUploadService 
       .set('apikey', apikeyReaderService.getApiKey());
   }
 
-  performUpload(file: File): Observable<HttpEvent<any>> {
-    let formData = new FormData();
-    formData.append('upload', file);
+  performUpload(file: File, id: number): Observable<HttpEvent<any>> {
+    // let formData = new FormData();
+    // file.name
+    // formData.append('fileContent', file);
+    // formData.append('memberId', id.toString());
 
-    let params = new HttpParams();
+    let fileReader = new FileReader();
+    fileReader.onloadend = (e) => {
+      let content = fileReader.result as ArrayBuffer;
 
-    const options = {
-      params: params,
-      reportProgress: true,
-      headers: this.prepareHeaders(),
-    };
+      let binary = '';
+      let bytes = new Uint8Array(content);
+      for (var i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode( bytes[ i ] );
+      }
+      let base64 = window.btoa(binary);
 
-    const req = new HttpRequest('POST', this.uploadUrl, formData, options);
-    return this.http.request(req);
+      const userData = {
+        "memberId": id,
+        "fileName": file.name,
+        "fileSize": file.size,
+        "fileType": file.type,
+        "fileContent": base64
+      };
+
+      let params = new HttpParams();
+
+      const options = {
+        params: params,
+        reportProgress: true,
+        headers: this.prepareHeaders(),
+      };
+
+      const req = new HttpRequest('POST', this.uploadUrl, userData, options);
+      return this.http.request(req);
+    }
+    fileReader.readAsArrayBuffer(file);
   }
 
   private prepareHeaders(): HttpHeaders {

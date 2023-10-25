@@ -45,6 +45,10 @@ export class UploadMemberImageComponent implements OnInit {
     return this.photoUploadService;
   }
 
+  getMemberId(): number {
+    return Number(this.memberId);
+  }
+
   private loadMemberFor(memberId: string) {
     this.memberId = memberId;
     this.memberService.getMember(memberId)

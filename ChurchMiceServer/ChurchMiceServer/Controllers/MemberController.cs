@@ -117,8 +117,9 @@ public class MemberController : ControllerBase
 	[HttpPost("uploadImage")]
 	[Authorize]
 	public IActionResult UploadImage(UploadImageRequest request)
-	{
-        var command = new UploadImageCommand(request.UploadUserId, request.MemberId, request.Image);
+    {
+        var x = request;
+//        var command = new UploadImageCommand(request.UploadUserId, request.MemberId, request.Image);
 if (request.MemberId == 1)
 {
     return Ok("Member image accepted");
