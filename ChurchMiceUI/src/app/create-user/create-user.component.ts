@@ -6,7 +6,7 @@ import {
   UserManagementService, UserService
 } from '@service/index';
 import { RoleValidator } from '@app/helper';
-import { MessageResponseDto } from '@data/dto/message-response.dto';
+import { MessageResponseDto } from '@data/index';
 import { first } from 'rxjs/operators';
 import { faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 

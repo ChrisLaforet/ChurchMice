@@ -9,7 +9,8 @@ import {
 import { UserDataDto } from '@data/dto/user-data.dto';
 import { first } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
-import { MessageResponseDto } from '@data/dto/message-response.dto';
+import { MessageResponseDto } from '@data/index';
+
 
 @Component({
   selector: 'app-edit-password',

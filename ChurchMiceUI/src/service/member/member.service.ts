@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService, IApiKeyReaderService } from '@service/index';
 import { environment } from '@environments/environment';
-import { AuthenticatedUser, MemberDto, UserDataDto } from '@data/index';
+import { AuthenticatedUser, MemberDto, MemberImageDto, UserDataDto } from '@data/index';
 import { Observable } from 'rxjs';
-import { MessageResponseDto } from '@data/dto/message-response.dto';
+import { MessageResponseDto } from '@data/index';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +17,7 @@ export class MemberService {
   private readonly deleteUrl: string;
   private readonly getMembersUrl: string;
   private readonly getEditableMembersUrl: string;
+  private readonly getMemberImagesUrl: string;
 
   private readonly headers: HttpHeaders;
 
@@ -29,6 +30,7 @@ export class MemberService {
     this.createUrl = this.baseUrl + '/create';
     this.updateUrl = this.baseUrl + '/update';
     this.deleteUrl = this.baseUrl + '/delete/';
+    this.getMemberImagesUrl = this.baseUrl + '/getImages/';
     this.headers = new HttpHeaders()
       .set('content-type', 'application/json')
       .set('Access-Control-Allow-Origin', '*')
@@ -94,6 +96,10 @@ export class MemberService {
 
   public deleteMember(memberId: number): Observable<MessageResponseDto> {
     return this.http.delete<MessageResponseDto>(this.deleteUrl + memberId, {'headers': this.prepareHeaders()});
+  }
+
+  public getMemberImages(memberId: number): Observable<MemberImageDto[]> {
+    return this.http.get<MemberImageDto[]>(this.getMemberImagesUrl + 'memberId', {'headers': this.prepareHeaders()});
   }
 
   private prepareHeaders(): HttpHeaders {

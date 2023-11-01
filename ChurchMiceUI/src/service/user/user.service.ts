@@ -4,7 +4,7 @@ import { IApiKeyReaderService } from '@service/index';
 import { environment } from '@environments/environment';
 import { UserDto } from '@data/index';
 import { Observable } from 'rxjs';
-import { MessageResponseDto } from '@data/dto/message-response.dto';
+import { MessageResponseDto } from '@data/index';
 
 @Injectable({
   providedIn: 'root'

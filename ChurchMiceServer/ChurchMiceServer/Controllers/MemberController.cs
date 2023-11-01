@@ -134,4 +134,20 @@ public class MemberController : ControllerBase
         }
 	}
 
+    [HttpGet("getImages/{memberId}")]
+    [Authorize]
+    public List<MemberImageResponse> GetImages(int memberId)
+    {
+        try
+        {
+            // TODO: handle getting the images and return
+            //return MemberQueryHandler.Handle(new MemberQuery(memberId));
+        }
+        catch (Exception ex)
+        {
+            logger.LogDebug($"Error retrieving member image records {ex}");
+        }
+
+        return new List<MemberImageResponse>();
+    }
 }

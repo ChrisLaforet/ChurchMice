@@ -5,7 +5,7 @@ import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 import { AuthenticatedUser, LocalConfigurationDto } from '@data/index';
 import { UserContentListDto } from '@data/configuration/user-content-list.dto';
-import { MessageResponseDto } from '@data/dto/message-response.dto';
+import { MessageResponseDto } from '@data/index';
 
 @Injectable({
   providedIn: 'root'
