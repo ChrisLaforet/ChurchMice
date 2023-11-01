@@ -7,6 +7,7 @@ import { environment } from '@environments/environment';
 import { IApiKeyReaderService } from '@service/key-support/api-key-reader.service.interface';
 import { AuthService } from '@service/auth/auth.service';
 import { AuthenticatedUser } from '@data/auth/authenticated-user';
+import { ReceivedFileContent } from '@service/utility/received-file-content';
 
 // Of interest: https://stackoverflow.com/questions/40843218/upload-a-file-and-read-data-with-filereader-in-angular-2
 
@@ -28,43 +29,26 @@ export class PhotoUploadService extends UploadService implements IUploadService 
       .set('apikey', apikeyReaderService.getApiKey());
   }
 
-  performUpload(file: File, id: number): Observable<HttpEvent<any>> {
-    // let formData = new FormData();
-    // file.name
-    // formData.append('fileContent', file);
-    // formData.append('memberId', id.toString());
+  handleUploadToServer(fileContent: ReceivedFileContent, id: number): Observable<HttpEvent<any>> {
 
-    let fileReader = new FileReader();
-    fileReader.onloadend = (e) => {
-      let content = fileReader.result as ArrayBuffer;
+    const userData = {
+      "memberId": id,
+      "fileName": fileContent.fileName,
+      "fileSize": fileContent.fileSize,
+      "fileType": fileContent.fileType,
+      "fileContentBase64": fileContent.fileContentBase64
+    };
 
-      let binary = '';
-      let bytes = new Uint8Array(content);
-      for (var offset= 0; offset < bytes.byteLength; offset++) {
-        binary += String.fromCharCode( bytes[offset] );
-      }
-      let base64 = window.btoa(binary);
+    let params = new HttpParams();
 
-      const userData = {
-        "memberId": id,
-        "fileName": file.name,
-        "fileSize": file.size,
-        "fileType": file.type,
-        "fileContent": base64
-      };
+    const options = {
+      params: params,
+      reportProgress: true,
+      headers: this.prepareHeaders(),
+    };
 
-      let params = new HttpParams();
-
-      const options = {
-        params: params,
-        reportProgress: true,
-        headers: this.prepareHeaders(),
-      };
-
-      const req = new HttpRequest('POST', this.uploadUrl, userData, options);
-      return this.http.request(req);
-    }
-    fileReader.readAsArrayBuffer(file);
+    const req = new HttpRequest('POST', this.uploadUrl, userData, options);
+    return this.http.request(req);
   }
 
   private prepareHeaders(): HttpHeaders {

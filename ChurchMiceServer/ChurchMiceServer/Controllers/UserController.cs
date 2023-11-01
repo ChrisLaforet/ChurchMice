@@ -88,7 +88,7 @@ public partial class UserController : ControllerBase
             var possibleUser = this.Request.HttpContext.Items["User"];
             if (possibleUser != null)
             {
-                User user = (User) possibleUser;
+                User user = (User)possibleUser;
                 LogoutCommandHandler.Handle(new LogoutCommand(user.Username));
             }
         }

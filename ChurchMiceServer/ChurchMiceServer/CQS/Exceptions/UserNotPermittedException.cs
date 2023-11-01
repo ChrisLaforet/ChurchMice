@@ -1,8 +1,8 @@
 ﻿namespace ChurchMiceServer.CQS.Exceptions;
 
-public class UserNotPermittedxception : Exception
+public class UserNotPermittedException : Exception
 {
-	public UserNotPermittedxception(string userId, string reason) 
+	public UserNotPermittedException(string userId, string reason) 
 		: base($"User with Id of {userId} is not permitted to {reason}") 
 	{ }
 }

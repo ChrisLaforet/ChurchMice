@@ -56,13 +56,56 @@ public class MemberProxy : IMemberProxy
         return context.Members.ToList();
     }
 
+    public MemberImage AddMemberImageFor(Member member, string uploadUserId, string compressedImage, string fileType)
+    {
+        var memberImage = new MemberImage();
+        memberImage.MemberId = member.Id;
+        memberImage.Image = compressedImage;
+        memberImage.UploadDate = DateTime.Now;
+        memberImage.UploadUserId = uploadUserId;
+        memberImage.ImageType = fileType;
+        context.MemberImages.Add(memberImage);
+        context.SaveChanges();
+
+        return memberImage;
+    }
+
+    public void ApproveMemberImage(int memberImageId)
+    {
+        var memberImage = context.MemberImages.SingleOrDefault(record => record.Id == memberImageId);
+        if (memberImage != null)
+        {
+            memberImage.ApproveDate = DateTime.Now;
+            context.SaveChanges();
+        }
+    }
+
+    public MemberImage? GetMemberImage(int memberImageId)
+    {
+        return context.MemberImages.SingleOrDefault(record => record.Id == memberImageId);
+    }
+
+    public List<MemberImage> GetMemberImagesFor(int memberId)
+    {
+        return context.MemberImages.Where(record => record.MemberId == memberId).ToList();
+    }
+
+    public void RemoveMemberImage(int memberImageId)
+    {
+        var memberImage = context.MemberImages.SingleOrDefault(record => record.Id == memberImageId);
+        if (memberImage != null)
+        {
+            context.MemberImages.Remove(memberImage);
+            context.SaveChanges();
+        }
+    }
+
     public void RemoveMemberImagesFor(Member member)
     {
         foreach (var memberImage in context.MemberImages.Where(record => record.MemberId == member.Id))
         {
             context.MemberImages.Remove(memberImage);
         }
-
         context.SaveChanges();
     }
 

@@ -2,7 +2,10 @@
 {
 	public class UploadImageRequest
 	{
-		public byte[] FileContent { get; set; }
+		public string FileContentBase64 { get; set; }
 		public int MemberId { get; set; }
+		public string FileName { get; set; }
+		public string FileType { get; set; }
+		public long FileSize { get; set; }
 	}
 }

@@ -10,6 +10,11 @@ public interface IMemberProxy
     void UpdateMember(Member member);
     void RemoveMember(Member member);
     IList<Member> GetMembers();
+    MemberImage AddMemberImageFor(Member member, string uploadUserId, string compressedImage, string fileType);
+    void ApproveMemberImage(int memberImageId);
+    MemberImage? GetMemberImage(int memberImageId);
+    List<MemberImage> GetMemberImagesFor(int memberId);
+    void RemoveMemberImage(int memberImageId);
     void RemoveMemberImagesFor(Member member);
     
     // TODO: Add memberEditor and memberImage lookups and creation here

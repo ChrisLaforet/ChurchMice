@@ -12,6 +12,11 @@ namespace ChurchMiceServer.Utility
 		{
 			return Convert.ToBase64String(CompressBytes(Encoding.UTF8.GetBytes(toCompress)));
 		}
+		
+		public static string CompressToBase64(byte[] bytes)
+		{
+			return Convert.ToBase64String(CompressBytes(bytes));
+		}
 
 		public static byte[] CompressBytes(byte[] bytes)
 		{

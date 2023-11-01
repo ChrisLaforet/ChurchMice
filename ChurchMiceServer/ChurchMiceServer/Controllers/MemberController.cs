@@ -4,6 +4,7 @@ using ChurchMiceServer.CQS.Commands;
 using ChurchMiceServer.CQS.Queries;
 using ChurchMiceServer.CQS.QueryHandlers;
 using ChurchMiceServer.CQS.Responses;
+using ChurchMiceServer.Domains.Models;
 using ChurchMiceServer.Security;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,7 @@ public class MemberController : ControllerBase
     public EditableMembersQueryHandler EditableMembersQueryHandler { get; set; }
     public GetMembersQueryHandler GetMembersQueryHandler { get; set; }
     public DeleteMemberCommandHandler DeleteMemberCommandHandler { get; set; }
+    public UploadImageCommandHandler UploadImageCommandHandler { get; set; }
 
     public MemberController(IServiceProvider serviceProvider, ILogger<MemberController> logger)
     {
@@ -34,6 +36,7 @@ public class MemberController : ControllerBase
             this.EditableMembersQueryHandler = ActivatorUtilities.CreateInstance<EditableMembersQueryHandler>(serviceProvider);
             this.GetMembersQueryHandler = ActivatorUtilities.CreateInstance<GetMembersQueryHandler>(serviceProvider);
             this.DeleteMemberCommandHandler = ActivatorUtilities.CreateInstance<DeleteMemberCommandHandler>(serviceProvider);
+            this.UploadImageCommandHandler = ActivatorUtilities.CreateInstance<UploadImageCommandHandler>(serviceProvider);
         }
     }
 
@@ -118,13 +121,17 @@ public class MemberController : ControllerBase
 	[Authorize]
 	public IActionResult UploadImage(UploadImageRequest request)
     {
-        var x = request;
-//        var command = new UploadImageCommand(request.UploadUserId, request.MemberId, request.Image);
-if (request.MemberId == 1)
-{
-    return Ok("Member image accepted");
-}
-		return BadRequest(new { message = "Image can't be accepted" });
+        try 
+        {
+            var possibleUser = (User)this.Request.HttpContext.Items["User"];
+            var command = new UploadImageCommand(possibleUser.Id, request.MemberId, request.FileContentBase64, request.FileName, request.FileType, request.FileSize);
+            UploadImageCommandHandler.Handle(command);
+            return Ok(new {message = "Image has been accepted"});
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new {message = "Image cannot be accepted"});
+        }
 	}
-	
+
 }

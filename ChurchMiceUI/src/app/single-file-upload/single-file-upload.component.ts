@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { IUploadService } from '@service/utility/upload-service.interface';
+import { ReceivedFileContent } from '@service/utility/received-file-content';
 
 @Component({
 
@@ -18,7 +18,7 @@ export class SingleFileUploadComponent {
   @Input() uploadService: IUploadService | undefined;
   @Input() memberId: number | undefined;
 
-  status: 'initial' | 'uploading' | 'success' | 'fail' = 'initial';
+  status: 'initial' | 'fetching' | 'fetched' | 'uploading' | 'success' | 'fail' = 'initial';
   file: File | null = null;
 
   constructor() {}
@@ -39,10 +39,7 @@ export class SingleFileUploadComponent {
       const myReader: FileReader = new FileReader();
       var fileType = event.target.parentElement.id;
       myReader.onloadend = function (e) {
-
-console.log(myReader.result);
         const fileString = myReader.result as string;
-console.log('Got filestring');
       }
       myReader.readAsText(file);
     }
@@ -55,20 +52,38 @@ console.log('Got filestring');
       //
       // const upload$= this.http.post('https://httpbin.org/post', formData);
 
-      const upload$ = this.uploadService.uploadFile(this.file, this.memberId);
-
-      this.status = 'uploading';
-
-      upload$.subscribe({
-        next: () => {
-          this.status = 'success';
+      const memberId = this.memberId;
+      this.status = 'fetching';
+      const fetchFile$ = this.uploadService.receiveFileFromClient(this.file, this.memberId);
+      fetchFile$.subscribe({
+        next: (fileContent: ReceivedFileContent) => {
+          this.status = 'fetched';
+          this.uploadReceivedFileContent(fileContent, memberId);
         },
         error: (error: any) => {
           this.status = 'fail';
           return throwError(() => error);
         },
-      });
+      })
     }
+  }
+
+  uploadReceivedFileContent(fileContent: ReceivedFileContent, memberId: number) {
+    if (!this.uploadService) {
+      return;
+    }
+
+    this.status = 'uploading';
+    const upload$ = this.uploadService.handleUploadToServer(fileContent, memberId);
+    upload$.subscribe({
+      next: () => {
+        this.status = 'success';
+      },
+      error: (error: any) => {
+        this.status = 'fail';
+        return throwError(() => error);
+      },
+    });
   }
 }
 
