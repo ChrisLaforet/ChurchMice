@@ -8,6 +8,8 @@ import { IApiKeyReaderService } from '@service/key-support/api-key-reader.servic
 import { AuthService } from '@service/auth/auth.service';
 import { AuthenticatedUser } from '@data/auth/authenticated-user';
 
+// Of interest: https://stackoverflow.com/questions/40843218/upload-a-file-and-read-data-with-filereader-in-angular-2
+
 @Injectable({
   providedIn: 'root'
 })
@@ -38,8 +40,8 @@ export class PhotoUploadService extends UploadService implements IUploadService 
 
       let binary = '';
       let bytes = new Uint8Array(content);
-      for (var i = 0; i < bytes.byteLength; i++) {
-        binary += String.fromCharCode( bytes[ i ] );
+      for (var offset= 0; offset < bytes.byteLength; offset++) {
+        binary += String.fromCharCode( bytes[offset] );
       }
       let base64 = window.btoa(binary);
 

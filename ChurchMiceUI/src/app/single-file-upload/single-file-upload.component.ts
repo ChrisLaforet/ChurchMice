@@ -7,6 +7,7 @@ import { IUploadService } from '@service/utility/upload-service.interface';
 
 // See https://uploadcare.com/blog/how-to-upload-files-in-angular/ (taken mostly from here)
 // and https://blog.angular-university.io/angular-file-upload/
+// and for uploading into Angular: https://stackoverflow.com/questions/40843218/upload-a-file-and-read-data-with-filereader-in-angular-2
 
   selector: 'app-single-file-upload',
   templateUrl: './single-file-upload.component.html',
@@ -34,6 +35,16 @@ export class SingleFileUploadComponent {
     if (file) {
       this.status = 'initial';
       this.file = file;
+
+      const myReader: FileReader = new FileReader();
+      var fileType = event.target.parentElement.id;
+      myReader.onloadend = function (e) {
+
+console.log(myReader.result);
+        const fileString = myReader.result as string;
+console.log('Got filestring');
+      }
+      myReader.readAsText(file);
     }
   }
 
