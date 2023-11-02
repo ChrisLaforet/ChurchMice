@@ -1,4 +1,8 @@
-﻿namespace ChurchMiceServer.CQS.Responses;
+﻿using System.Text;
+using ChurchMiceServer.Domains.Models;
+using ChurchMiceServer.Utility;
+
+namespace ChurchMiceServer.CQS.Responses;
 
 public class MemberImageResponse
 {
@@ -20,5 +24,16 @@ public class MemberImageResponse
 		FileType = fileType;
 		IsApproved = isApproved;
 		UploadDate = uploadDate;
+	}
+
+	public MemberImageResponse(MemberImage memberImage)
+	{
+		Id = memberImage.Id;
+		MemberId = memberImage.MemberId;
+		UploadUserId = memberImage.UploadUserId;
+		IsApproved = memberImage.ApproveDate != null;
+		UploadDate = memberImage.UploadDate;
+		FileType = memberImage.ImageType;
+		FileContentBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes((Compression.DecompressFromBase64(memberImage.Image))));
 	}
 }

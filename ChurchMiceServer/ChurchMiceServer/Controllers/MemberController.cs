@@ -23,6 +23,7 @@ public class MemberController : ControllerBase
     public GetMembersQueryHandler GetMembersQueryHandler { get; set; }
     public DeleteMemberCommandHandler DeleteMemberCommandHandler { get; set; }
     public UploadImageCommandHandler UploadImageCommandHandler { get; set; }
+    public GetMemberImagesQueryHandler GetMemberImagesQueryHandler { get; set; }
 
     public MemberController(IServiceProvider serviceProvider, ILogger<MemberController> logger)
     {
@@ -37,6 +38,7 @@ public class MemberController : ControllerBase
             this.GetMembersQueryHandler = ActivatorUtilities.CreateInstance<GetMembersQueryHandler>(serviceProvider);
             this.DeleteMemberCommandHandler = ActivatorUtilities.CreateInstance<DeleteMemberCommandHandler>(serviceProvider);
             this.UploadImageCommandHandler = ActivatorUtilities.CreateInstance<UploadImageCommandHandler>(serviceProvider);
+            this.GetMemberImagesQueryHandler = ActivatorUtilities.CreateInstance<GetMemberImagesQueryHandler>(serviceProvider);
         }
     }
 
@@ -136,18 +138,18 @@ public class MemberController : ControllerBase
 
     [HttpGet("getImages/{memberId}")]
     [Authorize]
-    public List<MemberImageResponse> GetImages(int memberId)
+    public MemberImagesResponse GetImages(int memberId)
     {
         try
         {
-            // TODO: handle getting the images and return
-            //return MemberQueryHandler.Handle(new MemberQuery(memberId));
+            var possibleUser = (User)this.Request.HttpContext.Items["User"];
+            return GetMemberImagesQueryHandler.Handle(new GetMemberImagesQuery(memberId, possibleUser.Id));
         }
         catch (Exception ex)
         {
             logger.LogDebug($"Error retrieving member image records {ex}");
         }
 
-        return new List<MemberImageResponse>();
+        return new MemberImagesResponse();
     }
 }
