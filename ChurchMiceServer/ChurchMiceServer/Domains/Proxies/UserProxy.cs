@@ -6,6 +6,7 @@ using ChurchMiceServer.Configuration;
 using ChurchMiceServer.Domains.Models;
 using ChurchMiceServer.Security.Auth;
 using ChurchMiceServer.Services;
+using ChurchMiceServer.Types;
 using Microsoft.IdentityModel.Tokens;
 
 namespace ChurchMiceServer.Domains.Proxies;
@@ -32,11 +33,11 @@ public class UserProxy : IUserProxy
         this.passwordProcessor = new PasswordProcessor(configurationLoader);
     }
 
-    public User? GetUserByGuid(Guid guid) => GetUserById(guid.ToString());
+    public User? GetUserByGuid(Guid guid) => GetUserById(new UserId(guid.ToString()));
 
-    public User? GetUserById(String id)
+    public User? GetUserById(UserId id)
     {
-        return context.Users.Find(id);
+        return context.Users.Find(id.Id);
     }
 
     public User? GetUserByUsername(string username)
@@ -69,7 +70,7 @@ public class UserProxy : IUserProxy
         return user.Id;
     }
 
-    public void UpdateUser(string userId, string userName, string fullName, string email)
+    public void UpdateUser(UserId userId, string userName, string fullName, string email)
     {
         var user = GetUserById(userId);
         if (user == null)
@@ -259,7 +260,7 @@ public class UserProxy : IUserProxy
         context.SaveChanges();
     }
 
-    public void SetPasswordFor(string userId, string password)
+    public void SetPasswordFor(UserId userId, string password)
     {
         var user = GetUserById(userId);
         if (user == null)
@@ -374,11 +375,11 @@ public class UserProxy : IUserProxy
         return token.GetRoles();
     }
 
-    public string GetAssignedRoleLevelCodeFor(string userId)
+    public string GetAssignedRoleLevelCodeFor(UserId userId)
     {
         var roleLevelCode = Role.GetNoAccess().Code;
 
-        var userRole = context.UserRoles.Where(role => role.UserId == userId).FirstOrDefault();
+        var userRole = context.UserRoles.Where(role => role.UserId == userId.Id).FirstOrDefault();
         if (userRole != null)
         {
             var role = Roles.GetRoleByLevel(userRole.RoleLevel);
@@ -388,7 +389,7 @@ public class UserProxy : IUserProxy
         return roleLevelCode;
     }
 
-    public bool AssignRoleTo(string userId, string roleLevelCode)
+    public bool AssignRoleTo(UserId userId, string roleLevelCode)
     {
         var desiredRole = Roles.GetRoleByLevelCode(roleLevelCode);
         if (desiredRole == null)
@@ -396,7 +397,7 @@ public class UserProxy : IUserProxy
             return false;
         }
 
-        var role = context.UserRoles.Where(role => role.UserId == userId).FirstOrDefault();
+        var role = context.UserRoles.Where(role => role.UserId == userId.Id).FirstOrDefault();
         if (role == null)
         {
             role = new UserRole();

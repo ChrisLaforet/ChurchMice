@@ -1,20 +1,21 @@
 ﻿using ChurchMiceServer.Domains.Models;
+using ChurchMiceServer.Types;
 
 namespace ChurchMiceServer.Domains.Proxies;
 
 public interface IMemberProxy
 {
-    Member? GetMember(int id);
+    Member? GetMember(MemberId id);
     IList<Member> FindMembersByName(string lastName, string? firstName = null);
     int CreateMember(Member member);
     void UpdateMember(Member member);
     void RemoveMember(Member member);
     IList<Member> GetMembers();
-    MemberImage AddMemberImageFor(Member member, string uploadUserId, string compressedImage, string fileType);
-    void ApproveMemberImage(int memberImageId);
-    MemberImage? GetMemberImage(int memberImageId);
+    MemberImage AddMemberImageFor(Member member, UserId uploadUserId, string compressedImage, string fileType);
+    void ApproveMemberImage(MemberImageId memberImageId);
+    MemberImage? GetMemberImage(MemberImageId memberImageId);
     List<MemberImage> GetMemberImagesFor(int memberId);
-    void RemoveMemberImage(int memberImageId);
+    void RemoveMemberImage(MemberImageId memberImageId);
     void RemoveMemberImagesFor(Member member);
     
     // TODO: Add memberEditor and memberImage lookups and creation here

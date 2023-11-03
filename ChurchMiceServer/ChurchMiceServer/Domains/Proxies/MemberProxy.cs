@@ -1,5 +1,6 @@
 ﻿using ChurchMiceServer.Domains.Models;
 using ChurchMiceServer.Persistence;
+using ChurchMiceServer.Types;
 using Microsoft.IdentityModel.Tokens;
 
 namespace ChurchMiceServer.Domains.Proxies;
@@ -13,9 +14,9 @@ public class MemberProxy : IMemberProxy
         this.context = context;
     }
     
-    public Member? GetMember(int id)
+    public Member? GetMember(MemberId id)
     {
-        return context.Members.FirstOrDefault(member => member.Id.Equals(id));
+        return context.Members.FirstOrDefault(member => member.Id == id.Id);
     }
 
     public IList<Member> FindMembersByName(string lastName, string? firstName = null)
@@ -70,9 +71,9 @@ public class MemberProxy : IMemberProxy
         return memberImage;
     }
 
-    public void ApproveMemberImage(int memberImageId)
+    public void ApproveMemberImage(MemberImageId memberImageId)
     {
-        var memberImage = context.MemberImages.SingleOrDefault(record => record.Id == memberImageId);
+        var memberImage = context.MemberImages.SingleOrDefault(record => record.Id == memberImageId.Id);
         if (memberImage != null)
         {
             memberImage.ApproveDate = DateTime.Now;
@@ -80,19 +81,19 @@ public class MemberProxy : IMemberProxy
         }
     }
 
-    public MemberImage? GetMemberImage(int memberImageId)
+    public MemberImage? GetMemberImage(MemberImageId memberImageId)
     {
-        return context.MemberImages.SingleOrDefault(record => record.Id == memberImageId);
+        return context.MemberImages.SingleOrDefault(record => record.Id == memberImageId.Id);
     }
 
-    public List<MemberImage> GetMemberImagesFor(int memberId)
+    public List<MemberImage> GetMemberImagesFor(MemberId memberId)
     {
-        return context.MemberImages.Where(record => record.MemberId == memberId).ToList();
+        return context.MemberImages.Where(record => record.MemberId == memberId.Id).ToList();
     }
 
-    public void RemoveMemberImage(int memberImageId)
+    public void RemoveMemberImage(MemberImageId memberImageId)
     {
-        var memberImage = context.MemberImages.SingleOrDefault(record => record.Id == memberImageId);
+        var memberImage = context.MemberImages.SingleOrDefault(record => record.Id == memberImageId.Id);
         if (memberImage != null)
         {
             context.MemberImages.Remove(memberImage);
@@ -150,7 +151,7 @@ public class MemberProxy : IMemberProxy
         var list = new List<Member>();
         foreach (var match in matches)
         {
-            list.Add(GetMember(match.MemberId));
+            list.Add(GetMember(new MemberId(match.MemberId)));
         }
         return list;
     }
