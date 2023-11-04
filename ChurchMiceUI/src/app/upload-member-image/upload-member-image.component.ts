@@ -135,3 +135,4 @@ export class UploadMemberImageComponent implements OnInit {
     protected readonly undefined = undefined;
 }
 
+// Show images: https://stackoverflow.com/questions/55967908/angular-display-byte-array-as-image
