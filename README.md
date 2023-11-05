@@ -3,7 +3,10 @@
 
 This package will begin its life bringing the most critical piece to small churches.  Church mice are very social and so they want to be able to recognize other church mice.  Thus, initial development will center on creating user accounts and being able to add demographic information and photos to create an online directory.
 
-For a very small church, there is the capability of adding some basic webpages so that ChurchMice can run the site instead of being an add-on to an existing site.
+For a very small church, there is the capability of adding some basic webpages so that ChurchMice can run the site instead of being an add-on to an existing site.  Here is a sample of ChurchMice running as standalone on a church plant at 3cnc.org:
+
+![alt text](https://github.com/ChrisLaforet/ChurchMice/blob/main/Images/SampleChurchMiceScreen.png)
+
 
 # Possible Future Directions (Opportunities to Contribute)
 
