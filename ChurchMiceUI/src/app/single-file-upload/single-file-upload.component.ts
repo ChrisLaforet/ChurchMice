@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { throwError } from 'rxjs';
 import { IUploadService } from '@service/utility/upload-service.interface';
 import { ReceivedFileContent } from '@service/utility/received-file-content';
@@ -17,6 +17,7 @@ export class SingleFileUploadComponent {
 
   @Input() uploadService: IUploadService | undefined;
   @Input() memberId: number | undefined;
+  @Output() uploadCompleted = new EventEmitter<string>();
 
   status: 'initial' | 'fetching' | 'fetched' | 'uploading' | 'success' | 'fail' = 'initial';
   file: File | null = null;
@@ -78,6 +79,7 @@ export class SingleFileUploadComponent {
     upload$.subscribe({
       next: () => {
         this.status = 'success';
+        this.uploadCompleted.emit('upload');
       },
       error: (error: any) => {
         this.status = 'fail';

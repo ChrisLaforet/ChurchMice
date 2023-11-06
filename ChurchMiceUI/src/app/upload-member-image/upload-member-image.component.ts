@@ -82,13 +82,16 @@ export class UploadMemberImageComponent implements OnInit {
       .subscribe({
         next: (memberImages: MemberImagesDto) => {
           this.memberImages = memberImages.images;
-console.log("memberImages!")
         },
         error: (err: any) => {
           this.notifyService.showError('Error while attempting to load user images by user\'s Id', 'Error loading user images');
         },
         complete: () => {}
       });
+  }
+
+  reloadImages() {
+    this.loadMemberImagesFor(this.memberId);
   }
 
   isMemberUserIdOrAdministrator(): boolean {
@@ -112,8 +115,6 @@ console.log("memberImages!")
 // Show images: https://stackoverflow.com/questions/55967908/angular-display-byte-array-as-image
 
   hasImages(): boolean {
-    console.log("hasImages(A) is " + (this.memberImages !== undefined))
-    console.log("hasImages(B) is " + (this.memberImages !== undefined && this.memberImages?.length > 0))
     return this.memberImages !== undefined && this.memberImages?.length > 0
   }
 

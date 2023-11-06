@@ -44,7 +44,7 @@
   <!-- upload photo -->
   <div>
     <p></p>
-    <app-single-file-upload [uploadService]="this.getUploadService()" [memberId]="this.getMemberId()"></app-single-file-upload>
+    <app-single-file-upload [uploadService]="this.getUploadService()" [memberId]="this.getMemberId()" (uploadCompleted)="this.reloadImages()"></app-single-file-upload>
   </div>
 
   <!-- status of photo -->

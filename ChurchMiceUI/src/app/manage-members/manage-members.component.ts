@@ -138,7 +138,7 @@ export class ManageMembersComponent implements OnInit, HeaderSortable, HeaderFil
     this.confirmationDialogService.askYesNo('Confirm permanent member delete', `Do you really want to delete member ${member.firstName} ${member.lastName}?`)
       .then((confirmed) => {
         if (confirmed) {
-          this.memberService.deleteMember(member.id)
+          this.memberService.deleteMember(member.id.toString())
             .pipe(first())
             .subscribe({
               error: (err: any) => {
