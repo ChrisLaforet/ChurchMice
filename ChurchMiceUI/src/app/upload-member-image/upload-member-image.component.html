@@ -1,4 +1,7 @@
 <div class="display-page-header">
+  <span (click)="this.navigateBack()">
+    <fa-icon [icon]="faArrowRotateLeft" class="fa-sm display-page-return-arrow" title="Return to manage members"></fa-icon>
+  </span>
   <span id="ScreenTitle" class="display-page-title">Upload/Update Photo of Member</span>
 </div>
 <div>
@@ -27,6 +30,16 @@
              [ngModel]="member?.email" readonly>
     </div>
   </div>
+
+  <!-- show photos if any  -->
+  <div class="row display-page-edit-row" *ngIf="this.hasImages()">
+    <p></p>
+    <h5>Existing Images</h5>
+    <span>
+      <img class="memberImage" alt="Image of member" *ngFor="let memberImage of memberImages" [src]="getImageFrom(memberImage)">
+    </span>
+  </div>
+
 
   <!-- upload photo -->
   <div>

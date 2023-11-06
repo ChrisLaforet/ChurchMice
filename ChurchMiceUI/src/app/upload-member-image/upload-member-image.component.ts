@@ -7,11 +7,13 @@ import {
   MemberService,
   NotificationService,
   PhotoUploadService,
-  Roles,
-  UploadService
+  Roles
 } from '@service/index';
-import { MemberDto } from '@data/index';
+import { faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import { MemberDto, MemberImageDto } from '@data/index';
 import { RoleValidator } from '@app/helper';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { MemberImagesDto } from '@data/dto/member-images.dto';
 
 @Component({
   selector: 'app-upload-member-image',
@@ -20,9 +22,12 @@ import { RoleValidator } from '@app/helper';
 })
 export class UploadMemberImageComponent implements OnInit {
 
+  faArrowRotateLeft = faArrowRotateLeft;
+
   userId: string | undefined;
   memberId: string = '';
   member?: MemberDto;
+  memberImages?: MemberImageDto[];
 
   constructor(private formBuilder: UntypedFormBuilder,
               private route: ActivatedRoute,
@@ -31,13 +36,16 @@ export class UploadMemberImageComponent implements OnInit {
               private authService: AuthService,
               private roleValidator: RoleValidator,
               private notifyService: NotificationService,
-              private photoUploadService: PhotoUploadService) {
+              private photoUploadService: PhotoUploadService,
+              private domSanitizer: DomSanitizer) {
   }
+
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       // https://indepth.dev/tutorials/angular/indepth-guide-to-passing-parameters-via-routing
       const memberId = params['memberId'];
       this.loadMemberFor(memberId);
+      this.loadMemberImagesFor(memberId);
     });
   }
 
@@ -68,6 +76,21 @@ export class UploadMemberImageComponent implements OnInit {
       });
   }
 
+  private loadMemberImagesFor(memberId: string) {
+    this.memberService.getMemberImages(memberId)
+      .pipe(first())
+      .subscribe({
+        next: (memberImages: MemberImagesDto) => {
+          this.memberImages = memberImages.images;
+console.log("memberImages!")
+        },
+        error: (err: any) => {
+          this.notifyService.showError('Error while attempting to load user images by user\'s Id', 'Error loading user images');
+        },
+        complete: () => {}
+      });
+  }
+
   isMemberUserIdOrAdministrator(): boolean {
     if (this.userId === undefined) {
       const user = this.authService.getAuthenticatedUser();
@@ -80,59 +103,22 @@ export class UploadMemberImageComponent implements OnInit {
       this.roleValidator.isUserAuthorizedFor([Roles.ADMINISTRATOR]);
   }
 
-  onSubmit(): void {
 
+  navigateBack(): void {
+    this.router.navigate(['manageMembers']);
   }
 
- // Based upon https://stackoverflow.com/questions/40214772/file-upload-in-angular
-
-  // At the drag drop area
-  // (drop)="onDropFile($event)"
-  // onDropFile(event: DragEvent) {
-  //   event.preventDefault();
-  //   this.uploadFile(event.dataTransfer.files);
-  // }
-
-  // At the drag drop area
-  // (dragover)="onDragOverFile($event)"
-  // onDragOverFile(event) {
-  //   event.stopPropagation();
-  //   event.preventDefault();
-  // }
-
-  // At the file input element
-  // (change)="selectFile($event)"
-  // selectFile(event) {
-  //   this.uploadFile(event.target.files);
-  // }
-
-  uploadFile(files: FileList) {
-    if (files.length == 0) {
-      console.log("No file selected!");
-      return
-
-    }
-    let file: File = files[0];
-
-  //
-  //     .subscribe(
-  //       event => {
-  //         if (event.type == HttpEventType.UploadProgress) {
-  //           const percentDone = Math.round(100 * event.loaded / event.total);
-  //           console.log(`File is ${percentDone}% loaded.`);
-  //         } else if (event instanceof HttpResponse) {
-  //           console.log('File is completely loaded!');
-  //         }
-  //       },
-  //       (err) => {
-  //         console.log("Upload Error:", err);
-  //       }, () => {
-  //         console.log("Upload done");
-  //       }
-  //     )
-   }
-
-    protected readonly undefined = undefined;
-}
 
 // Show images: https://stackoverflow.com/questions/55967908/angular-display-byte-array-as-image
+
+  hasImages(): boolean {
+    console.log("hasImages(A) is " + (this.memberImages !== undefined))
+    console.log("hasImages(B) is " + (this.memberImages !== undefined && this.memberImages?.length > 0))
+    return this.memberImages !== undefined && this.memberImages?.length > 0
+  }
+
+  getImageFrom(memberImage: MemberImageDto): SafeUrl {
+    let objectURL = `data:${memberImage.fileType};base64,` + memberImage.fileContentBase64;
+    return this.domSanitizer.bypassSecurityTrustUrl(objectURL);
+  }
+}

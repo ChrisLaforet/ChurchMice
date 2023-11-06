@@ -30,9 +30,9 @@ namespace ChurchMiceServer.Utility
 			}
 		}
 
-		public static string DecompressFromBase64(string toDecompress)
+		public static byte[] DecompressFromBase64(string toDecompress)
 		{
-			return Encoding.UTF8.GetString(DecompressBytes(Convert.FromBase64String(toDecompress)));
+			return DecompressBytes(Convert.FromBase64String(toDecompress));
 		}
 
 		public static byte[] DecompressBytes(byte[] bytes)

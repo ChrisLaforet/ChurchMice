@@ -34,6 +34,6 @@ public class MemberImageResponse
 		IsApproved = memberImage.ApproveDate != null;
 		UploadDate = memberImage.UploadDate;
 		FileType = memberImage.ImageType;
-		FileContentBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes((Compression.DecompressFromBase64(memberImage.Image))));
+		FileContentBase64 = Convert.ToBase64String(Compression.DecompressFromBase64(memberImage.Image));
 	}
 }

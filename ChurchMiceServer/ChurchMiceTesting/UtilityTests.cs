@@ -1,4 +1,5 @@
-﻿using ChurchMiceServer.Utility;
+﻿using System.Text;
+using ChurchMiceServer.Utility;
 
 namespace ChurchMiceTesting;
 
@@ -10,7 +11,8 @@ public class UtilityTests
 	public void GivenAnUncompressedString_WhenCompressedAndDecompressed_ThenStringValueIsTheSame()
 	{
 		var compressed = Compression.CompressToBase64(STRING_TO_COMPRESS);
-		Assert.Equal(STRING_TO_COMPRESS, Compression.DecompressFromBase64(compressed));
+		var decompressed = Compression.DecompressFromBase64(compressed);
+		Assert.Equal(STRING_TO_COMPRESS, Encoding.UTF8.GetString(decompressed));
 	}
 
 	[Theory]

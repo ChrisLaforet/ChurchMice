@@ -5,6 +5,7 @@ import { environment } from '@environments/environment';
 import { AuthenticatedUser, MemberDto, MemberImageDto, UserDataDto } from '@data/index';
 import { Observable } from 'rxjs';
 import { MessageResponseDto } from '@data/index';
+import { MemberImagesDto } from '@data/dto/member-images.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -94,12 +95,12 @@ export class MemberService {
     return this.http.get<MemberDto[]>(this.getEditableMembersUrl, {'headers': this.prepareHeaders()});
   }
 
-  public deleteMember(memberId: number): Observable<MessageResponseDto> {
+  public deleteMember(memberId: string): Observable<MessageResponseDto> {
     return this.http.delete<MessageResponseDto>(this.deleteUrl + memberId, {'headers': this.prepareHeaders()});
   }
 
-  public getMemberImages(memberId: number): Observable<MemberImageDto[]> {
-    return this.http.get<MemberImageDto[]>(this.getMemberImagesUrl + 'memberId', {'headers': this.prepareHeaders()});
+  public getMemberImages(memberId: string): Observable<MemberImagesDto> {
+    return this.http.get<MemberImagesDto>(this.getMemberImagesUrl + memberId, {'headers': this.prepareHeaders()});
   }
 
   private prepareHeaders(): HttpHeaders {

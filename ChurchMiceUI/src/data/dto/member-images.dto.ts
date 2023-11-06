@@ -1,9 +1,5 @@
 import { MemberImageDto } from '@data/dto/member-image.dto';
 
-export class MemberImagesDto {
+export interface MemberImagesDto {
   images: MemberImageDto[];
-
-  constructor() {
-    
-  }
 }
