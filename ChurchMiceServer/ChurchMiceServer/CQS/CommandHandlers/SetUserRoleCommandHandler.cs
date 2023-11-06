@@ -3,6 +3,7 @@ using ChurchMiceServer.CQS.Commands;
 using ChurchMiceServer.CQS.Exceptions;
 using ChurchMiceServer.CQS.Responses;
 using ChurchMiceServer.Domains.Proxies;
+using ChurchMiceServer.Types;
 
 namespace ChurchMiceServer.CQS.CommandHandlers;
 
@@ -30,7 +31,7 @@ public class SetUserRoleCommandHandler : ICommandHandler<SetUserRoleCommand, Not
 			
 			logger.LogInformation($"Request to set role for {user.Username} to role level code of {command.RoleLevelCode}");
 
-			if (!userProxy.AssignRoleTo(user.Id, command.RoleLevelCode))
+			if (!userProxy.AssignRoleTo(UserId.From(user.Id), command.RoleLevelCode))
 			{
 				logger.LogError($"Cannot find a role level code of {command.RoleLevelCode}");
 			}

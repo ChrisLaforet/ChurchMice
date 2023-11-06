@@ -33,7 +33,7 @@ public class UserProxy : IUserProxy
         this.passwordProcessor = new PasswordProcessor(configurationLoader);
     }
 
-    public User? GetUserByGuid(Guid guid) => GetUserById(new UserId(guid.ToString()));
+    public User? GetUserByGuid(Guid guid) => GetUserById(UserId.From(guid.ToString()));
 
     public User? GetUserById(UserId id)
     {
@@ -141,7 +141,7 @@ public class UserProxy : IUserProxy
         return System.Convert.ToBase64String(aes.Key);
     }
 
-    private List<string> GetRolesFor(User user)
+    private List<RoleLevelCode> GetRolesFor(User user)
     {
         var possibleRoleLevels = context.UserRoles.Where(role => role.UserId == user.Id).Select(role => role.RoleLevel);
         var roleLevels = new HashSet<int>();
@@ -150,16 +150,16 @@ public class UserProxy : IUserProxy
             roleLevels = possibleRoleLevels.ToHashSet();
         }
 
-        var roles = new List<string>();
+        var roles = new List<RoleLevelCode>();
         
         if (!roleLevels.Any() || roleLevels.Max() <= Role.GetNoAccess().Level)
         {
-            roles.Add(Role.GetNoAccess().Code);
+            roles.Add(RoleLevelCode.From(Role.GetNoAccess().Code));
         }
         
         foreach (var role in Roles.GetAllRolesWithinLevel(roleLevels.Max()))
         {
-            roles.Add(role.Code);
+            roles.Add(RoleLevelCode.From(role.Code));
         }
 
         return roles;
@@ -181,7 +181,7 @@ public class UserProxy : IUserProxy
         return JsonWebToken.New(userToken.TokenKey, userTokenId,
             user.Username,
             user.Id,
-            GetRolesFor(user),
+            GetRolesFor(user).Select(roleLevelCode => roleLevelCode.Code).ToList(),
             userToken.Expired);
     }
 
@@ -370,26 +370,26 @@ public class UserProxy : IUserProxy
         context.SaveChanges();
     }
 
-    public string[] GetUserRoles(JsonWebToken token)
+    public RoleLevelCode[] GetUserRoles(JsonWebToken token)
     {
-        return token.GetRoles();
+        return token.GetRoles().Select(roleCode => RoleLevelCode.From(roleCode)).ToArray();
     }
 
-    public string GetAssignedRoleLevelCodeFor(UserId userId)
+    public RoleLevelCode GetAssignedRoleLevelCodeFor(UserId userId)
     {
-        var roleLevelCode = Role.GetNoAccess().Code;
+        var roleLevelCode = RoleLevelCode.From(Role.GetNoAccess().Code);
 
         var userRole = context.UserRoles.Where(role => role.UserId == userId.Id).FirstOrDefault();
         if (userRole != null)
         {
             var role = Roles.GetRoleByLevel(userRole.RoleLevel);
-            roleLevelCode = role.Code;
+            roleLevelCode = RoleLevelCode.From(role.Code);
         }
 
         return roleLevelCode;
     }
 
-    public bool AssignRoleTo(UserId userId, string roleLevelCode)
+    public bool AssignRoleTo(UserId userId, RoleLevelCode roleLevelCode)
     {
         var desiredRole = Roles.GetRoleByLevelCode(roleLevelCode);
         if (desiredRole == null)

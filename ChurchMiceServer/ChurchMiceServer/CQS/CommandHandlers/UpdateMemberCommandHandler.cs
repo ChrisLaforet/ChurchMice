@@ -5,6 +5,7 @@ using ChurchMiceServer.CQS.Responses;
 using ChurchMiceServer.Domains.Models;
 using ChurchMiceServer.Domains.Proxies;
 using ChurchMiceServer.Security.Auth;
+using ChurchMiceServer.Types;
 
 namespace ChurchMiceServer.CQS.CommandHandlers;
 
@@ -71,7 +72,7 @@ public class UpdateMemberCommandHandler : ICommandHandler<UpdateMemberCommand, M
     private void ValidateEditorHasPermission(UpdateMemberCommand command, Member member)
     {
         var editor = userProxy.GetUserByUsername(command.CreatorUsername);
-        var role = userProxy.GetAssignedRoleLevelCodeFor(editor.Id);
+        var role = userProxy.GetAssignedRoleLevelCodeFor(UserId.From(editor.Id));
         if (role == Role.GetAdministrator().Code)
         {
             return;

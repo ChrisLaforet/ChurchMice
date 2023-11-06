@@ -1,6 +1,7 @@
 ﻿using ChurchMiceServer.CQS.Queries;
 using ChurchMiceServer.CQS.Responses;
 using ChurchMiceServer.Domains.Proxies;
+using ChurchMiceServer.Types;
 
 namespace ChurchMiceServer.CQS.QueryHandlers;
 
@@ -20,7 +21,7 @@ public class GetUsersQueryHandler : IQueryHandler<GetUsersQuery, UsersResponse>
 		var users = new List<UserResponse>();
 		foreach (var user in userProxy.GetUsers())
 		{
-			users.Add(new UserResponse(user, userProxy.GetAssignedRoleLevelCodeFor(user.Id)));
+			users.Add(new UserResponse(user, userProxy.GetAssignedRoleLevelCodeFor(UserId.From(user.Id))));
 		}
 		return new UsersResponse(users);
 	}

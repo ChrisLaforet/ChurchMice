@@ -1,10 +1,12 @@
-﻿namespace ChurchMiceServer.CQS.Queries;
+﻿using ChurchMiceServer.Types;
+
+namespace ChurchMiceServer.CQS.Queries;
 
 public class MemberQuery : IQuery
 {
-    public int Id { get; private set; }
+    public MemberId Id { get; private set; }
 
-    public MemberQuery(int id)
+    public MemberQuery(MemberId id)
     {
         this.Id = id;
     }

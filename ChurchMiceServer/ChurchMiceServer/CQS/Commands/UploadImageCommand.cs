@@ -1,15 +1,17 @@
-﻿namespace ChurchMiceServer.CQS.Commands
+﻿using ChurchMiceServer.Types;
+
+namespace ChurchMiceServer.CQS.Commands
 {
 	public class UploadImageCommand : ICommand
 	{
-		public string UploadUserId { get; private set; }
+		public UserId UploadUserId { get; private set; }
 		public string FileContentBase64 { get; set; }
 		public string FileName { get; set; }
 		public string FileType { get; set; }
 		public long FileSize { get; set; }
-		public int MemberId { get; private set; }
+		public MemberId MemberId { get; private set; }
 
-		public UploadImageCommand(string uploadUserId, int memberId, string fileContentBase64, string fileName, string fileType, long fileSize)
+		public UploadImageCommand(UserId uploadUserId, MemberId memberId, string fileContentBase64, string fileName, string fileType, long fileSize)
 		{
 			UploadUserId = uploadUserId;
 			MemberId = memberId;

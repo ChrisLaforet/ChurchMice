@@ -4,6 +4,7 @@ using ChurchMiceServer.CQS.Responses;
 using ChurchMiceServer.Domains.Models;
 using ChurchMiceServer.Domains.Proxies;
 using ChurchMiceServer.Security.Auth;
+using ChurchMiceServer.Types;
 using ChurchMiceServer.Utility;
 
 namespace ChurchMiceServer.CQS.CommandHandlers;
@@ -33,7 +34,7 @@ public class UploadImageCommandHandler : ICommandHandler<UploadImageCommand, Not
 		var memberImage = PrepareAndSaveImageFor(member, command);
 		if (isAdmin)
 		{
-			memberProxy.ApproveMemberImage(memberImage.Id);
+			memberProxy.ApproveMemberImage(MemberImageId.From(memberImage.Id));
 			logger.LogInformation($"Approved newly uploaded image for {member.Id} by user {command.UploadUserId}");
 		}
 
@@ -51,7 +52,7 @@ public class UploadImageCommandHandler : ICommandHandler<UploadImageCommand, Not
 		if (memberProxy.GetEditorsForMember(member).SingleOrDefault(editor => editor.EditorId == userId) == null)
 		{
 			logger.LogWarning($"Attempt to upload image for {member.Id} by user {userId} rejected because they don't have editing rights");
-			throw new UserNotPermittedException(userId, $"becaus user does not have editing rights to the member records for {member.Id}");
+			throw new UserNotPermittedException(userId, $"because user does not have editing rights to the member records for {member.Id}");
 		}
 	}
 

@@ -25,7 +25,7 @@ public interface IUserProxy
 	void ExpireUserTokens();
 	void DestroyUserToken(JsonWebToken token);
 	bool ValidateUserToken(JsonWebToken token);
-	string[] GetUserRoles(JsonWebToken token);
-	string GetAssignedRoleLevelCodeFor(UserId userId);
-	bool AssignRoleTo(UserId userId, string roleLevelCode);
+	RoleLevelCode[] GetUserRoles(JsonWebToken token);
+	RoleLevelCode GetAssignedRoleLevelCodeFor(UserId userId);
+	bool AssignRoleTo(UserId userId, RoleLevelCode roleLevelCode);
 }

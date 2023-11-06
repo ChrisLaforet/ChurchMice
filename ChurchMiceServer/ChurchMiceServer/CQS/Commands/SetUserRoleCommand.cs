@@ -1,11 +1,13 @@
-﻿namespace ChurchMiceServer.CQS.Commands;
+﻿using ChurchMiceServer.Types;
+
+namespace ChurchMiceServer.CQS.Commands;
 
 public class SetUserRoleCommand : ICommand
 {
-	public string UserId { get; }
-	public string RoleLevelCode { get; }
+	public UserId UserId { get; }
+	public RoleLevelCode RoleLevelCode { get; }
 
-	public SetUserRoleCommand(string userId, string roleLevelCode)
+	public SetUserRoleCommand(UserId userId, RoleLevelCode roleLevelCode)
 	{
 		this.UserId = userId;
 		this.RoleLevelCode = roleLevelCode;

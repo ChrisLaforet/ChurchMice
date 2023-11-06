@@ -1,10 +1,11 @@
 ﻿using ChurchMiceServer.Controllers.Models;
+using ChurchMiceServer.Types;
 
 namespace ChurchMiceServer.CQS.Commands;
 
 public class UpdateMemberCommand : ICommand
 {
-    public int Id { get; set; }
+    public MemberId Id { get; set; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
     public string? Email { get; private set; }
@@ -28,7 +29,7 @@ public class UpdateMemberCommand : ICommand
         {
             throw new InvalidDataException("Missing required member Id");
         }
-        this.Id = (int)request.Id;
+        this.Id = MemberId.From((int)request.Id);
         this.FirstName = request.FirstName;
         this.LastName = request.LastName;
         this.Email = request.Email;
@@ -45,5 +46,10 @@ public class UpdateMemberCommand : ICommand
         this.UserId = request.UserId;
 
         this.CreatorUsername = creatorUsername;
+    }
+
+    public UpdateMemberCommand(MemberId id)
+    {
+        Id = id;
     }
 }

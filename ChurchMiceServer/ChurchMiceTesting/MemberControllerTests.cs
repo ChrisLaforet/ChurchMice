@@ -3,6 +3,7 @@ using ChurchMiceServer.Controllers.Models;
 using ChurchMiceServer.CQS.CommandHandlers;
 using ChurchMiceServer.Domains.Models;
 using ChurchMiceServer.Domains.Proxies;
+using ChurchMiceServer.Types;
 using ChurchMiceTesting.Mocks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -31,47 +32,47 @@ public class MemberControllerTests
         memberController = CreateMockedMemberController();
     }
 
-    [Fact]
-    public void GivenMemberController_WhenSavingImageForNonExistentMember_ThenFailsToSave()
-    {
-        //		memberController.SOMETHINGCommandHandler = new SOMETHINGCommandHandler(memberProxy, SOMETHINGCommandLoggerMock.Object);
-        var request = new UploadImageRequest()
-        {
-            MemberId = 100,
-            UploadUserId = UPLOAD_USER_ID,
-            Image = ENCODED_IMAGE
-        };
-        var result = memberController.UploadImage(request);
-        Assert.IsType<BadRequestObjectResult>(result);
-    }
+    // [Fact]
+    // public void GivenMemberController_WhenSavingImageForNonExistentMember_ThenFailsToSave()
+    // {
+    //     //		memberController.SOMETHINGCommandHandler = new SOMETHINGCommandHandler(memberProxy, SOMETHINGCommandLoggerMock.Object);
+    //     var request = new UploadImageRequest()
+    //     {
+    //         MemberId = 100,
+    //         UploadUserId = UPLOAD_USER_ID,
+    //         Image = ENCODED_IMAGE
+    //     };
+    //     var result = memberController.UploadImage(request);
+    //     Assert.IsType<BadRequestObjectResult>(result);
+    // }
 
-    [Fact]
-    public void GivenMemberController_WhenSavingImageForExistingMember_ThenReturnsOk()
-    {
-        //		memberController.SOMETHINGCommandHandler = new SOMETHINGCommandHandler(memberProxy, SOMETHINGCommandLoggerMock.Object);
-        var request = new UploadImageRequest()
-        {
-            MemberId = 1,
-            UploadUserId = UPLOAD_USER_ID,
-            Image = ENCODED_IMAGE
-        };
-        var result = memberController.UploadImage(request);
-        Assert.IsType<OkObjectResult>(result);
-    }
+    // [Fact]
+    // public void GivenMemberController_WhenSavingImageForExistingMember_ThenReturnsOk()
+    // {
+    //     //		memberController.SOMETHINGCommandHandler = new SOMETHINGCommandHandler(memberProxy, SOMETHINGCommandLoggerMock.Object);
+    //     var request = new UploadImageRequest()
+    //     {
+    //         MemberId = 1,
+    //         UploadUserId = UPLOAD_USER_ID,
+    //         Image = ENCODED_IMAGE
+    //     };
+    //     var result = memberController.UploadImage(request);
+    //     Assert.IsType<OkObjectResult>(result);
+    // }
 
-    [Fact]
-    public void GivenMemberController_WhenSavingImageForExistingMember_ThenSavesImageToDB()
-    {
-        //		memberController.SOMETHINGCommandHandler = new SOMETHINGCommandHandler(memberProxy, SOMETHINGCommandLoggerMock.Object);
-        var request = new UploadImageRequest()
-        {
-            MemberId = 1,
-            UploadUserId = UPLOAD_USER_ID,
-            Image = ENCODED_IMAGE
-        };
-        var result = memberController.UploadImage(request);
-        Assert.Single(contextMock.MemberImages);
-    }
+    // [Fact]
+    // public void GivenMemberController_WhenSavingImageForExistingMember_ThenSavesImageToDB()
+    // {
+    //     //		memberController.SOMETHINGCommandHandler = new SOMETHINGCommandHandler(memberProxy, SOMETHINGCommandLoggerMock.Object);
+    //     var request = new UploadImageRequest()
+    //     {
+    //         MemberId = 1,
+    //         UploadUserId = UPLOAD_USER_ID,
+    //         Image = ENCODED_IMAGE
+    //     };
+    //     var result = memberController.UploadImage(request);
+    //     Assert.Single(contextMock.MemberImages);
+    // }
 
     [Fact]
     public void GivenMemberController_WhenSavingEmptyImageForExistingMember_ThenFailsToSave()

@@ -6,6 +6,7 @@ using ChurchMiceServer.CQS.QueryHandlers;
 using ChurchMiceServer.CQS.Responses;
 using ChurchMiceServer.Domains.Models;
 using ChurchMiceServer.Security;
+using ChurchMiceServer.Types;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChurchMiceServer.Controllers;
@@ -48,7 +49,7 @@ public class MemberController : ControllerBase
     {
         try
         {
-            return MemberQueryHandler.Handle(new MemberQuery(memberId));
+            return MemberQueryHandler.Handle(new MemberQuery(MemberId.From(memberId)));
         }
         catch (Exception ex)
         {
@@ -110,7 +111,7 @@ public class MemberController : ControllerBase
     {
         try 
         {
-            DeleteMemberCommandHandler.Handle(new DeleteMemberCommand(memberId,  HttpContext.User.Identity.Name));
+            DeleteMemberCommandHandler.Handle(new DeleteMemberCommand(MemberId.From(memberId),  HttpContext.User.Identity.Name));
             return Ok(new {message = "Deleted member successfully"});
         }
         catch (Exception ex)
@@ -126,7 +127,7 @@ public class MemberController : ControllerBase
         try 
         {
             var possibleUser = (User)this.Request.HttpContext.Items["User"];
-            var command = new UploadImageCommand(possibleUser.Id, request.MemberId, request.FileContentBase64, request.FileName, request.FileType, request.FileSize);
+            var command = new UploadImageCommand(UserId.From(possibleUser.Id), MemberId.From(request.MemberId), request.FileContentBase64, request.FileName, request.FileType, request.FileSize);
             UploadImageCommandHandler.Handle(command);
             return Ok(new {message = "Image has been accepted"});
         }
@@ -143,7 +144,7 @@ public class MemberController : ControllerBase
         try
         {
             var possibleUser = (User)this.Request.HttpContext.Items["User"];
-            return GetMemberImagesQueryHandler.Handle(new GetMemberImagesQuery(memberId, possibleUser.Id));
+            return GetMemberImagesQueryHandler.Handle(new GetMemberImagesQuery(MemberId.From(memberId), UserId.From(possibleUser.Id)));
         }
         catch (Exception ex)
         {

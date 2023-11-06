@@ -1,10 +1,12 @@
-﻿namespace ChurchMiceServer.CQS.Queries;
+﻿using ChurchMiceServer.Types;
+
+namespace ChurchMiceServer.CQS.Queries;
 
 public class GetUserQuery : IQuery
 {
-    public string UserId { get; }
+    public UserId UserId { get; }
 
-    public GetUserQuery(string userId)
+    public GetUserQuery(UserId userId)
     {
         this.UserId = userId;
     }

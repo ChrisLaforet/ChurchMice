@@ -5,6 +5,7 @@ using ChurchMiceServer.CQS.Queries;
 using ChurchMiceServer.CQS.QueryHandlers;
 using ChurchMiceServer.CQS.Responses;
 using ChurchMiceServer.Security;
+using ChurchMiceServer.Types;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChurchMiceServer.Controllers;
@@ -24,7 +25,6 @@ public class AdminController : ControllerBase
 	public CreateUserCommandHandler CreateUserCommandHandler { get; set; }
 	public SaveUserCommandHandler SaveUserCommandHandler { get; set; }
 	public SetUserPasswordCommandHandler SetUserPasswordCommandHandler { get; set; }
-
 
 	public AdminController(IServiceProvider serviceProvider, ILogger<AdminController> logger)
 	{
@@ -78,7 +78,7 @@ public class AdminController : ControllerBase
 	[Authorize(Roles = "Administrator")]
 	public UserResponse? GetUser(string userId)
 	{
-		return GetUserQueryHandler.Handle(new GetUserQuery(userId));
+		return GetUserQueryHandler.Handle(new GetUserQuery(UserId.From(userId)));
 	}
 
 	[HttpPut("setUserRole")]
@@ -87,7 +87,7 @@ public class AdminController : ControllerBase
 	{
 		try
 		{
-			SetUserRoleCommandHandler.Handle(new SetUserRoleCommand(request.UserId, request.RoleLevelCode));
+			SetUserRoleCommandHandler.Handle(new SetUserRoleCommand(UserId.From(request.UserId), RoleLevelCode.From(request.RoleLevelCode)));
 			return Ok(new {message = "Role changed successfully"});
 		}
 		catch (Exception)
@@ -122,7 +122,7 @@ public class AdminController : ControllerBase
 	{
 		try
 		{
-			SaveUserCommandHandler.Handle(new SaveUserCommand(model.UserId, model.FullName, model.Email));
+			SaveUserCommandHandler.Handle(new SaveUserCommand(UserId.From(model.UserId), model.FullName, model.Email));
 			return Ok(new {message = "Updated user"});
 		}
 		catch (Exception ex)
@@ -137,7 +137,7 @@ public class AdminController : ControllerBase
 	{
 		try
 		{
-			SetUserPasswordCommandHandler.Handle(new SetUserPasswordCommand(request.UserId, request.Password));
+			SetUserPasswordCommandHandler.Handle(new SetUserPasswordCommand(UserId.From(request.UserId), request.Password));
 			return Ok(new {message = "Password changed successfully"});
 		}
 		catch (Exception)

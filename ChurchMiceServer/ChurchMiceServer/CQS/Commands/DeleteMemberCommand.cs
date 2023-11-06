@@ -1,11 +1,13 @@
-﻿namespace ChurchMiceServer.CQS.Commands;
+﻿using ChurchMiceServer.Types;
+
+namespace ChurchMiceServer.CQS.Commands;
 
 public class DeleteMemberCommand : ICommand
 {
-    public int MemberId { get; set; }
+    public MemberId MemberId { get; set; }
     public string CreatorUsername { get; private set; }
 
-    public DeleteMemberCommand(int memberId, string creatorUsername)
+    public DeleteMemberCommand(MemberId memberId, string creatorUsername)
     {
         this.MemberId = memberId;
         this.CreatorUsername = creatorUsername;

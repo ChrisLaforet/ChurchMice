@@ -57,7 +57,7 @@ public class MemberProxy : IMemberProxy
         return context.Members.ToList();
     }
 
-    public MemberImage AddMemberImageFor(Member member, string uploadUserId, string compressedImage, string fileType)
+    public MemberImage AddMemberImageFor(Member member, UserId uploadUserId, string compressedImage, string fileType)
     {
         var memberImage = new MemberImage();
         memberImage.MemberId = member.Id;
@@ -151,7 +151,7 @@ public class MemberProxy : IMemberProxy
         var list = new List<Member>();
         foreach (var match in matches)
         {
-            list.Add(GetMember(new MemberId(match.MemberId)));
+            list.Add(GetMember(MemberId.From(match.MemberId)));
         }
         return list;
     }

@@ -3,6 +3,7 @@ using ChurchMiceServer.CQS.Responses;
 using ChurchMiceServer.Domains.Models;
 using ChurchMiceServer.Domains.Proxies;
 using ChurchMiceServer.Security.Auth;
+using ChurchMiceServer.Types;
 
 namespace ChurchMiceServer.CQS.QueryHandlers;
 
@@ -39,7 +40,7 @@ public class EditableMembersQueryHandler : IQueryHandler<EditableMembersQuery, I
     {
         var editor = userProxy.GetUserByUsername(query.Username);
 
-        var role = userProxy.GetAssignedRoleLevelCodeFor(editor.Id);
+        var role = userProxy.GetAssignedRoleLevelCodeFor(UserId.From(editor.Id));
         if (role == Role.GetAdministrator().Code)
         {
             return memberProxy.GetMembers();

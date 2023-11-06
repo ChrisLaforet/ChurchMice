@@ -1,12 +1,14 @@
-﻿namespace ChurchMiceServer.CQS.Commands;
+﻿using ChurchMiceServer.Types;
+
+namespace ChurchMiceServer.CQS.Commands;
 
 public class SetUserPasswordCommand : ICommand
 {
-	public string UserId { get; }
+	public UserId UserId { get; }
 
 	public string Password { get; }
 
-	public SetUserPasswordCommand(string userId, string password)
+	public SetUserPasswordCommand(UserId userId, string password)
 	{
 		this.UserId = userId;
 		this.Password = password;

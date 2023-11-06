@@ -4,6 +4,7 @@ using ChurchMiceServer.CQS.Responses;
 using ChurchMiceServer.Domains.Models;
 using ChurchMiceServer.Domains.Proxies;
 using ChurchMiceServer.Security.Auth;
+using ChurchMiceServer.Types;
 
 namespace ChurchMiceServer.CQS.CommandHandlers;
 
@@ -41,7 +42,7 @@ public class CreateMemberCommandHandler : ICommandHandler<CreateMemberCommand, M
 
     private void ConnectCreatorToMember(User creator, Member member)
     {
-        var role = userProxy.GetAssignedRoleLevelCodeFor(creator.Id);
+        var role = userProxy.GetAssignedRoleLevelCodeFor(UserId.From(creator.Id));
         if (role == Role.GetAdministrator().Code)
         {
             return;

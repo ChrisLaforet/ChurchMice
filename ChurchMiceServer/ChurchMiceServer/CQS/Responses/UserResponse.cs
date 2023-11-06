@@ -1,4 +1,5 @@
 ﻿using ChurchMiceServer.Domains.Models;
+using ChurchMiceServer.Types;
 
 namespace ChurchMiceServer.CQS.Responses;
 
@@ -12,13 +13,13 @@ public class UserResponse
 	public string CreatedDate { get; }
 	public string? LastLoginDate { get; }
     
-	public UserResponse(User user, string roleLevel)
+	public UserResponse(User user, RoleLevelCode roleLevelCode)
 	{
 		this.Id = user.Id;
 		this.UserName = user.Username;
 		this.FullName = user.Fullname;
 		this.Email = user.Email;
-		this.RoleLevel = roleLevel;
+		this.RoleLevel = roleLevelCode.Code;
 		this.CreatedDate = user.CreateDate.ToString();
 		if (user.LastLoginDatetime != null)
 		{

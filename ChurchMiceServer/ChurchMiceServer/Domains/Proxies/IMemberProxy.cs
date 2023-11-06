@@ -14,7 +14,7 @@ public interface IMemberProxy
     MemberImage AddMemberImageFor(Member member, UserId uploadUserId, string compressedImage, string fileType);
     void ApproveMemberImage(MemberImageId memberImageId);
     MemberImage? GetMemberImage(MemberImageId memberImageId);
-    List<MemberImage> GetMemberImagesFor(int memberId);
+    List<MemberImage> GetMemberImagesFor(MemberId memberId);
     void RemoveMemberImage(MemberImageId memberImageId);
     void RemoveMemberImagesFor(Member member);
     

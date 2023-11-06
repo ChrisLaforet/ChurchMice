@@ -4,6 +4,7 @@ using ChurchMiceServer.CQS.Responses;
 using ChurchMiceServer.Domains.Models;
 using ChurchMiceServer.Domains.Proxies;
 using ChurchMiceServer.Security.Auth;
+using ChurchMiceServer.Types;
 
 namespace ChurchMiceServer.CQS.QueryHandlers;
 
@@ -45,6 +46,6 @@ public class GetMemberImagesQueryHandler : IQueryHandler<GetMemberImagesQuery, M
             return true;
         }
 
-        return userProxy.GetAssignedRoleLevelCodeFor(userId) != Role.GetNoAccess().Code;
+        return userProxy.GetAssignedRoleLevelCodeFor(UserId.From(userId)) != Role.GetNoAccess().Code;
     }
 }
