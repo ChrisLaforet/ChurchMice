@@ -48,6 +48,8 @@ import { ManageMembersComponent } from '@app/manage-members/manage-members.compo
 import { EditMemberComponent } from '@app/edit-member/edit-member.component';
 import { SingleFileUploadComponent } from '@app/single-file-upload/single-file-upload.component';
 import { UploadService } from '@service/utility/upload.service';
+import { ApproveMemberImagesComponent } from '@app/approve-member-images/approve-member-images.component';
+import { AboutComponent } from '@app/about/about.component';
 
 library.add(fas, far);
 
@@ -76,7 +78,9 @@ library.add(fas, far);
     ConfirmationDialogComponent,
     ManageMembersComponent,
     USPhonePipe,
-    SingleFileUploadComponent
+    SingleFileUploadComponent,
+    ApproveMemberImagesComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -90,6 +94,7 @@ library.add(fas, far);
     RouterModule.forRoot([
       {path: '', component: HomeComponent, pathMatch: 'full'},
       {path: 'home', component: HomeComponent},
+      {path: 'about', component: AboutComponent},
 
       {path: 'login', component: LoginComponent},
       {path: 'logout', component: LogoutComponent},
@@ -111,6 +116,7 @@ library.add(fas, far);
 
       {path: 'admin/configure', component: ConfigureComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
       {path: 'admin/manageUsers', component: ManageUsersComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
+      {path: 'admin/approveMemberImages', component: ApproveMemberImagesComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
       {path: 'admin/createUser', component: CreateUserComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
       {path: 'admin/editUser/:userId', component: EditUserComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
       {path: 'admin/editUserPassword/:userId', component: EditPasswordComponent, canActivate: [AuthGuard], data: { roles: [Roles.ADMINISTRATOR]}},
