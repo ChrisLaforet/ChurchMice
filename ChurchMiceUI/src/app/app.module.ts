@@ -50,6 +50,7 @@ import { SingleFileUploadComponent } from '@app/single-file-upload/single-file-u
 import { UploadService } from '@service/utility/upload.service';
 import { ApproveMemberImagesComponent } from '@app/approve-member-images/approve-member-images.component';
 import { AboutComponent } from '@app/about/about.component';
+import { BrowseMembersComponent } from '@app/browse-members/browse-members.component';
 
 library.add(fas, far);
 
@@ -104,6 +105,7 @@ library.add(fas, far);
       {path: 'validateUserEmail', component: ValidateEmailComponent},
       {path: 'changePassword', component: ChangePasswordComponent},
 
+      {path: 'browseMembers', component: BrowseMembersComponent, canActivate: [AuthGuard], data: { roles: [Roles.ATTENDER, Roles.MEMBER, Roles.ADMINISTRATOR]}},
       {path: 'manageMembers', component: ManageMembersComponent, canActivate: [AuthGuard], data: { roles: [Roles.ATTENDER, Roles.MEMBER, Roles.ADMINISTRATOR]}},
       {path: 'createMember', component: CreateMemberComponent, canActivate: [AuthGuard], data: { roles: [Roles.ATTENDER, Roles.MEMBER, Roles.ADMINISTRATOR]}},
       {path: 'editMember/:memberId', component: EditMemberComponent, canActivate: [AuthGuard], data: { roles: [Roles.ATTENDER, Roles.MEMBER, Roles.ADMINISTRATOR]}},
