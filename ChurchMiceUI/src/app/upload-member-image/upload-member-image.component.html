@@ -36,7 +36,7 @@
     <p></p>
     <h5>Existing Images</h5>
     <span>
-      <img class="memberImage" alt="Image of member" *ngFor="let memberImage of memberImages" [src]="getImageFrom(memberImage)">
+      <img *ngFor="let memberImage of memberImages" class="memberImage" alt="Image of member" [src]="getImageFrom(memberImage)">
     </span>
   </div>
 

@@ -81,7 +81,8 @@ library.add(fas, far);
     USPhonePipe,
     SingleFileUploadComponent,
     ApproveMemberImagesComponent,
-    AboutComponent
+    AboutComponent,
+    BrowseMembersComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

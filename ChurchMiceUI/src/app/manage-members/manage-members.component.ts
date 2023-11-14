@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DatepickerUtilities, NotificationService, Roles, UserManagementService } from '@service/index';
+import { NotificationService, Roles, UserManagementService } from '@service/index';
 import { HeaderSorterDriver, HeaderSortable, HeaderFilterable, ConfirmationDialogService } from '@ui/index';
 import {
   faCamera,

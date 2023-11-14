@@ -1,6 +1,23 @@
 <div class="display-page-header">
-  <span id="ScreenTitle" class="display-page-title">Browse Members</span>
+  <span id="ScreenTitle" class="display-page-title">Browse the Membership</span>
 </div>
+
 <div>
   <p></p>
+
+  <div class="row">
+    <div *ngFor="let member of this.members" class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-8">
+      <div class="member-block">
+        <img class="memberImage" alt="Image of member" [src]="getImageFor(member.id)">
+        <div class="member-block-text">
+          <h5>{{ member.firstName }}</h5>
+          <h5>{{ member.lastName }}</h5>
+          <h6>{{ member.memberSince ? "Member" : "Attender" }}</h6>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
 </div>
