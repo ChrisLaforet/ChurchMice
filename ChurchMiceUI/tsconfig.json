@@ -26,6 +26,9 @@
       "@service/*": [
         "src/service/*"
       ],
+      "@tool/*": [
+        "src/tool/*"
+      ],
       "@ui/*": [
         "src/ui/*"
       ]

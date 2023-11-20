@@ -1,5 +1,6 @@
 ﻿using ChurchMiceServer.CQS.Commands;
 using ChurchMiceServer.Domains.Models;
+using ChurchMiceServer.Types;
 
 namespace ChurchMiceServer.CQS.Mappers;
 
@@ -12,8 +13,9 @@ public class MemberMappers
         member.FirstName = command.FirstName;
         member.LastName = command.LastName;
         member.Email = command.Email;
-        member.HomePhone = command.HomePhone;
-        member.MobilePhone = command.MobilePhone;
+
+        member.HomePhone = ValidateAndCompressPhone(command.HomePhone);
+        member.MobilePhone = ValidateAndCompressPhone(command.MobilePhone);
         member.MailingAddress1 = command.MailingAddress1;
         member.MailingAddress2 = command.MailingAddress2;
         member.City = command.City;
@@ -26,6 +28,19 @@ public class MemberMappers
         member.Created = DateTime.Now;
         return member;
     }
+
+    private static string? ValidateAndCompressPhone(string? value)
+    {
+        try
+        {
+            var phone = new PhoneNumber(value);
+            return phone.GetCompressed();
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+    }
     
     public static Member MapCommandToMember(UpdateMemberCommand command)
     {
@@ -34,8 +49,8 @@ public class MemberMappers
         member.FirstName = command.FirstName;
         member.LastName = command.LastName;
         member.Email = command.Email;
-        member.HomePhone = command.HomePhone;
-        member.MobilePhone = command.MobilePhone;
+        member.HomePhone = ValidateAndCompressPhone(command.HomePhone);
+        member.MobilePhone = ValidateAndCompressPhone(command.MobilePhone);
         member.MailingAddress1 = command.MailingAddress1;
         member.MailingAddress2 = command.MailingAddress2;
         member.City = command.City;

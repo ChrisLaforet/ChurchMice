@@ -6,8 +6,6 @@ export * from './auth/current-user.service';
 
 export * from './configuration/configuration.service';
 
-export * from './formatter/us-date-parser-formatter';
-
 export * from './key-support/api-key-reader.service.interface'
 export * from './key-support/api-key-reader.service'
 

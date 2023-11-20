@@ -1,4 +1,5 @@
 ﻿using ChurchMiceServer.Domains.Models;
+using ChurchMiceServer.Types;
 
 namespace ChurchMiceServer.CQS.Responses;
 
@@ -8,8 +9,23 @@ public class MemberResponse
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
     public string? Email { get; private set; }
-    public string? HomePhone { get; private set; }
-    public string? MobilePhone { get; private set; }
+    
+    private PhoneNumber? homeNumber { get; set; }
+
+    public string? HomePhone
+    {
+        get { return mobileNumber?.GetFormatted(); }
+        private set { homeNumber = value == null ? null : new PhoneNumber(value); }
+    }
+
+    private PhoneNumber? mobileNumber { get; set; }
+
+    public string? MobilePhone
+    {
+        get { return mobileNumber?.GetFormatted(); }
+        private set { mobileNumber = value == null ? null : new PhoneNumber(value); }
+    }
+
     public string? MailingAddress1 { get; private set; }
     public string? MailingAddress2 { get; private set; }
     public string? City { get; private set; }

@@ -1,5 +1,6 @@
 ﻿using ChurchMiceServer.CQS.Queries;
 using ChurchMiceServer.Domains.Proxies;
+using ChurchMiceServer.Types;
 
 namespace ChurchMiceServer.CQS.QueryHandlers;
 
@@ -52,6 +53,16 @@ public class LocalConfigurationQueryHandler : IQueryHandler<LocalConfigurationQu
 			var phone = configurationProxy.GetMinistryPhone();
 			if (!string.IsNullOrEmpty(phone))
 			{
+				// can't do this currently because there may be additional name information added to the phone number (e.g. (555) 555-5555 (Pastor Joe)
+				// try
+				// {
+				// 	var phoneNumber = new PhoneNumber(phone);
+				// 	response.Add(new Tuple<string, string>(IConfigurationProxy.MINISTRY_PHONE_KEYWORD, phoneNumber.GetFormatted()));
+				// }
+				// catch (Exception pex)
+				// {
+				// 	// does nothing except prevent throwing this useless exception
+				// }
 				response.Add(new Tuple<string, string>(IConfigurationProxy.MINISTRY_PHONE_KEYWORD, phone));
 			}
 	

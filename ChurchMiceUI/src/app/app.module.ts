@@ -18,15 +18,13 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { CurrentUserService } from '@service/auth/current-user.service';
 import { NgbDateParserFormatter, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { InputDirectiveModule } from '@app/directive/input-directive.module';
+import { InputDirectiveModule } from '@tool/directive/input-directive.module';
 import { CommonModule } from '@angular/common';
-import { UnitedStatesDateParserFormatter } from '@app/formatter';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { LoginComponent } from '@app/login/login.component';
 import { LogoutComponent } from '@app/logout/logout.component';
 import { ForgottenPasswordComponent } from '@app/forgotten-password/forgotten-password.component';
-import { USCurrencyPipe, USPhonePipe } from '@app/pipes';
 import { NewLoginComponent } from '@app/new-login/new-login.component';
 import { CreateMemberComponent } from '@app/create-member/create-member.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
@@ -47,10 +45,12 @@ import { EditPasswordComponent } from '@app/edit-password/edit-password.componen
 import { ManageMembersComponent } from '@app/manage-members/manage-members.component';
 import { EditMemberComponent } from '@app/edit-member/edit-member.component';
 import { SingleFileUploadComponent } from '@app/single-file-upload/single-file-upload.component';
-import { UploadService } from '@service/utility/upload.service';
+import { UploadService } from '@service/index';
 import { ApproveMemberImagesComponent } from '@app/approve-member-images/approve-member-images.component';
 import { AboutComponent } from '@app/about/about.component';
 import { BrowseMembersComponent } from '@app/browse-members/browse-members.component';
+import { UnitedStatesDateParserFormatter, USPhonePipe, USCurrencyPipe, PoliteDatePipe } from '@tool/index';
+
 
 library.add(fas, far);
 
@@ -79,6 +79,7 @@ library.add(fas, far);
     ConfirmationDialogComponent,
     ManageMembersComponent,
     USPhonePipe,
+    PoliteDatePipe,
     SingleFileUploadComponent,
     ApproveMemberImagesComponent,
     AboutComponent,
