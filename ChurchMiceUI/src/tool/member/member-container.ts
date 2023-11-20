@@ -9,6 +9,7 @@ export class MemberContainer {
 
   public member: MemberDto;
   public memberImageUrl: SafeUrl = this.domSanitizer.bypassSecurityTrustUrl("assets/images/ImagePlaceHolder.png");
+  public memberImageUrls = new Array<SafeUrl>();
 
   constructor(private memberService: MemberService,
               private domSanitizer: DomSanitizer,
@@ -21,9 +22,13 @@ export class MemberContainer {
       .subscribe({
         next: (memberImages: MemberImagesDto) => {
           if (memberImages.images.length > 0) {
-            const memberImage = memberImages.images[0];
-            let objectURL = `data:${memberImage.fileType};base64,` + memberImage.fileContentBase64;
-            this.memberImageUrl = this.domSanitizer.bypassSecurityTrustUrl(objectURL);
+            memberImages.images.forEach(image => {
+              const memberImage = memberImages.images[0];
+              let objectURL = `data:${memberImage.fileType};base64,` + memberImage.fileContentBase64;
+              this.memberImageUrls.push(this.domSanitizer.bypassSecurityTrustUrl(objectURL));
+            });
+
+            this.memberImageUrl = this.memberImageUrls[0] ;
           }
         },
         error: (err: any) => {

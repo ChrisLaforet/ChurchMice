@@ -8,7 +8,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { MemberDto } from '@data/dto/member.dto';
 import { Roles } from '@service/user/roles';
-import { MemberContainer } from '@app/browse-members/member-container';
+import { MemberContainer } from '@tool/index';
 
 
 @Component({

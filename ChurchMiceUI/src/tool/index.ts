@@ -6,3 +6,5 @@ export * from './pipes/polite-date-pipe';
 
 export * from './directive/digit-only.directive';
 export * from './directive/input-directive.module';
+
+export * from './member/member-container';
