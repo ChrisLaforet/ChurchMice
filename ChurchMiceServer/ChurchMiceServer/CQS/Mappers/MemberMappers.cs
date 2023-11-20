@@ -23,7 +23,7 @@ public class MemberMappers
         member.Zip = command.Zip;
         member.Anniversary = command.Anniversary;
         member.Birthday = command.Birthday;
-        member.UserId = command.UserId;
+        member.UserId = command.UserId != null ? command.UserId.ToString() : string.Empty;
         member.MemberSince = command.MemberSince;
         member.Created = DateTime.Now;
         return member;
@@ -59,7 +59,7 @@ public class MemberMappers
         member.Anniversary = command.Anniversary;
         member.Birthday = command.Birthday;
         member.MemberSince = command.MemberSince;
-        member.UserId = command.UserId;
+        member.UserId = command.UserId != null ? command.UserId.ToString() : string.Empty;
         member.Created = DateTime.Now;
         return member;
     }

@@ -8,6 +8,8 @@ import { faCalendarDays, faArrowRotateLeft } from '@fortawesome/free-solid-svg-i
 import { NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { RoleValidator } from '@app/helper';
 import { SelectOption } from '@ui/container/select-option';
+import { MemberContainer } from '@tool/index';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -23,7 +25,7 @@ export class EditMemberComponent implements OnInit {
   submitted = false;
 
   memberId: string = '';
-  member?: MemberDto;
+  memberContainer?: MemberContainer;
 
   minDate: NgbDateStruct;
   today: NgbDateStruct = DatepickerUtilities.currentNgbDate();
@@ -54,7 +56,8 @@ export class EditMemberComponent implements OnInit {
     private memberService: MemberService,
     private authService: AuthService,
     private roleValidator: RoleValidator,
-    private notifyService: NotificationService) {
+    private notifyService: NotificationService,
+    private domSanitizer: DomSanitizer) {
 
     let min= DatepickerUtilities.createNgbDateFromUSDateString("1/1/1900");
     if (min == null) {
@@ -85,7 +88,7 @@ export class EditMemberComponent implements OnInit {
           if (member === null) {
             this.notifyService.showError('Empty record while loading member record by member\'s Id', 'Error loading member record');
           } else {
-            this.member = member;
+            this.memberContainer = new MemberContainer(this.memberService, this.domSanitizer, this.notifyService, member);
             this.mapNewFieldsWith(member);
           }
         },
@@ -119,8 +122,7 @@ export class EditMemberComponent implements OnInit {
         this.userId = user.id;
       }
     }
-
-    return this.member !== undefined && this.userId !== undefined && this.member.userId === this.userId;
+    return this.memberContainer !== undefined && this.userId !== undefined && this.memberContainer.member.userId === this.userId;
   }
 
   navigateBack(): void {

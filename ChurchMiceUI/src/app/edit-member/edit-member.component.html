@@ -7,10 +7,10 @@
 <div>
   <p></p>
 </div>
-<div *ngIf="this.member === undefined">
+<div *ngIf="this.memberContainer === undefined">
   <em>Loading member details...</em>
 </div>
-<div *ngIf="this.member !== undefined">
+<div *ngIf="this.memberContainer !== undefined">
   <div *ngIf="!this.submitted">
     <form #updateMemberForm="ngForm" name="updateMemberForm"
           (ngSubmit)="updateMemberForm.form.valid && onSubmit()" novalidate>
@@ -154,7 +154,6 @@
             </option>
           </select>
         </div>
-
       </div>
 
       <div>&nbsp;</div>
@@ -165,6 +164,16 @@
             Update member details...
           </button>
         </div>
+      </div>
+
+      <div>&nbsp;</div>
+      
+      <div *ngIf="this.memberContainer && this.memberContainer.memberImageUrls.length > 0" class="row">
+        <p></p>
+        <h5>Existing Images</h5>
+        <span>
+          <img *ngFor="let url of memberContainer.memberImageUrls" class="memberImage" alt="Image of member" [src]="url">
+        </span>
       </div>
 
     </form>

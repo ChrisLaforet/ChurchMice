@@ -23,8 +23,7 @@ export class MemberContainer {
         next: (memberImages: MemberImagesDto) => {
           if (memberImages.images.length > 0) {
             memberImages.images.forEach(image => {
-              const memberImage = memberImages.images[0];
-              let objectURL = `data:${memberImage.fileType};base64,` + memberImage.fileContentBase64;
+              let objectURL = `data:${image.fileType};base64,` + image.fileContentBase64;
               this.memberImageUrls.push(this.domSanitizer.bypassSecurityTrustUrl(objectURL));
             });
 
